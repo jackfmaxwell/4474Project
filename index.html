@@ -4,11 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Bulk File Rename Utility</title>
 </head>
 
 <body>
-    <h1>GROUP 4 HCI PROJECT</h1>
+    <div style="left: 0; height:100%; width:50%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 4px; background-color: red;">
+        <div style="">
+            <div id="topbar" style="display:flex; justify-content: space-between; width:100%; padding:top-16px;">
+                <button>New</button>
+                <button>Open</button>
+                <button>Save</button>
+                <button>Save As...</button>
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <div style="right: 0; height:100%; width:50%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 4px; background-color: blue;">
+        <div style="">
+            <div id="topbar" style="display:flex; justify-content: space-between; width:100%;">
+                <button>Browse</button>
+                <button>Show/Hide Columns...</button>
+                <button>Refresh</button>
+            </div>
+            <div id="filelist">
+
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
