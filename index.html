@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div style="left: 0; height:100%; width:50%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 4px; background-color: red;">
+    <div style="left: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 4px;">
         <div style="">
             <div id="topbar" style="display:flex; justify-content: space-between; width:100%; padding:top-16px;">
                 <button>New</button>
@@ -17,20 +17,80 @@
                 <button>Save</button>
                 <button>Save As...</button>
             </div>
+            <div id="filelist" style="height:100%; width:100%; position:fixed; z-index: 1; overflow-x: hidden; padding-top: 4px;">
+                <h5> Rules</h5>
+                <div class="div-table">
+                   <div class="div-table-row">
+                        <div class="div-table-col">Remove</div>
+                       <div class="div-table-col">from after last</div>
+                       <div class="div-table-col">"X"</div>
+                       <div class="div-table-col">"to before last"</div>
+                       <div class="div-table-col">"Y"</div>
+                   </div>
+                   <div class="div-table-row">
+                       <div class="div-table-col">Add</div>
+                       <div class="div-table-col">folder name</div>
+                       <div class="div-table-col">before first</div>
+                       <div class="div-table-col">"Earth"</div>
+                  </div>
+                </div>
+
+                <h5>Filters</h5>
+                <div class="div-table">
+                    <div class="div-table-row">
+                         <div class="div-table-col">Exclude</div>
+                        <div class="div-table-col">files with extensions</div>
+                        <div class="div-table-col">all</div>
+                    </div>
+                    <div class="div-table-row">
+                        <div class="div-table-col">Include</div>
+                        <div class="div-table-col">files with extensions</div>
+                        <div class="div-table-col">matching</div>
+                        <div class="div-table-col">"txt"</div>
+                   </div>
+                 </div>
+            </div>
             
         </div>
         
     </div>
     
-    <div style="right: 0; height:100%; width:50%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 4px; background-color: blue;">
+    <div style="right: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 4px;">
         <div style="">
-            <div id="topbar" style="display:flex; justify-content: space-between; width:100%;">
+            <div style="display:flex; justify-content: space-between; width:100%;">
                 <button>Browse</button>
                 <button>Show/Hide Columns...</button>
                 <button>Refresh</button>
             </div>
-            <div id="filelist">
+            <div id="filelist" style="height:100%; width:100%; position:relative; z-index: 1; overflow-x: hidden; padding-top: 4px;">
+                <div style="display:flex;">
+                    <h5 style="padding-right: 5%; padding-left:5%;">Current Name</h5>
+                    <h5 style="padding-right: 5%; padding-left:5%;">New Name</h5>
+                    <h5 style="padding-right: 5%; padding-left:5%;">Path</h5>
+                </div>
+                <div class="div-table">
+                    <div class="div-table-row">
+                         <div class="div-table-col">Earth info 1.txt</div>
+                        <div class="div-table-col">PlanetsEARTH Info 1 (2).txt</div>
+                        <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
+                    </div>
+                    <div class="div-table-row">
+                        <div class="div-table-col">Earth info 2.txt</div>
+                        <div class="div-table-col">PlanetsEARTH Info 2 (2).txt</div>
+                        <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
+                    </div>
+                    <div class="div-table-row">
+                        <div class="div-table-col">Earth info 4.txt</div>
+                        <div class="div-table-col">PlanetsEARTH Info 4 (2).txt</div>
+                        <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
+                    </div>
+                </div>
 
+            </div>
+            <div style="bottom: 0; position:fixed; display:flex; justify-content: space-between; width:47%;">
+                <button>Rename</button>
+                <button>Undo</button>
+                <button>Redo</button>
             </div>
         </div>
     </div>

@@ -12,3 +12,29 @@ button{
     padding-top:4px;
     padding-bottom:4px;
 }
+table{
+    width:100%;
+}
+table tr:nth-child(even){
+    background-color: #030303;
+}
+table tr:nth-child(odd){
+    background-color: #363535;
+}
+.div-table {
+    display: table;         
+    width: auto;         
+    background-color: #101212;                
+    border-spacing: 5px; /* cellspacing:poor IE support for  this */
+  }
+  .div-table-row {
+    display: table-row;
+    width: auto;
+    clear: both;
+  }
+  .div-table-col {
+    float: left; /* fix for  buggy browsers */
+    display: table-column;         
+    width: 120px;         
+    background-color: #363535;  
+  }
