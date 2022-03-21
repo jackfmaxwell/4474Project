@@ -19,58 +19,29 @@
             </div>
             <div id="filelist" style="height:100%; width:100%; position:fixed; z-index: 1; overflow-x: hidden; padding-top: 4px;">
                 <h5> Rules</h5>
-                <div class="div-table">
-                   <div class="div-table-row">
-                        <div class="div-table-col">Remove</div>
-                       <div class="div-table-col">from after last</div>
-                       <div class="div-table-col">"X"</div>
-                       <div class="div-table-col">"to before last"</div>
-                       <div class="div-table-col">"Y"</div>
-                   </div>
-                   <div class="div-table-row">
-                       <div class="div-table-col">Add</div>
-                       <div class="div-table-col">folder name</div>
-                       <div class="div-table-col">before first</div>
-                       <div class="div-table-col">"Earth"</div>
-                  </div>
-                </div>
-
-                <h5>Filters</h5>
-                <div class="div-table">
-                    <div class="div-table-row">
-                         <div class="div-table-col">Exclude</div>
-                        <div class="div-table-col">files with extensions</div>
-                        <div class="div-table-col">all</div>
-                    </div>
-                    <div class="div-table-row">
-                        <div class="div-table-col">Include</div>
-                        <div class="div-table-col">files with extensions</div>
-                        <div class="div-table-col">matching</div>
-                        <div class="div-table-col">"txt"</div>
-                   </div>
-                 </div>
+                
             </div>
             
         </div>
         
     </div>
     
-    <div style="right: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 4px;">
+    <div style="right: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 8px;">
         <div style="">
             <div style="display:flex; justify-content: space-between; width:100%;">
-                <button>Browse</button>
-                <button>Show/Hide Columns...</button>
-                <button>Refresh</button>
+                <img id="filelist-browse_btn" style="width:180px;" src="SVG/Button   Browse   Default.svg">
+                <img style="width:180px;" src="SVG/Button   ShowHideColumns   Default.svg">
+                <img style="width:180px;" src="SVG/Button   Refresh   Default.svg">
             </div>
-            <div id="filelist" style="height:100%; width:100%; position:relative; z-index: 1; overflow-x: hidden; padding-top: 4px;">
-                <div style="display:flex;">
-                    <h5 style="padding-right: 5%; padding-left:5%;">Current Name</h5>
-                    <h5 style="padding-right: 5%; padding-left:5%;">New Name</h5>
-                    <h5 style="padding-right: 5%; padding-left:5%;">Path</h5>
-                </div>
-                <div class="div-table">
+            <div id="filelist" style="height:100%; width:100%; position:relative; z-index: 1; overflow-x: hidden; padding-top: 10px;">
+                <div class="div-table" style="background-color: blue">
                     <div class="div-table-row">
-                         <div class="div-table-col">Earth info 1.txt</div>
+                        <div class="div-table-col">Current Name</div>
+                        <div class="div-table-col">New Name</div>
+                        <div class="div-table-col">Path</div>
+                    </div>
+                    <div class="div-table-row">
+                        <div class="div-table-col"><img style="width:14px; padding:4px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 1.txt</div>
                         <div class="div-table-col">PlanetsEARTH Info 1 (2).txt</div>
                         <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
                     </div>
@@ -87,10 +58,10 @@
                 </div>
 
             </div>
-            <div style="bottom: 0; position:fixed; display:flex; justify-content: space-between; width:47%;">
-                <button>Rename</button>
-                <button>Undo</button>
-                <button>Redo</button>
+            <div style="bottom: 0; position:fixed; display:flex; justify-content: space-between; width:47%; padding-bottom: 12px;">
+                <img style="width:270px;" src="SVG/Button   Rename   Default.svg">
+                <img style="width:140px;" src="SVG/Button   Undo   Default.svg">
+                <img style="width:140px;" src="SVG/Button   Redo   Disabled.svg">
             </div>
         </div>
     </div>
