@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="filelist.css">
+    <link rel="stylesheet" href="rulesfilters.css">
+    <script src="filelist.js" defer></script>
+    <script src="rulesfilters.js" defer></script>
     <title>Bulk File Rename Utility</title>
 </head>
 
@@ -12,10 +16,10 @@
     <div style="left: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 4px;">
         <div style="">
             <div id="topbar" style="display:flex; justify-content: space-between; width:100%; padding:top-16px;">
-                <button>New</button>
-                <button>Open</button>
-                <button>Save</button>
-                <button>Save As...</button>
+                <img style="width:180px;" src="SVG/Button   New   Default.svg">
+                <img style="width:180px;" src="SVG/Button   Open   Default.svg">
+                <img style="width:70px;" src="SVG/Button   Save   Default.svg">
+                <img style="width:90px;" src="SVG/Button   SaveAs   Default.svg">
             </div>
             <div id="filelist" style="height:100%; width:100%; position:fixed; z-index: 1; overflow-x: hidden; padding-top: 4px;">
                 <h5> Rules</h5>
@@ -29,29 +33,29 @@
     <div style="right: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 8px;">
         <div style="">
             <div style="display:flex; justify-content: space-between; width:100%;">
-                <img id="filelist-browse_btn" style="width:180px;" src="SVG/Button   Browse   Default.svg">
+                <img style="width:180px;" src="SVG/Button   Browse   Default.svg">
                 <img style="width:180px;" src="SVG/Button   ShowHideColumns   Default.svg">
                 <img style="width:180px;" src="SVG/Button   Refresh   Default.svg">
             </div>
             <div id="filelist" style="height:100%; width:100%; position:relative; z-index: 1; overflow-x: hidden; padding-top: 10px;">
                 <div class="div-table" style="background-color: blue">
                     <div class="div-table-row">
-                        <div class="div-table-col">Current Name</div>
+                        <div style="padding: top 2px;" class="div-table-col"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   Header   Checkbox   Partialchecked   Default.svg">Current Name<img style="width:14px; padding-left: 36px;" src="SVG/File   Header   ColumnSortDescending.svg"></div>
                         <div class="div-table-col">New Name</div>
-                        <div class="div-table-col">Path</div>
+                        <div class="div-table-col"><h6 style="vertical-align: middle; display:inline-block; font-size:12px;">Path</h6><img style="vertical-align: middle; display:inline-block; width:14px; padding-left: 200px;" src="SVG/File   Header   Remove   Default.svg"></div>
                     </div>
-                    <div class="div-table-row">
-                        <div class="div-table-col"><img style="width:14px; padding:4px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 1.txt</div>
+                    <div class="div-table-row" >
+                        <div class="div-table-col"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 1.txt</div>
                         <div class="div-table-col">PlanetsEARTH Info 1 (2).txt</div>
                         <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
                     </div>
                     <div class="div-table-row">
-                        <div class="div-table-col">Earth info 2.txt</div>
+                        <div class="div-table-col"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 2.txt</div>
                         <div class="div-table-col">PlanetsEARTH Info 2 (2).txt</div>
                         <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
                     </div>
                     <div class="div-table-row">
-                        <div class="div-table-col">Earth info 4.txt</div>
+                        <div class="div-table-col"><img id="test" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Checked.svg">Earth info 4.txt</div>
                         <div class="div-table-col">PlanetsEARTH Info 4 (2).txt</div>
                         <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
                     </div>

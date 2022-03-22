@@ -9,8 +9,8 @@ const loadMainWindow = () => {
             nodeIntegration: true
         }
     });
-
     mainWindow.loadFile(path.join(__dirname, "index.html"));
+    
 }
 
 app.on("ready", loadMainWindow);
@@ -27,7 +27,3 @@ app.on("activate", () => {
     }
 });
 
-
-//const filelistbrowse = documentElementById('filelist-browse_btn');
-
-//filelistbrowse.onclick = () => 
