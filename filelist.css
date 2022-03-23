@@ -28,8 +28,10 @@
     width: 150px;    
     padding-top:6px;
   }
-  .div-table-col:nth-child(2){
+  .div-table-col:nth-child(3){
     float: left; /* fix for  buggy browsers */
     display: table-column;         
-    width: 200px;  
+    width: 265px;  
+    padding-top:6px;
   }
+  
