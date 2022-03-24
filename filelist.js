@@ -10,19 +10,22 @@ browseButton.addEventListener('click', function (event) {
     return new Promise(resolve => {
         ipc.send('open-file-dialog')
         ipc.on('reply', (event, result) => {
+            if(document.getElementById(result[0]) == null){
+                fileList.push(result[0]);
+                addRow(result[0]);
+            }
             resolve(result);
-            fileList.push(result[0]);
-            addRow(result[0]);
         })
     });
 })
 
 function addRow(filepath){
     const div = document.createElement('div');
-    div.className = 'div-table-row'
+    div.className = 'div-table-row';
+    div.id = filepath;
 
     
-    var filename = path.basename(filepath)
+    var filename = path.basename(filepath);
 
 
     div.innerHTML = `
@@ -36,8 +39,8 @@ function addRow(filepath){
 
 }
 
-function removeRow(input) {
-    document.getElementById('content').removeChild(input.parentNode);
+function removeRow(id) {
+    document.getElementById(id).removeChild(input.parentNode);
 }
 
 
