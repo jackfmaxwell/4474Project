@@ -1,5 +1,14 @@
-const test = document.getElementById("test");
-test.onclick = () => testfunction();
-function testfunction(){
-    test.src = "SVG/File   List   Checkbox   Unchecked.svg";
-}
+const ipc = require('electron').ipcRenderer
+
+const browseButton = document.getElementById('browseButton')
+
+//Sends open file explorer request to main process
+browseButton.addEventListener('click', function (event) {
+    return new Promise(resolve => {
+        ipc.send('open-file-dialog')
+        ipc.on('reply', (event, result) => {
+            resolve(result);
+            console.log(result[0])
+        })
+    });
+})
