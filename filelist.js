@@ -8,12 +8,23 @@ const fileList = [];
 //Sends open file explorer request to main process
 browseButton.addEventListener('click', function (event) {
     return new Promise(resolve => {
-        ipc.send('open-file-dialog')
-        ipc.on('reply', (event, result) => {
+        ipc.send('open-file-dialog');
+        ipc.on('browse-reply', (event, result) => {
             if(document.getElementById(result[0]) == null){
                 fileList.push(result[0]);
                 addRow(result[0]);
             }
+            resolve(result);
+        })
+    });
+})
+
+//Sends open file explorer request to main process
+openButton.addEventListener('click', function (event) {
+    return new Promise(resolve => {
+        ipc.send('open-rulefilter-txt');
+        ipc.on('rulefilter-open-reply', (event, result) => {
+            //add functionality here
             resolve(result);
         })
     });

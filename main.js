@@ -3,14 +3,26 @@ const path = require("path");
 const ipc = require('electron').ipcMain
 const dialog = require('electron').dialog
 
-//IPC used by renderer process to open system file explorer
+//IPC used by renderer process to open system file explorer (for filelist)
 ipc.on('open-file-dialog', function (event) {
     dialog.showOpenDialog({
       properties: ['openFile']
     }).then(result=>{
         console.log(result.filePaths)
         var filepath = result.filePaths
-        event.sender.send('reply', filepath);
+        event.sender.send('browse-reply', filepath);
+    })
+});
+
+//IPC used by renderer process to open system file explorer (for rulefilter files)
+ipc.on('open-rulefilter-txt', function (event) {
+    dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [{ name: 'text', extensions: ['txt'] }]
+    }).then(result=>{
+        console.log(result.filePaths)
+        var filepath = result.filePaths
+        event.sender.send('rulefilter-open-reply', filepath);
     })
 });
 
