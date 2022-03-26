@@ -84,10 +84,10 @@ filelist.addEventListener('drop', (event) => {
     // print to console
     for (const file of event.dataTransfer.files) {
         console.log('file path: ', file.path);
-        if (!fileList.includes(file.path)){     //doesn't add the same file twice
+        if(document.getElementById(file.path) == null){
             fileList.push(file.path);    //add path to the list that keeps tracks of the files
-            addRow(file.path);           //add element to UI
-        }
+            addRow(file.path);          //add element to UI
+        }  
     }
 
 });
@@ -154,6 +154,12 @@ function removeRow(id) {
 //adds event listener to check boxes in file list
 function checkboxEventAdder(){
     const check_boxes = document.querySelectorAll('.col-image');
+
+    if(!check_boxes[0].firstChild.src.includes('Un') && !check_boxes[0].firstChild.src.includes('Partial')){
+        check_boxes.forEach(function(check_box){
+            check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
+        })
+    }
 
     check_boxes.forEach(function(check_box){
         check_box.addEventListener('click', function (event) {
