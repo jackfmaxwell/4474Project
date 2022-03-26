@@ -1,4 +1,6 @@
 
+
+const addRuleBtn = document.getElementById("addRuleBtn")
 function addRule(){
     const div = document.createElement('div');
     div.className = 'div-table-row';
