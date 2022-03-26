@@ -6,7 +6,7 @@ const ipc = require('electron').ipcRenderer
 const browseButton = document.getElementById('browseButton')
 const removeAllButton  = document.getElementById('removeAllButton')
 const filelist = document.getElementById("filelist");   //might be bad naming
-const fileList = [];
+var fileList = [];
 
 var selected = 0;
 
@@ -60,6 +60,9 @@ removeAllButton.addEventListener('click', function (event) {
             div.innerHTML += '&nbsp;';
             document.getElementById('last-row').after(div);
         }
+    fileList = []
+    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
+
     }); 
 })
 
