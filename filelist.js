@@ -61,6 +61,7 @@ removeAllButton.addEventListener('click', function (event) {
             document.getElementById('last-row').after(div);
         }
     fileList = []
+    selected = 0
     document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
 
     }); 
