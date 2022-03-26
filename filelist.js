@@ -48,8 +48,8 @@ filelist.addEventListener('drop', (event) => {
     // print to console
     for (const file of event.dataTransfer.files) {
         console.log('file path: ', file.path);
-        fileList.push(file.path)    //add path to the list that keeps tracks of the files
-        addRow(file.path)           //add element to UI
+        fileList.push(file.path);    //add path to the list that keeps tracks of the files
+        addRow(file.path);           //add element to UI
     }
 
 });
