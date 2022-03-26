@@ -1,6 +1,7 @@
 .div-table {
     color:white;
-    font-size:12px;
+    font-size:11px;
+    font-family: Arial;
     display: table;         
     width: 100%;         
     background-color: #101212;                
@@ -34,4 +35,12 @@
     width: 265px;  
     padding-top:6px;
   }
-  
+
+  .visible-scrollbar{
+    /* display: block; */
+    display: round;
+    width: 100%;
+    overflow: auto;
+    scrollbar-color: rgb(25, 187, 133);
+    height: 88%;
+  }

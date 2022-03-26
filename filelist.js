@@ -35,9 +35,7 @@ function addRow(filepath){
     div.className = 'div-table-row';
     div.id = filepath;
 
-    
     var filename = path.basename(filepath);
-
 
     div.innerHTML = `
     <div class="div-table-col"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">` + filename + `</div>
@@ -46,12 +44,8 @@ function addRow(filepath){
     `;
 
     document.getElementById('divTable').appendChild(div);
-
-
 }
 
 function removeRow(id) {
     document.getElementById(id).removeChild(input.parentNode);
 }
-
-
