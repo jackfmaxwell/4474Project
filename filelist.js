@@ -2,6 +2,7 @@ const path = require("path");
 const ipc = require('electron').ipcRenderer
 
 const browseButton = document.getElementById('browseButton')
+const filelist = document.getElementById("filelist");   //might be bad naming
 
 const fileList = [];
 
@@ -29,6 +30,50 @@ openButton.addEventListener('click', function (event) {
         })
     });
 })
+
+// Drag and Drop file features --------------------------------------
+filelist.addEventListener('dragover', (event) => {
+    //The box that receives the file(s) should highlight when hovering over (idk how to do this)
+    event.preventDefault();
+    event.stopPropagation();
+})
+
+filelist.addEventListener('drop', (event) => {
+    //After droping, an entry for the file(s) should appear on the UI (idk how to do this)
+    event.preventDefault();
+    event.stopPropagation();
+
+    console.log("File(s) have been dropped");
+
+    // print to console
+    for (const file of event.dataTransfer.files) {
+        console.log('file path: ', file.path);
+        fileList.push(file.path)    //add path to the list that keeps tracks of the files
+        addRow(file.path)           //add element to UI
+    }
+
+});
+
+filelist.addEventListener('dragenter', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log("File entered the drop zone");
+});
+
+filelist.addEventListener('dragleave', (event) => {
+    //The box that receives the file(s) should unhighlight when drag cursor leaves (idk how to do this)
+    event.preventDefault();
+    event.stopPropagation();
+    console.log("File has left the drop zone");
+});
+
+filelist.addEventListener('dragend', (event) => {
+    //The box that receives the file(s) should unhighlight when drag operation ends(idk how to do this)
+    event.preventDefault();
+    event.stopPropagation();
+    console.log("Drag operation has ended");
+});
+// -------------------------------------------------------------
 
 function addRow(filepath){
     const div = document.createElement('div');
