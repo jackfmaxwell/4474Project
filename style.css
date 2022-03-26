@@ -16,3 +16,13 @@ button{
 h5{
     font-size: 24px;
 }
+::selection {
+    color: none;
+    background: none;
+}
+
+.debug{
+    border:1px; 
+    border-style:dotted; 
+    border-color:magenta;
+}

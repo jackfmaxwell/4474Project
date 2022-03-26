@@ -28,10 +28,11 @@ ipc.on('open-rulefilter-txt', function (event) {
 
 const loadMainWindow = () => {
     const mainWindow = new BrowserWindow({
-        width : 1200,
-        height: 800,
-        minWidth : 1100,
-        minHeight: 800,
+        width : 1856,
+        height: 1024,
+        minWidth : 1856,
+        minHeight: 1024,
+        resizable: false,
         center: true,
         webPreferences: {
             nodeIntegration: true,
