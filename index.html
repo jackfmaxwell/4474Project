@@ -17,7 +17,7 @@
     <div style="left: 0; height:100%; width:50%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 8px;">
            <div id="topbar" style="display:flex; justify-content: space-between; width:100%; padding:top-16px;">
                 <img style="width:180px;" src="SVG/Button   New   Default.svg">
-                <img style="width:180px;" src="SVG/Button   Open   Default.svg">
+                <img id="openButton" style="width:180px;" src="SVG/Button   Open   Default.svg">
                 <img style="width:70px;" src="SVG/Button   Save   Default.svg">
                 <img style="width:90px;" src="SVG/Button   SaveAs   Default.svg">
             </div>
@@ -54,13 +54,13 @@
     
     <div style="right: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 8px;">
             <div style="display:fixed; justify-content: space-between; width:100%;">
-                <img style="width:180px;" src="SVG/Button   Browse   Default.svg">
+                <img id="browseButton" style="width:180px;" src="SVG/Button   Browse   Default.svg">
                 <img style="width:180px;" src="SVG/Button   ShowHideColumns   Default.svg">
                 <img style="width:180px;" src="SVG/Button   Refresh   Default.svg">
             </div>
 
             <div id="filelist" style="width:100%; height:100%; position:relative; z-index: 1; overflow-x: hidden; padding-top: 10px;">
-                <div class="div-table">
+                <div id="divTable" class="div-table">
                     <div class="div-table-row">
                         <div style="padding: top 2px;" class="div-table-col"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   Header   Checkbox   Partialchecked   Default.svg">Current Name<img style="width:14px; padding-left: 36px;" src="SVG/File   Header   ColumnSortDescending.svg"></div>
                         <div class="div-table-col">New Name</div>
