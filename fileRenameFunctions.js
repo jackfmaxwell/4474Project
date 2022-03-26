@@ -10,8 +10,15 @@ function fileReverse(text, startAt, endAt){
     return v.replace(text, subString, v.reverse(subString));
 }
 
-function fileRandomize(){
-    return null;
+function fileRandomize(text, startAt, endAt){
+    let result           = '';
+    let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for ( let i = startAt; i < endAt; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    subString = v.slice(text, startAt, endAt);
+    return v.replace(text, subString, result);
 }
 
 function fileSetTileCase(){
@@ -34,25 +41,9 @@ function fileSetLowerCase(text, startAt, endAt){
     return v.replace(text, subString, v.lowerCase(subString));
 }
 
-function fileReplace(isFirstLastEach, count, text, withText){
-    if(isFirstLastEach == 0){
-        //ReplaceFirstCount
-        let newString = text;
-        for(let i = 0; i< count; i++){
-            newString = newString.replace(text, withText);
-        }
-    }else if(isFirstLastEach == 1){
-        //ReplaceLastCount
-        let newString = text;
-        for(let i = 0; i < count; i++){
-            newString = newString.replace(new RegExp(text + '$'), withText)
-        }
-    }else{
-        //ReplaceEach
-        const re = new RegExp(text, "g");
-        const newString = text.replace(re, withText);
-    }
-    return newString;
+function fileReplace(text, startAt, endAt, withText){
+    subString = v.slice(text, startAt, endAt);
+    v.replace(text, substring, withText);
 }
 
 function fileRegex(find, replace, string){
@@ -61,21 +52,41 @@ function fileRegex(find, replace, string){
     return newString;
 }
 
-function fileSetLength(toMinMax, count, padLeftRight, text, withText){
-    if(toMinMax == 0){
-        //To option Selected
-    }else if(toMinMax == 1){
-        // Min option selected
-        
+function fileSetLength(text, to, padLeft, padLeftRighText, minOrMax){
+    if(minOrMax){
+        // Min
+        if(text.length > to + 1){
+            // text past min length so trim
+            v.splice(text, to, text.length - to);
+        }else{
+            // Text not to min length so add
+            if(padLeft){
+                v.padLeft(text, to + 1, padLeftRighText);
+            }else{
+                v.padRight(text, to + 1, padLeftRighText);
+            }
+        }
     }else{
-        // Max option selected
-        return text.substring(0, count);
+        //Max
+        if(text.length < to){
+            //Text less then max add
+            if(padLeft){
+                v.padLeft(text, to + 1, padLeftRighText);
+            }else{
+                v.padRight(text, to + 1, padLeftRighText);
+            }
+        }else{
+            // Text greater then max so trim
+            v.splice(text, to, text.length - to);
+        }
     }
-    return null;
+    return text;
 }
 
-function fileMove(){
-    return null;
+function fileMove(text, startAt, endAt, to){
+    let substring = v.slice(text, startAt, endAt);
+    v.replace(text, substring, "");
+    return v.insert(text, substring, to);
 }
 
 // STRING POSITION FINDERS
@@ -111,12 +122,15 @@ function AfterLast(text, toFind){
     return index + toFind.length;
 }
 
+//TODO
 function BeforeEach(text, toFind){
     return null;
 }
 
+//TODO
 function AfterEach(text, toFind){
     return null;
 }
 
-export {fileRemove, fileReverse, fileRandomize, fileSetTileCase, fileSetInvertedCase, fileSetUpperCase, fileSetLowerCase, fileReplace, fileRegex, fileSetLength, fileMove}
+export {fileRemove, fileReverse, fileRandomize, fileSetTileCase, fileSetInvertedCase, fileSetUpperCase, fileSetLowerCase, fileReplace, fileRegex, fileSetLength, fileMove,
+BeforeFirst, beforeLast, AfterFirst, AfterLast};
