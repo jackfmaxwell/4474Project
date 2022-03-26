@@ -1,6 +1,10 @@
 //TODO Create all the ruleset
 var v = require('voca')
 
+function fileAdd(text, startIndex, withText){
+    return v.insert(text, withText, startIndex);
+}
+
 function fileRemove(text, startIndex, endIndex){
     return v.splice(text, startIndex, endIndex - startIndex);
 }
@@ -122,15 +126,30 @@ function AfterLast(text, toFind){
     return index + toFind.length;
 }
 
-//TODO
+// EACH Finders Output should be array of indexes to start or end at
 function BeforeEach(text, toFind){
-    return null;
+    let substring = text;
+    const result_array = [];
+
+    let index = v.search(substring, toFind);
+    while(index != -1){
+        result_array.push(v.replace(substring, toFInd, ""));
+        index = v.search(substring, toFInd)
+    }
+    return result_array;
 }
 
-//TODO
 function AfterEach(text, toFind){
-    return null;
+    let substring = text;
+    const result_array = [];
+
+    let index = v.search(substring, toFind) + toFind.length;
+    while(index != -1){
+        result_array.push(v.replace(substring, toFInd, ""));
+        index = v.search(substring, toFInd) + toFind.length;
+    }
+    return result_array;
 }
 
 export {fileRemove, fileReverse, fileRandomize, fileSetTileCase, fileSetInvertedCase, fileSetUpperCase, fileSetLowerCase, fileReplace, fileRegex, fileSetLength, fileMove,
-BeforeFirst, beforeLast, AfterFirst, AfterLast};
+BeforeFirst, beforeLast, AfterFirst, AfterLast, BeforeEach, AfterEach};
