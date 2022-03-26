@@ -22,7 +22,7 @@
     padding-bottom: 5px;
   }
 
-  select{
+  select.rules{
     background-color: #eb763b;
     color:white;
     border:none;
@@ -35,6 +35,6 @@
   input{
     background-color: #404050;
     border:none;
-    color:white
+    color:white;
   }
   
