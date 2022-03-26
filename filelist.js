@@ -10,6 +10,18 @@ const fileList = [];
 
 var selected = 0;
 
+
+const rows = Array.from(document.getElementsByClassName('div-table-row'));
+
+rows.forEach(row => {
+     console.log(row.textContent.length)
+     if(row.textContent.length != 1 && row.textContent.length != 136){
+        fileList.push(row.lastChild.textContent);
+     }
+})
+
+document.getElementById("selectedCheckBoxes").textContent = "0 of " + fileList.length + " Selected";
+
 //Sends open file explorer request to main process
 browseButton.addEventListener('click', function (event) {
     return new Promise(resolve => {
@@ -48,9 +60,7 @@ removeAllButton.addEventListener('click', function (event) {
             div.innerHTML += '&nbsp;';
             document.getElementById('last-row').after(div);
         }
-    });
-
-    
+    }); 
 })
 
 // Drag and Drop file features --------------------------------------
@@ -120,6 +130,7 @@ function addRow(filepath){
     lastRow.nextElementSibling.remove()
     
     checkboxEventAdder();
+    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
 
 }
 
@@ -137,18 +148,18 @@ function removeRow(id) {
 //adds event listener to check boxes in file list
 function checkboxEventAdder(){
     const check_boxes = document.querySelectorAll('.col-image');
-    console.log(check_boxes);
 
     check_boxes.forEach(function(check_box){
         check_box.addEventListener('click', function (event) {
             if (!check_box.firstChild.src.includes('Un')){
-                console.log("should uncheck here")
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
-                selected += 1;
+                selected -= 1;
+                document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
             } else {
                 console.log(check_box.firstChild.src)
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                selected -= 1;
+                selected += 1;
+                document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
             }
         });
     })
