@@ -1,5 +1,8 @@
-//TODO Create all the ruleset
 var v = require('voca')
+
+function fileAdd(text, startIndex, withText){
+    return v.insert(text, withText, startIndex);
+}
 
 function fileRemove(text, startIndex, endIndex){
     return v.splice(text, startIndex, endIndex - startIndex);
@@ -92,13 +95,21 @@ function fileMove(text, startAt, endAt, to){
 // STRING POSITION FINDERS
 // OUTPUT SHOULD BE THE INDEX OF THE STRING
 
-function BeforeFirst(text, toFind){
+function BeforeFirst(text, toFind, matchCase){
+    if(!matchCase){
+        text = v.lowerCase(text);
+        toFind = v.lowerCase(toFind);
+    }
     let index = v.search(text, toFind);
     if(index <= 0) return index;
     return v.search(text, toFind) - 1;
 }
 
-function beforeLast(text, toFind){
+function beforeLast(text, toFind, matchCase){
+    if(!matchCase){
+        text = v.lowerCase(text);
+        toFind = v.lowerCase(toFind);
+    }
     let index = -2;
     while(index != -1){
         index = v.search(text, toFind);
@@ -107,13 +118,21 @@ function beforeLast(text, toFind){
     return index - 1;
 }
 
-function AfterFirst(text, toFind){
+function AfterFirst(text, toFind, matchCase){
+    if(!matchCase){
+        text = v.lowerCase(text);
+        toFind = v.lowerCase(toFind);
+    }
     let index = v.search(text, toFind);
     if(index == -1) return -1;
     return index + toFind.length;
 }
 
-function AfterLast(text, toFind){
+function AfterLast(text, toFind, matchCase){
+    if(!matchCase){
+        text = v.lowerCase(text);
+        toFind = v.lowerCase(toFind);
+    }
     let index = -2;
     while(index != -1){
         index = v.search(text, toFind);
@@ -122,15 +141,38 @@ function AfterLast(text, toFind){
     return index + toFind.length;
 }
 
-//TODO
-function BeforeEach(text, toFind){
-    return null;
+// EACH Finders Output should be array of indexes to start or end at
+function BeforeEach(text, toFind, matchCase){
+    if(!matchCase){
+        text = v.lowerCase(text);
+        toFind = v.lowerCase(toFind);
+    }
+    let substring = text;
+    const result_array = [];
+
+    let index = v.search(substring, toFind);
+    while(index != -1){
+        result_array.push(v.replace(substring, toFInd, ""));
+        index = v.search(substring, toFInd)
+    }
+    return result_array;
 }
 
-//TODO
-function AfterEach(text, toFind){
-    return null;
+function AfterEach(text, toFind, matchCase){
+    if(!matchCase){
+        text = v.lowerCase(text);
+        toFind = v.lowerCase(toFind);
+    }
+    let substring = text;
+    const result_array = [];
+
+    let index = v.search(substring, toFind) + toFind.length;
+    while(index != -1){
+        result_array.push(v.replace(substring, toFInd, ""));
+        index = v.search(substring, toFInd) + toFind.length;
+    }
+    return result_array;
 }
 
 export {fileRemove, fileReverse, fileRandomize, fileSetTileCase, fileSetInvertedCase, fileSetUpperCase, fileSetLowerCase, fileReplace, fileRegex, fileSetLength, fileMove,
-BeforeFirst, beforeLast, AfterFirst, AfterLast};
+BeforeFirst, beforeLast, AfterFirst, AfterLast, BeforeEach, AfterEach};
