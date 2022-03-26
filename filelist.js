@@ -1,5 +1,5 @@
+var fs = require('fs');
 const path = require("path");
-const { isBoxedPrimitive } = require("util/types");
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 
@@ -117,7 +117,7 @@ function addRow(filepath){
 
     var lastRow = document.getElementById('last-row')
     lastRow.before(div);
-    var ele = document.querySelector('.test + *')
+    lastRow.nextElementSibling.remove()
     
     checkboxEventAdder();
 
@@ -152,4 +152,11 @@ function checkboxEventAdder(){
             }
         });
     })
+}
+
+//renames file on system (async)
+function renameFiles(oldFilepath, newFilePath){
+    fs.rename(oldFilepath, newFilePath, function(err){
+        if (err) throw err;
+    });
 }
