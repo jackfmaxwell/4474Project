@@ -4,8 +4,9 @@ const ipc = require('electron').ipcRenderer
 
 const browseButton = document.getElementById('browseButton')
 const filelist = document.getElementById("filelist");   //might be bad naming
-
 const fileList = [];
+
+var selected = 0;
 
 //Sends open file explorer request to main process
 browseButton.addEventListener('click', function (event) {
@@ -89,19 +90,28 @@ function addRow(filepath){
     var filename = path.basename(filepath);
 
     div.innerHTML = `
-    <div class="div-table-col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">` + filename + `</div>
-    <div class="div-table-col"></div>
+    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">` + filename + `</div>
+    <div class="div-table-col">` + filename + `</div>
     <div class="div-table-col">` + filepath + `</div>
     `;
 
-    document.getElementById('divTable').appendChild(div);
-
+    var lastRow = document.getElementById('last-row')
+    lastRow.before(div);
+    var ele = document.querySelector('.test + *')
+    
     checkboxEventAdder();
 
 }
 
 function removeRow(id) {
     document.getElementById(id).removeChild(input.parentNode);
+    //adds empty row if file table is sufficently empty
+    if(document.getElementById("divTable").childElementCount < 23){
+        const div = document.createElement('div');
+        div.className = 'div-table-row';
+        div.innerHTML += '&nbsp;';
+        document.getElementById('last-row').before(div);
+    }
 }
 
 //adds event listener to check boxes in file list
@@ -114,9 +124,11 @@ function checkboxEventAdder(){
             if (!check_box.firstChild.src.includes('Un')){
                 console.log("should uncheck here")
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
+                selected += 1;
             } else {
                 console.log(check_box.firstChild.src)
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
+                selected -= 1;
             }
         });
     })
