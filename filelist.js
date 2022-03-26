@@ -1,8 +1,10 @@
 const path = require("path");
+const { isBoxedPrimitive } = require("util/types");
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 
 const browseButton = document.getElementById('browseButton')
+const removeAllButton  = document.getElementById('removeAllButton')
 const filelist = document.getElementById("filelist");   //might be bad naming
 const fileList = [];
 
@@ -31,6 +33,24 @@ openButton.addEventListener('click', function (event) {
             resolve(result);
         })
     });
+})
+
+//Event listener for X on filelist. Removes all files from list
+removeAllButton.addEventListener('click', function (event) {
+    const rows = Array.from(document.getElementsByClassName('div-table-row'));
+
+    rows.forEach(row => {
+        console.log(row.textContent.length)
+        if(row.textContent.length != 1 && row.textContent.length != 136){
+            row.remove();
+            const div = document.createElement('div');
+            div.className = 'div-table-row';
+            div.innerHTML += '&nbsp;';
+            document.getElementById('last-row').after(div);
+        }
+    });
+
+    
 })
 
 // Drag and Drop file features --------------------------------------
@@ -104,7 +124,7 @@ function addRow(filepath){
 }
 
 function removeRow(id) {
-    document.getElementById(id).removeChild(input.parentNode);
+    document.getElementById(id).remove()
     //adds empty row if file table is sufficently empty
     if(document.getElementById("divTable").childElementCount < 23){
         const div = document.createElement('div');
