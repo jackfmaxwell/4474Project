@@ -1,18 +1,14 @@
 body{
-    background-color: #202028;
+    background-color: #101212;
     color: white;
 }
 
 button{
-    background-color: #3060BF;
+    background-color: blue;
     color:white;
     border-radius: 12px;
     padding-left:34px;
     padding-right:34px;
     padding-top:4px;
     padding-bottom:4px;
-}
-
-h5{
-    font-size: 24px;
 }

@@ -15,7 +15,7 @@
 
 <body>
     <div style="left: 0; height:100%; width:50%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 8px;">
-           <div id="topbar" style="display:flex; justify-content: space-between; width:98%; padding:top-16px;">
+           <div id="topbar" style="display:flex; justify-content: space-between; width:100%; padding:top-16px;">
                 <img style="width:180px; padding-left: 5px;" src="SVG/Button   New   Default.svg">
                 <img id="openButton" style="width:180px;" src="SVG/Button   Open   Default.svg">
                 <img style="width:70px;" src="SVG/Button   Save   Default.svg">
@@ -25,97 +25,26 @@
             <div id="rulesfilters" style="height:100%; width:49%; position:fixed; z-index: 1; overflow-x: hidden; padding-top: 4px;">
                 
                 <div style="text-align: center;">
-                    <h5 style="text-align: center;">
-                        <img style="width:20px; left: 0; position:fixed; padding-left: 5px; padding-right: 4px;" src="SVG/Left   Checkbox   Partiallychecked   Default.svg">
-                        <img style="width:20px; left: 0; position:fixed; padding-left: 30px; padding-right: 8px;" src="SVG/Left   Header   Run   TopToBottom   Default.svg">
-                        Rules
-                        <img style="width:20px; position:fixed; margin-left: 22%;" src="SVG/Left   Header   Remove   Default.svg"></h5>
+                    <h5 style="text-align: center;"><img style="width:20px; left: 0; position:fixed; padding-left: 5px; padding-right: 4px;" src="SVG/Left   Checkbox   Partiallychecked   Default.svg"><img style="width:20px; left: 0; position:fixed; padding-left: 30px; padding-right: 8px;" src="SVG/Left   Header   Run   TopToBottom   Default.svg">Rules<img style="width:20px; position:fixed; margin-left: 280px;" src="SVG/Left   Header   Remove   Default.svg"></h5>
                 </div>
                 
-                <div style = "margin-left: 40px;" class="rf-div-table">
-                    <img style="width:20px; position:fixed; left:0; padding-left:20px; padding-top:12px;" src="SVG/Left   Checkbox   Checked   Default.svg">
-                    <img style="width:20px; position:fixed; left:0; padding-left:47%; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
-                    <div class="rf-div-table-row">
-                        <select class="rf-div-table-col"  style="padding: top 2px; padding-left:4px;">
-                            <option>Remove</option>
-                            <option>Reverse</option>
-                            <option>Randomize</option>
-                        </select>
-                        <select class="rf-div-table-col">
-                            <option>from position</option>
-                            <option>from end</option>
-                            <option>from before first</option>
-                            <option>from before last</option>
-                            <option>from after first</option>
-                            <option>from after last</option>
-                            <option>from before each</option>
-                        </select>
-                        <div class="rf-div-table-col">
-                            <input type="text"></input>
-                        </div>
-                        <div class="rf-div-table-col" style="width:75px; padding-top:4px; padding-right: 12px;">
-                            <img src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
-                        <select class="rf-div-table-col">
-                            <option>to position</option>
-                            <option>to end</option>
-                            <option>to position from end</option>
-                            <option>to before first</option>
-                            <option>to before last</option>
-                            <option>to after first</option>
-                            <option>to after last</option>
-                        </select>
-                        <div class="rf-div-table-col">
-                            <input type="text"></input>
-                        </div>
-                        <div class="rf-div-table-col" style="width:75px; padding-top:4px; padding-right: 12px;">
-                            <img src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
+                <div style = "margin-left: 40px;" class="div-table">
+                    <img style="width:20px; position:fixed; left:0; padding-left:12px; padding-right: 8px;" src="SVG/Left   Checkbox   Checked   Default.svg">
+                    <div class="div-table-row">
+                        <div style="padding: top 2px; padding-left:4px;" class="div-table-col">Remove</div>
+                        <div class="div-table-col">from after last</div>
+                        <div class="div-table-col">"X"</div>
                     </div>
-                    
-                    <img style="width:20px; position:fixed; left:0; padding-left:20px; padding-top:12px;" src="SVG/Left   Checkbox   Checked   Default.svg">
-                    <img style="width:20px; position:fixed; left:0; padding-left:47%; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
-                    <div class="rf-div-table-row">
-                        <select class="rf-div-table-col"  style="padding: top 2px; padding-left:4px;">
-                            <option>Add</option>
-                        </select>
-                        <select class="rf-div-table-col">
-                            <option>text</option>
-                            <option>date</option>
-                            <option>folder name</option>
-                            <option>number</option>
-                        </select>
-                        <div class="rf-div-table-col">
-                            <input type="text"></input>
-                        </div>
-                        <div class="rf-div-table-col" style="width:75px; padding-top:4px; padding-right: 12px;">
-                            <img src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
-                        <select class="rf-div-table-col">
-                            <option>at position</option>
-                            <option>at end</option>
-                            <option>at position from end</option>
-                            <option>before first</option>
-                            <option>before last</option>
-                            <option>before each</option>
-                            <option>after first</option>
-                            <option>after last</option>
-                            <option>after each</option>
-                        </select>
-                        <div class="rf-div-table-col">
-                            <input type="text"></input>
-                        </div>
-                        <div class="rf-div-table-col" style="width:75px; padding-top:4px; padding-right: 12px;">
-                            <img src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
+                    <img style="width:20px; position:fixed; left:0; padding-left:12px; padding-right: 8px;" src="SVG/Left   Checkbox   Checked   Default.svg">
+                    <div class="div-table-row">
+                        <div style="padding: top 2px; padding-left:4px;" class="div-table-col">Remove</div>
+                        <div class="div-table-col">from after last</div>
+                        <div class="div-table-col">"X"</div>
                     </div>
-                    <div class="rf-div-table-row" style="background-color: #202028;">
-                        <div class="rf-div-table-col" style="padding-left: 10%;"><img style="width: 800px;" src="SVG/Left   Button   NewRule.svg"></div>
-                    </div>
+    
                 </div>
-
                 <h5 style="text-align: center;"> Filters</h5>
-                <div class="rf-div-table">
+                <div class="div-table">
                     
                 </div>
             </div>

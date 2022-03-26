@@ -1,41 +1,32 @@
-.rf-div-table {
+.div-table {
     color:white;
     font-size:12px;
     display: table;         
-    width: 92%;              
-    border-spacing: 8px;    
-    border-radius: 4px;   
+    width: 100%;         
+    background-color: #101212;                
+    border-spacing: 0px; /* cellspacing:poor IE support for  this */
   }
-  .rf-div-table-row{
+  .div-table-row{
       height:26px;
       text-align: left;
-      display: table-row;
-      width: 92%;
-      clear: both;
-      background-color: #404050;  
+  }
+  .div-table-row {
+    display: table-row;
+    width: 100%;
+    clear: both;
+    background-color: #363535;  
   }
 
-  .rf-div-table-col {
+  .div-table-col {
     float: left; /* fix for  buggy browsers */
     display: table-column;         
     width: 150px;    
-    padding-top:5px;
-    padding-bottom: 5px;
+    padding-top:6px;
   }
-
-  select{
-    background-color: #eb763b;
-    color:white;
-    border:none;
-  }
-  option{
-    background-color: #eb763b;
-    color:white;
-    border:none;
-  }
-  input{
-    background-color: #404050;
-    border:none;
-    color:white
+  .div-table-col:nth-child(3){
+    float: left; /* fix for  buggy browsers */
+    display: table-column;         
+    width: 265px;  
+    padding-top:6px;
   }
   
