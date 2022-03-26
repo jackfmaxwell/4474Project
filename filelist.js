@@ -108,7 +108,7 @@ function removeRow(id) {
 
 //adds event listener to check boxes in file list
 function checkboxEventAdder(){
-    const check_boxes = document.querySelectorAll('.div-table-col-image');
+    const check_boxes = document.querySelectorAll('.col-image');
     console.log(check_boxes);
 
     check_boxes.forEach(function(check_box){
