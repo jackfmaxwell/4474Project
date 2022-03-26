@@ -1,32 +1,44 @@
-.div-table {
-    color:white;
-    font-size:12px;
-    display: table;         
-    width: 100%;         
-    background-color: #101212;                
-    border-spacing: 0px; /* cellspacing:poor IE support for  this */
-  }
-  .div-table-row{
-      height:26px;
-      text-align: left;
-  }
-  .div-table-row {
+.rf-div-table {
+  color:white;
+  font-size:12px;
+  display: table;         
+  width: 92%;              
+  border-spacing: 8px;    
+  border-radius: 4px;   
+}
+.rf-div-table-row{
+    height:26px;
+    text-align: left;
     display: table-row;
-    width: 100%;
+    width: 92%;
     clear: both;
-    background-color: #363535;  
-  }
+    background-color: #404050;  
+}
 
-  .div-table-col {
-    float: left; /* fix for  buggy browsers */
-    display: table-column;         
-    width: 150px;    
-    padding-top:6px;
-  }
-  .div-table-col:nth-child(3){
-    float: left; /* fix for  buggy browsers */
-    display: table-column;         
-    width: 265px;  
-    padding-top:6px;
-  }
-  
+.rf-div-table-col {
+  float: left; /* fix for  buggy browsers */
+  display: table-column;           
+  padding-top:5px;
+  padding-bottom: 5px;
+}
+
+select.rules{
+  background-color: #eb763b;
+  color:white;
+  border:none;
+}
+select.filters{
+  background-color: #b33beb;
+  color:white;
+  border:none;
+}
+option{
+  background-color: #eb763b;
+  color:white;
+  border:none;
+}
+input{
+  background-color: #404050;
+  border:none;
+  color:white;
+}
