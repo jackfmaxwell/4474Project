@@ -187,23 +187,22 @@ function firstPosSelectionEvent(){
     
     if(matchCase){
         for (let i = 0; i < leftMatchCaseBoxes.length; i++){
-            leftMatchCaseBoxes[i].style.display = "block";
-
-            leftMatchCaseBoxes[i].parentElement.style.display = "block";
+            leftMatchCaseBoxes[i].style.display = "unset";
+            leftMatchCaseBoxes[i].parentElement.style.display = "unset";
 
         }
     }else{
         for (let i = 0; i < leftMatchCaseBoxes.length; i++){
             leftMatchCaseBoxes[i].style.display = "none";
-
             leftMatchCaseBoxes[i].parentElement.style.display = "none";
 
         }
     }
 
     if(textBoxIsOn){
-        firstPositionFirstTextBox.style.display = "block";
-        firstPositionFirstTextBox.parentElement.style.display = "block";
+        firstPositionFirstTextBox.style.display = "unset";
+        firstPositionFirstTextBox.parentElement.style.display = "unset";
+
     }else{
         firstPositionFirstTextBox.style.display = "none";
         firstPositionFirstTextBox.parentElement.style.display = "none";
@@ -290,8 +289,9 @@ function lastPosEvent(){
     }
     if(matchCase){
         for (let i = 0; i < rightMatchCaseBoxes.length; i++){
-            rightMatchCaseBoxes[i].style.display = "block";
-            rightMatchCaseBoxes[i].parentElement.style.display = "block";
+            rightMatchCaseBoxes[i].style.display = "unset";
+            rightMatchCaseBoxes[i].parentElement.style.display = "unset";
+
         }
     }else{
         for (let i = 0; i < rightMatchCaseBoxes.length; i++){
@@ -301,9 +301,11 @@ function lastPosEvent(){
     }
 
     if(textBoxOn){
-        lastTextBox.style.display = "block";
+        lastTextBox.style.display = "unset";
+        lastTextBox.parentElement.style.display = "unset";
     }else{
         lastTextBox.style.display = "none";
+        lastTextBox.parentElement.style.display = "none";
     }
 
 }
