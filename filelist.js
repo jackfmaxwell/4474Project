@@ -140,7 +140,7 @@ function addRow(filepath){
 
     check_box = div.firstElementChild
 
-    check_box.addEventListener('click', function (event) {
+    check_box.onclick = function () {
         if (!check_box.firstChild.src.includes('Un')){
             check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
             selected -= 1;
@@ -151,7 +151,7 @@ function addRow(filepath){
             selected += 1;
             document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
         }
-    });
+    }
 
     document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
 
