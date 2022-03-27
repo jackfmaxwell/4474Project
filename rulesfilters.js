@@ -13,11 +13,14 @@ function selectRuleToAdd(){
     addRule(rulesBtnDropdown.value)
 }
 
+const refreshButton = document.getElementById("refreshButton");
+refreshButton.addEventListener("click", parseRuleList)
+
 const addRuleContainer = document.getElementById("addRuleContainer");
 
 function addRule(rule){
     const div = document.createElement('div');
-    div.className = 'rf-div-table-row';
+    div.className = 'rule-value rf-div-table-row';
 
     div.innerHTML = ` 
     <select class="ruleSelection rules rf-div-table-col"  style="max-width: 120px; padding: top 2px; padding-left:4px;">
@@ -390,6 +393,24 @@ function addRule(rule){
     rulesTable.appendChild(addRuleContainer);
 }
 
+function parseRuleList(){
+    let rulesList = document.getElementsByClassName("rule-value");
+    for(let i = 0; i < rulesList.length; i++){
+        // For each rule get all their values
+        let ruleSelection = rulesList[i].getElementsByClassName("ruleSelection")[0].value;
+        let firstPositionSelection = rulesList[i].getElementsByClassName("firstPositionSelection")[0].value; 
+        let firstPositionFirstTextBox = rulesList[i].getElementsByClassName("firstPositionFirstTextBox")[0].value; 
+        let firstPositionIdentifierSelection  = rulesList[i].getElementsByClassName("firstPositionIdentifierSelection")[0].value;
+        let firstPositionSecondTextBox  = rulesList[i].getElementsByClassName("firstPositionSecondTextBox")[0].value;
+        let lastPositionSelection   = rulesList[i].getElementsByClassName("lastPositionSelection ")[0].value; 
+        console.log(ruleSelection);
+        console.log(firstPositionSelection);
+        console.log(firstPositionFirstTextBox);
+        console.log(firstPositionIdentifierSelection);
+        console.log(firstPositionSecondTextBox);
+        console.log(lastPositionSelection);
+    }
+}
 
 function showDiv(select){
     if(select.value==1){
