@@ -4,6 +4,7 @@ const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 
 const browseButton = document.getElementById('browseButton')
+
 const removeAllButton  = document.getElementById('removeAllButton')
 const filelist = document.getElementById("filelist");   //might be bad naming
 var fileList = [];
@@ -47,6 +48,7 @@ openButton.addEventListener('click', function (event) {
     });
 })
 
+
 //Event listener for X on filelist. Removes all files from list
 removeAllButton.addEventListener('click', function (event) {
     const rows = Array.from(document.getElementsByClassName('div-table-row'));
@@ -84,6 +86,7 @@ filelist.addEventListener('drop', (event) => {
     // print to console
     for (const file of event.dataTransfer.files) {
         console.log('file path: ', file.path);
+
         if(document.getElementById(file.path) == null){
             fileList.push(file.path);    //add path to the list that keeps tracks of the files
             addRow(file.path);          //add element to UI
@@ -155,6 +158,7 @@ function addRow(filepath){
 }
 
 function removeRow(id) {
+
     document.getElementById(id).remove()
     //adds empty row if file table is sufficently empty
     if(document.getElementById("divTable").childElementCount < 23){
@@ -169,9 +173,12 @@ function removeRow(id) {
 function checkboxEventAdder(){
     const check_boxes = document.querySelectorAll('.col-image');
 
+    console.log(check_boxes);
+
     check_boxes.forEach(function(check_box){
         check_box.addEventListener('click', function (event) {
             if (!check_box.firstChild.src.includes('Un')){
+
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
                 selected -= 1;
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
@@ -191,3 +198,4 @@ function renameFiles(oldFilepath, newFilePath){
         if (err) throw err;
     });
 }
+
