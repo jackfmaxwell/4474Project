@@ -99,7 +99,7 @@ const addRuleContainer = document.getElementById("addRuleContainer");
 
 function addRule(){
     const div = document.createElement('div');
-    div.className = 'rf-div-table-row';
+    div.className = 'rule-value rf-div-table-row';
 
     div.innerHTML = ` 
     <select class="ruleSelection rules rf-div-table-col"  style="width:94px; padding: top 2px; padding-left:4px;">

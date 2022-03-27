@@ -5,6 +5,9 @@ const ipc = require('electron').ipcRenderer
 
 const browseButton = document.getElementById('browseButton')
 
+const refreshButton = document.getElementById("refreshButton");
+refreshButton.addEventListener("click", parseRuleList)
+
 const removeAllButton  = document.getElementById('removeAllButton')
 const filelist = document.getElementById("filelist");   //might be bad naming
 var fileList = {};
@@ -221,3 +224,24 @@ function renameFiles(oldFilepath, newFilePath){
     });
 }
 
+function parseRuleList(){
+    let rulesList = document.getElementsByClassName("rule-value");
+    for(let i = 0; i < rulesList.length; i++){
+        // For each rule get all their values
+        let ruleSelection = rulesList[i].getElementsByClassName("ruleSelection")[0].value;
+        let firstPositionSelection = rulesList[i].getElementsByClassName("firstPositionSelection")[0].value; 
+        let firstPositionFirstTextBox = rulesList[i].getElementsByClassName("firstPositionFirstTextBox")[0].value; 
+        let firstPositionIdentifierSelection  = rulesList[i].getElementsByClassName("firstPositionIdentifierSelection")[0].value;
+        let firstPositionSecondTextBox  = rulesList[i].getElementsByClassName("firstPositionSecondTextBox")[0].value;
+        let lastPositionSelection   = rulesList[i].getElementsByClassName("lastPositionSelection ")[0].value; 
+        console.log(ruleSelection);
+        console.log(firstPositionSelection);
+        console.log(firstPositionFirstTextBox);
+        console.log(firstPositionIdentifierSelection);
+        console.log(firstPositionSecondTextBox);
+        console.log(lastPositionSelection);
+
+        
+
+    }
+}
