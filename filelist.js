@@ -2,6 +2,7 @@ var fs = require('fs');
 const path = require("path");
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
+const renameFunction = require("./fileRenameFunctions");
 
 const browseButton = document.getElementById('browseButton')
 
@@ -10,21 +11,15 @@ refreshButton.addEventListener("click", parseRuleList)
 
 const removeAllButton  = document.getElementById('removeAllButton')
 const filelist = document.getElementById("filelist");   //might be bad naming
+const undoButton = document.getElementById("undoButton");
 var fileList = {};
 
 var selected = 0;
 
 
-const rows = Array.from(document.getElementsByClassName('div-table-row'));
 
-rows.forEach(row => {
-     if(row.textContent.length != 1 && row.textContent.length != 136){
-        fileList[row.lastChild.textContent] = row.lastChild.textContent;
-        row.style.color = "grey"
-        row.nextElementSibling.style.color = "grey"
-        row.nextElementSibling.nextElementSibling.style.color = "grey"
-     }
-})
+
+const rows = Array.from(document.getElementsByClassName('div-table-row'));
 
 document.getElementById("selectedCheckBoxes").textContent = "0 of " + Object.keys(fileList).length + " Selected";
 
@@ -71,6 +66,24 @@ removeAllButton.addEventListener('click', function (event) {
 
     }); 
 })
+
+//Sends open file explorer request to main process
+undoButton.addEventListener('click', function (event) {
+    for (const [key,value] of Object.entries(fileList)){
+        fileList[key] = key
+    }
+    const filenames = document.querySelectorAll('.col-image');
+    filenames.forEach(function(filename){
+        filename.nextElementSibling.remove()
+        const div = document.createElement('div');
+        div.className = "div-table-col";
+        div.textContent = key
+        filename.after(div);
+        filename.nextElementSibling.nextElementSibling.textContent = filename.id;
+    })
+})
+
+
 
 
 // Drag and Drop file features --------------------------------------
@@ -119,10 +132,6 @@ filelist.addEventListener('dragend', (event) => {
 });
 // -------------------------------------------------------------
 
-
-function getRow(){
-    const check_boxes = document.querySelectorAll('.col-image');
-}
 
 //adds checkbox event listener to starting files in list
 checkboxEventAdder();
@@ -230,7 +239,7 @@ function parseRuleList(){
         // For each rule get all their values
         let ruleSelection = rulesList[i].getElementsByClassName("ruleSelection")[0].value;
         let firstPositionSelection = rulesList[i].getElementsByClassName("firstPositionSelection")[0].value; 
-        let firstPositionFirstTextBox = rulesList[i].getElementsByClassName("firstPositionFirstTextBox")[0].value; 
+        let firstPositionFirstTextBox = rulesList[i].getElementsByClassName("firstPositionFirstTextBox")[0]; 
         let firstPositionIdentifierSelection  = rulesList[i].getElementsByClassName("firstPositionIdentifierSelection")[0].value;
         let firstPositionSecondTextBox  = rulesList[i].getElementsByClassName("firstPositionSecondTextBox")[0].value;
         let lastPositionSelection   = rulesList[i].getElementsByClassName("lastPositionSelection ")[0].value; 
@@ -240,6 +249,7 @@ function parseRuleList(){
         console.log(firstPositionIdentifierSelection);
         console.log(firstPositionSecondTextBox);
         console.log(lastPositionSelection);
+
 
         
 
