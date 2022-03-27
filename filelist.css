@@ -33,12 +33,3 @@
 .div-table-col:nth-child(3){
   width:23%;
 }
-
-.visible-scrollbar{
-  /* display: block; */
-  display: round;
-  width: 100%;
-  overflow: auto;
-  scrollbar-color: rgb(25, 187, 133);
-  height: 88%;
-}

@@ -1,11 +1,27 @@
+var fs = require('fs');
 const path = require("path");
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 
 const browseButton = document.getElementById('browseButton')
-const filelist = document.getElementById("filelist");   //might be bad naming
 
-const fileList = [];
+const removeAllButton  = document.getElementById('removeAllButton')
+const filelist = document.getElementById("filelist");   //might be bad naming
+var fileList = [];
+
+var selected = 0;
+
+
+const rows = Array.from(document.getElementsByClassName('div-table-row'));
+
+rows.forEach(row => {
+     console.log(row.textContent.length)
+     if(row.textContent.length != 1 && row.textContent.length != 136){
+        fileList.push(row.lastChild.textContent);
+     }
+})
+
+document.getElementById("selectedCheckBoxes").textContent = "0 of " + fileList.length + " Selected";
 
 //Sends open file explorer request to main process
 browseButton.addEventListener('click', function (event) {
@@ -32,6 +48,27 @@ openButton.addEventListener('click', function (event) {
     });
 })
 
+
+//Event listener for X on filelist. Removes all files from list
+removeAllButton.addEventListener('click', function (event) {
+    const rows = Array.from(document.getElementsByClassName('div-table-row'));
+
+    rows.forEach(row => {
+        console.log(row.textContent.length)
+        if(row.textContent.length != 1 && row.textContent.length != 136){
+            row.remove();
+            const div = document.createElement('div');
+            div.className = 'div-table-row';
+            div.innerHTML += '&nbsp;';
+            document.getElementById('last-row').after(div);
+        }
+    fileList = []
+    selected = 0
+    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
+
+    }); 
+})
+
 // Drag and Drop file features --------------------------------------
 filelist.addEventListener('dragover', (event) => {
     //The box that receives the file(s) should highlight when hovering over (idk how to do this)
@@ -49,8 +86,11 @@ filelist.addEventListener('drop', (event) => {
     // print to console
     for (const file of event.dataTransfer.files) {
         console.log('file path: ', file.path);
-        fileList.push(file.path);    //add path to the list that keeps tracks of the files
-        addRow(file.path);           //add element to UI
+
+        if(document.getElementById(file.path) == null){
+            fileList.push(file.path);    //add path to the list that keeps tracks of the files
+            addRow(file.path);          //add element to UI
+        }  
     }
 
 });
@@ -89,35 +129,73 @@ function addRow(filepath){
     var filename = path.basename(filepath);
 
     div.innerHTML = `
-    <div class="div-table-col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">` + filename + `</div>
-    <div class="div-table-col"></div>
+    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">` + filename + `</div>
+    <div class="div-table-col">` + filename + `</div>
     <div class="div-table-col">` + filepath + `</div>
     `;
 
-    document.getElementById('divTable').appendChild(div);
+    var lastRow = document.getElementById('last-row')
+    lastRow.before(div);
+    lastRow.nextElementSibling.remove()
 
-    checkboxEventAdder();
+    check_box = div.firstElementChild
+
+    check_box.addEventListener('click', function (event) {
+        if (!check_box.firstChild.src.includes('Un')){
+            check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
+            selected -= 1;
+            document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
+        } else {
+            console.log(check_box.firstChild.src)
+            check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
+            selected += 1;
+            document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
+        }
+    });
+
+    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
 
 }
 
 function removeRow(id) {
-    document.getElementById(id).removeChild(input.parentNode);
+
+    document.getElementById(id).remove()
+    //adds empty row if file table is sufficently empty
+    if(document.getElementById("divTable").childElementCount < 23){
+        const div = document.createElement('div');
+        div.className = 'div-table-row';
+        div.innerHTML += '&nbsp;';
+        document.getElementById('last-row').before(div);
+    }
 }
 
 //adds event listener to check boxes in file list
 function checkboxEventAdder(){
     const check_boxes = document.querySelectorAll('.col-image');
+
     console.log(check_boxes);
 
     check_boxes.forEach(function(check_box){
         check_box.addEventListener('click', function (event) {
             if (!check_box.firstChild.src.includes('Un')){
-                console.log("should uncheck here")
+
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
+                selected -= 1;
+                document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
             } else {
                 console.log(check_box.firstChild.src)
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
+                selected += 1;
+                document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
             }
         });
     })
 }
+
+//renames file on system (async)
+function renameFiles(oldFilepath, newFilePath){
+    fs.rename(oldFilepath, newFilePath, function(err){
+        if (err) throw err;
+    });
+}
+
