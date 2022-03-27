@@ -94,13 +94,14 @@ undoButton.addEventListener('click', function (event) {
     for (const [key,value] of Object.entries(fileList)){
         fileList[key] = key
     }
+    let skippedfirst = false;
     const filenames = document.querySelectorAll('.col-image');
     filenames.forEach(function(filename){
-        filename.nextElementSibling.remove()
-        const div = document.createElement('div');
-        div.className = "div-table-col";
-        div.textContent = key
-        filename.after(div);
+        if(!skippedfirst){
+            skippedfirst=true;
+            return;
+        }
+        filename.nextElementSibling.textContent = path.basename(filename.id)
         filename.nextElementSibling.nextElementSibling.textContent = filename.id;
     })
 })
