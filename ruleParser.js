@@ -46,7 +46,7 @@ function ruleSelectionEvent(){
 
 function firstPosSelectionEvent(){
     let firstPositionSelectionValue = firstPositionSelection.value;
-    let items;
+    let items = [];
     let textBoxIsOn = true;
     let firstPositionIdentifierSelectionOn = false;
     let firstPositionSecondTextBoxOn = false;
@@ -202,6 +202,7 @@ function firstPosSelectionEvent(){
     if(textBoxIsOn){
         firstPositionFirstTextBox.style.display = "unset";
         firstPositionFirstTextBox.parentElement.style.display = "unset";
+
     }else{
         firstPositionFirstTextBox.style.display = "none";
         firstPositionFirstTextBox.parentElement.style.display = "none";
@@ -312,3 +313,7 @@ function lastPosEvent(){
 ruleSelectionOption.addEventListener('change', ruleSelectionEvent);
 firstPositionSelection.addEventListener('change', firstPosSelectionEvent);
 lastPositionSelection.addEventListener('change', lastPosEvent);
+
+module.exports = ruleSelectionEvent;
+module.exports = firstPosSelectionEvent;
+module.exports = lastPosEvent;
