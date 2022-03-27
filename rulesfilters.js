@@ -78,9 +78,17 @@ function addFilter(){
     const img1 = document.createElement('img');
     img1.style="width:25px; position:fixed; left:0; padding-left:4px; padding-top:9px;";
     img1.src="SVG/Left   Checkbox   Checked   Default.svg";
+    img1.className+="enableRule enabled";
+    img1.addEventListener("click", (event) =>{
+        enableDisableFilter(img1, event, div);
+    });
     const img2 = document.createElement('img');
     img2.style="width:20px; position:fixed; left:0; margin-left:885px; padding-top:12px;";
     img2.src="SVG/Left   Remove   Default.svg";
+    img2.addEventListener("click", (event) =>{
+        removeFilter(event, div, img1, img2);
+    });
+
 
     addFilterContainer.remove();
     filtersTable.appendChild(img1);
@@ -88,6 +96,27 @@ function addFilter(){
     filtersTable.appendChild(div);
     filtersTable.appendChild(addFilterContainer);
 
+}
+function enableDisableFilter(img, event, div){
+    if(img.classList.contains("enabled")){
+        //disable it
+        img.classList.remove("enabled");
+        img.className+=" disabled";
+        img.src="SVG/Left   Checkbox   Unchecked   Default.svg";
+        div.style.opacity = "0.3";
+    }
+    else if(img.classList.contains("disabled")){
+        //enable it
+        img.classList.remove("disabled");
+        img.className+=" enabled";
+        img.src="SVG/Left   Checkbox   Checked   Default.svg";
+        div.style.opacity = "1.0";
+    }
+}
+function removeFilter(event, div, img1, img2){
+    div.remove();
+    img1.remove();
+    img2.remove();
 }
 
 
@@ -171,15 +200,48 @@ function addRule(){
     const img1 = document.createElement('img');
     img1.style="width:25px; position:fixed; left:0; padding-left:4px; padding-top:9px;";
     img1.src="SVG/Left   Checkbox   Checked   Default.svg";
+    img1.className+="enableRule enabled";
+    img1.addEventListener("click", (event) =>{
+        enableDisableRule(img1, event, div);
+    });
     const img2 = document.createElement('img');
     img2.style="width:20px; position:fixed; left:0; margin-left:885px; padding-top:12px;";
     img2.src="SVG/Left   Remove   Default.svg";
+    img2.addEventListener("click", (event) =>{
+        removeRule(event, div, img1, img2);
+    });
 
     addRuleContainer.remove();
     rulesTable.appendChild(img1);
     rulesTable.appendChild(img2);
     rulesTable.appendChild(div);
     rulesTable.appendChild(addRuleContainer);
+}
+
+function enableDisableRule(img, event, div){
+    if(img.classList.contains("enabled")){
+        //disable it
+        img.classList.remove("enabled");
+        img.className+=" disabled";
+        img.src="SVG/Left   Checkbox   Unchecked   Default.svg";
+        div.style.opacity = "0.3";
+    }
+    else if(img.classList.contains("disabled")){
+        //enable it
+        img.classList.remove("disabled");
+        img.className+=" enabled";
+        img.src="SVG/Left   Checkbox   Checked   Default.svg";
+        div.style.opacity = "1.0";
+    }
+}
+function removeRule(event, div, img1, img2){
+    div.remove();
+    img1.remove();
+    img2.remove();
+}
+const removeAllRulesBtn = document.getElementById("rulesRemoveAllBtn");
+removeAllRulesBtn.onclick = () =>{
+
 }
 
 function childList1(event, childrenList){
