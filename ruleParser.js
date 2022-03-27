@@ -1,5 +1,5 @@
 //const fileRenaming = require("./fileRenameFunctions"); ERRORING FILE
-
+/*
 const ruleSelectionOption = document.getElementById("ruleSelection");
 const firstPositionSelection = document.getElementById("firstPositionSelection");
 const firstPositionFirstTextBox = document.getElementById("firstPositionFirstTextBox");
@@ -317,3 +317,4 @@ lastPositionSelection.addEventListener('change', lastPosEvent);
 module.exports = ruleSelectionEvent;
 module.exports = firstPosSelectionEvent;
 module.exports = lastPosEvent;
+DONT NEED THIS FILE SINCE NO LONGER HAVE STATIC RULES IN HMTL*/
