@@ -1,21 +1,103 @@
+const filtersTable = document.getElementById("filtersTable");
+
+const addFilterBtn = document.getElementById("addFilterBtn");
+addFilterBtn.onclick = () => addFilter();
+const addFilterContainer = document.getElementById("addFilterContainer");
+
+function addFilter(){
+    const div = document.createElement('div');
+    div.className = 'rf-div-table-row';
+    div.innerHTML = ` 
+    <select class="filters rf-div-table-col"  style="height: 100%; padding: top 2px; padding-left:4px;">
+        <option value="include">Include</option>
+        <option value="exclude">Exclude</option>
+    </select>
+    <select class="filters rf-div-table-col" style="height: 100%; padding: top 2px; padding-left:4px;">
+        <!-- width:20%; height: 100%; -->
+        <option>files</option>
+        <option>files with names</option>
+        <option>files with extensions</option>
+        <option>images</option>
+        <option>music</option>
+        <option>videos</option>
+        <option>folders</option>
+        <option>subfolders</option>
+    </select>
+     <select class="filters rf-div-table-col" onchange="showDiv(this)" style="height: 100%; padding: top 2px; padding-left:4px;">
+        <option>all</option>
+        <option>hidden</option>
+        <option value="1">matching</option>
+        <option value="1">containing</option>
+        <option value="1">starting with</option>
+        <option value="1">ending with</option>
+        <option value="2">matching Regex</option>
+        <option value="3">in folder</option>
+        <option value="4">length</option>
+        <option value="4">longer than</option>
+        <option value="4">shorter than</option>
+        <option value="5">accessed</option>
+        <option value="5">created</option>
+        <option value="5">modified</option>
+        <option value="5">taken</option>
+    </select>
+    <!-- if all or hidden is selected do nothing -->
+
+    <!-- if matching, containing, starting with or ending is selected -->
+    <div id="matching" class="rf-div-table-col" style="display:none;">
+        <input style="min-width:40px; min-height: 15px;" type="text" value="type here"></input>
+        <img style="height:20px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+    </div>
+
+    <!-- if matching regex is selected -->
+    <div id="regex" class="rf-div-table-col" style="display:none;">
+        regex
+    </div>
+
+    <!-- if in folder is selected -->
+    <div id="infolder" class="rf-div-table-col" style="display:none;">
+        full folder path
+    </div>
+
+    <!-- if length, longer than or shorter then is selected -->
+    <div id="length" class="rf-div-table-col" style="display:none;">
+        <input style="min-width:40px; min-height: 15px;" type="number" min="0" max="100" value="0"></input>
+    </div>
+
+    <!-- if accessed, created, modified or taken is selected -->
+    <div id="accessed" class="rf-div-table-col" style="display: none;">
+        <select class="filters rf-div-table-col"  style="height: 100%; padding-left:12px;">
+            <option>at</option>
+            <option>before</option>
+            <option>after</option>
+        </select>
+        <input style="min-width:40px; min-height: 15px;" type="date" value="12:00am"></input>
+        <input style="min-width:40px; min-height: 15px;" type="time" value=" "></input>
+    </div>
+    `;
+
+    const img1 = document.createElement('img');
+    img1.style="width:25px; position:fixed; left:0; padding-left:17px; padding-top:12px;";
+    img1.src="SVG/Left   Checkbox   Checked   Default.svg";
+    const img2 = document.createElement('img');
+    img2.style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;";
+    img2.src="SVG/Left   Remove   Default.svg";
+
+    addFilterContainer.remove();
+    filtersTable.appendChild(img1);
+    filtersTable.appendChild(img2);
+    filtersTable.appendChild(div);
+    filtersTable.appendChild(addFilterContainer);
+
+}
+
+
 const rulesTable = document.getElementById("rulesTable");
 
 const addRuleBtn = document.getElementById("addRuleBtn");
-addRuleBtn.onclick = () => switchToDropdown();
-function switchToDropdown(){
-    rulesBtnDropdown.style.display = "inherit";
-    addRuleBtn.style.display = "none";
-}
-const rulesBtnDropdown = document.getElementById("rulesBtnDropdown");
-function selectRuleToAdd(){
-    rulesBtnDropdown.style.display = "none";
-    addRuleBtn.style.display = "inherit";
-    addRule(rulesBtnDropdown.value)
-}
-
+addRuleBtn.onclick = () => addRule();
 const addRuleContainer = document.getElementById("addRuleContainer");
 
-function addRule(rule){
+function addRule(){
     const div = document.createElement('div');
     div.className = 'rf-div-table-row';
 
@@ -65,14 +147,17 @@ function addRule(rule){
         <option value="To After Last">To After Last</option>
     </select>
 
-    <div class="debug rf-div-table-col" style="max-width:280;">
+    <div class="rf-div-table-col" style="max-width:280;">
         <input style="lasttextbox max-width:87px;" type="text"></input>
         <img class="rightmatchcase" style="width:75px; overflow-x:visible; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
     </div>
 </div>
     `;
+
+
     let childrenList = div.childNodes;
     console.log(childrenList);
+    //bind event handlers
     childrenList[1].addEventListener("change", (event) => {
         let nodeList = event.currentTarget.parentElement.childNodes;
         let ruleSelectionValue = childrenList[1].value;
@@ -101,7 +186,7 @@ function addRule(rule){
             str += "<option value=\"" + item + "\">" + item + "</option>"
         }
         firstPositionSelection.innerHTML = str;
-        firstPositionSelection.style.display = "block";
+        firstPositionSelection.style.display = "unset";
         }
     });
     childrenList[3].addEventListener("change", (event) => {
@@ -253,8 +338,8 @@ function addRule(rule){
         
         if(matchCase){
             for (let i = 0; i < leftMatchCaseBoxes.length; i++){
-                leftMatchCaseBoxes[i].style.display = "block";
-                leftMatchCaseBoxes[i].parentElement.style.display = "block";
+                leftMatchCaseBoxes[i].style.display = "unset";
+                leftMatchCaseBoxes[i].parentElement.style.display = "unset";
             }
         }else{
             for (let i = 0; i < leftMatchCaseBoxes.length; i++){
@@ -265,21 +350,21 @@ function addRule(rule){
     
         if(textBoxIsOn){
             console.log(firstPositionFirstTextBox);
-            firstPositionFirstTextBox[0].style.display = "block";
-            firstPositionFirstTextBox[0].parentElement.style.display = "block";
+            firstPositionFirstTextBox[0].style.display = "unset";
+            firstPositionFirstTextBox[0].parentElement.style.display = "unset";
         }else{
             firstPositionFirstTextBox[0].style.display = "none";
             firstPositionFirstTextBox[0].parentElement.style.display = "none";
         }
     
         if(firstPositionIdentifierSelectionOn){
-            firstPositionIdentifierSelection[0].style.display = "block";
+            firstPositionIdentifierSelection[0].style.display = "unset";
         }else{
             firstPositionIdentifierSelection[0].style.display = "none";
         }
     
         if(firstPositionSecondTextBoxOn){
-            firstPositionSecondTextBox[0].parentElement.style.display = "block";
+            firstPositionSecondTextBox[0].parentElement.style.display = "unset";
         }else{
             firstPositionSecondTextBox[0].parentElement.style.display = "none";
         }
@@ -296,7 +381,7 @@ function addRule(rule){
                 str += "<option value=\"" + item + "\">" + item + "</option>"
             }
             lastPositionSelection[0].innerHTML = str;
-            lastPositionSelection[0].style.display = "block";
+            lastPositionSelection[0].style.display = "unset";
         }else{
             lastPositionSelection[0].style.display = "none";
         }
@@ -356,8 +441,8 @@ function addRule(rule){
         }
         if(matchCase){
             for (let i = 0; i < rightMatchCaseBoxes.length; i++){
-                rightMatchCaseBoxes[i].style.display = "block";
-                rightMatchCaseBoxes[i].parentElement.style.display = "block";
+                rightMatchCaseBoxes[i].style.display = "unset";
+                rightMatchCaseBoxes[i].parentElement.style.display = "unset";
             }
         }else{
             for (let i = 0; i < rightMatchCaseBoxes.length; i++){
@@ -367,8 +452,8 @@ function addRule(rule){
         }
     
         if(textBoxOn){
-            lastTextBox.style.display = "block";
-            lastTextBox.parentElement.style.display = "block";
+            lastTextBox.style.display = "unset";
+            lastTextBox.parentElement.style.display = "unset";
         }else{
             lastTextBox.style.display = "none";
             lastTextBox.parentElement.style.display = "none";

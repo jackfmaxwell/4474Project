@@ -39,7 +39,7 @@ function ruleSelectionEvent(){
         str += "<option value=\"" + item + "\">" + item + "</option>"
     }
     firstPositionSelection.innerHTML = str;
-    firstPositionSelection.style.display = "block";
+    firstPositionSelection.style.display = "unset";
     }
     firstPosSelectionEvent();
 }
@@ -209,13 +209,13 @@ function firstPosSelectionEvent(){
     }
 
     if(firstPositionIdentifierSelectionOn){
-        firstPositionIdentifierSelection.style.display = "block";
+        firstPositionIdentifierSelection.style.display = "unset";
     }else{
         firstPositionIdentifierSelection.style.display = "none";
     }
 
     if(firstPositionSecondTextBoxOn){
-        firstPositionSecondTextBox.parentElement.style.display = "block";
+        firstPositionSecondTextBox.parentElement.style.display = "unset";
     }else{
         firstPositionSecondTextBox.parentElement.style.display = "none";
     }
@@ -232,7 +232,7 @@ function firstPosSelectionEvent(){
             str += "<option value=\"" + item + "\">" + item + "</option>"
         }
         lastPositionSelection.innerHTML = str;
-        lastPositionSelection.style.display = "block";
+        lastPositionSelection.style.display = "unset";
     }else{
         lastPositionSelection.style.display = "none";
     }
