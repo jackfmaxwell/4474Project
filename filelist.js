@@ -71,6 +71,7 @@ removeAllButton.addEventListener('click', function (event) {
     }); 
 })
 
+
 // Drag and Drop file features --------------------------------------
 filelist.addEventListener('dragover', (event) => {
     //The box that receives the file(s) should highlight when hovering over (idk how to do this)
@@ -118,6 +119,10 @@ filelist.addEventListener('dragend', (event) => {
 // -------------------------------------------------------------
 
 
+function getRow(){
+    const check_boxes = document.querySelectorAll('.col-image');
+}
+
 //adds checkbox event listener to starting files in list
 checkboxEventAdder();
 
@@ -132,6 +137,9 @@ function addRow(filepath){
     <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">` + filename + `</div>
     <div class="div-table-col">` + filename + `</div>
     <div class="div-table-col">` + filepath + `</div>
+    <div class="div-table-col">
+    <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
+    </div>
     `;
 
     div.firstElementChild.id = filepath;
@@ -146,13 +154,9 @@ function addRow(filepath){
     check_box.nextElementSibling.style.color = "grey"
     check_box.nextElementSibling.nextElementSibling.style.color = "grey"
 
-    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
-
     const check_boxes = document.querySelectorAll('.col-image');
 
     check_boxes.forEach(function(check_box){
-        console.log(check_box.id);
-        console.log(fileList.includes(check_box.id))
         if(!fileList.includes(check_box.id)){
             check_box.addEventListener('click', function (event) {
                 if (!check_box.firstChild.src.includes('Un')){
@@ -173,21 +177,22 @@ function addRow(filepath){
                     
                 }
             });
+            check_box.parentElement.lastElementChild.addEventListener('click', function (event) {
+                var index = fileList.indexOf(check_box.id);
+                console.log(index)
+                if (index > -1) {
+                    fileList.splice(index, 1);
+                }
+                check_box.parentElement.remove();
+                const div = document.createElement('div');
+                div.className = 'div-table-row';
+                div.innerHTML += '&nbsp;';
+                document.getElementById('last-row').after(div);
+            })
         }
     })
     fileList.push(filepath);
-}
-
-function removeRow(id) {
-
-    document.getElementById(id).remove()
-    //adds empty row if file table is sufficently empty
-    if(document.getElementById("divTable").childElementCount < 23){
-        const div = document.createElement('div');
-        div.className = 'div-table-row';
-        div.innerHTML += '&nbsp;';
-        document.getElementById('last-row').before(div);
-    }
+    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
 }
 
 //adds event listener to check boxes in file list
