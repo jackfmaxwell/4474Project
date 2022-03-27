@@ -20,8 +20,7 @@ exports.fileRandomize = (text, startAt, endAt) => {
     for ( let i = startAt; i < endAt; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    subString = v.slice(text, startAt, endAt);
-    return v.replace(text, subString, result);
+    return v.splice(text, startAt, endAt-startAt, result);
 }
 
 exports.fileSetTileCase = () => {
