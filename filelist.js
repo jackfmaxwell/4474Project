@@ -6,8 +6,6 @@ const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
 
-const renameFunction = require("./fileRenameFunctions");
-
 const browseButton = document.getElementById('browseButton')
 
 const refreshButton = document.getElementById("refreshButton");
@@ -282,17 +280,57 @@ function parseRuleList(){
 
         for (const [key,value] of Object.entries(fileList)){
             if(ruleSelection=="add"){
+                if(lastPositionSelection=="To Position"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, lastTextBox, firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To End"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.length, firstPositionFirstTextBox));
+                    console.log(filename.length)
+                }
+                else if(lastPositionSelection=="To Position From End"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.length-lastTextBox, firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To Before First"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.indexOf(lastTextBox), firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To Before Last"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.lastIndexOf(lastTextBox), firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To After First"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.indexOf(lastTextBox)+lastTextBox.length, firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To After Last"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.lastIndexOf(lastTextBox)+lastTextBox.length, firstPositionFirstTextBox));
+                }
+            }
+            else if(ruleSelection=="remove"){
                 let filepath = key;
                 let filename = path.basename(filepath);
                 filepath = filepath.replace(filename, "");
-                fileList[key] = filepath.concat(renameFunction.fileAdd(filename, lastTextBox, firstPositionFirstTextBox));
+                fileList[key] = filepath.concat(renameFunction.fileRemove(filename, path.parse(filename).name.length-1, firstPositionFirstTextBox));
             }
-            else if(ruleSelection=="remove"){
-                
-            }
-            else if(ruleSelection=="reverse"){
-                
-            }
+           
             else if(ruleSelection=="randomize"){
                 
             }
