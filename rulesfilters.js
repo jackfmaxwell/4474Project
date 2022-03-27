@@ -64,10 +64,10 @@ function addRule(rule){
     `;
 
     const img1 = document.createElement('img');
-    img1.style="width:25px; position:fixed; left:0; padding-left:17px; padding-top:12px;";
+    img1.style="width:25px; position:fixed; left:0; padding-left:4px; padding-top:9px;";
     img1.src="SVG/Left   Checkbox   Checked   Default.svg";
     const img2 = document.createElement('img');
-    img2.style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;";
+    img2.style="width:20px; position:fixed; left:0; margin-left:885px; padding-top:12px;";
     img2.src="SVG/Left   Remove   Default.svg";
 
     addRuleContainer.remove();
