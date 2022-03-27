@@ -1,7 +1,9 @@
 const { Console } = require('console');
 var fs = require('fs');
+const { end } = require('global-tunnel-ng');
 const { forEach } = require('lodash');
 const path = require("path");
+const { start } = require('repl');
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
@@ -27,10 +29,8 @@ renameBtn.onclick = () =>{
             return;
         }
         if(!fileRow.firstChild.src.includes('Un')){
-            console.log()
-            fileRow.textContent = fileRow.nextElementSibling.textContent;
+            fileRow.firstChild.nextElementSibling.textContent = fileRow.nextElementSibling.textContent;
         }
-        
         
      });
 }
@@ -171,7 +171,7 @@ function addRow(filepath){
     var filename = path.basename(filepath);
 
     div.innerHTML = `
-    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">` + filename + `</div>
+    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false"><div style="display:inline;">` + filename + `</div></div>
     <div class="div-table-col">` + filename + `</div>
     <div class="div-table-col">` + filepath + `</div>
     <div class="div-table-col">
@@ -222,7 +222,7 @@ function addRow(filepath){
                 document.getElementById('last-row').after(div);
             })
         }
-    })
+    });
     fileList[filepath] = filepath
     document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
 }
@@ -334,15 +334,186 @@ function parseRuleList(){
                 let filepath = value;
                 let filename = path.basename(filepath);
                 filepath = filepath.replace(filename, "");
-                fileList[key] = filepath.concat(renameFunction.fileAdd(filename, lastTextBox, firstPositionFirstTextBox));
-                // fileList[key] = filepath.concat(renameFunction.fileRemove(filename, path.parse(filename).name.length-1, firstPositionFirstTextBox));
+                let filelength = path.parse(filename).name.length
+
+                let startIndex = 0;
+
+
+                if(firstPositionSelection=="From Position"){
+                    startIndex = firstPositionFirstTextBox;
+                }
+                if(firstPositionSelection=="From End"){
+                    startIndex = filelength;
+                }
+                if(firstPositionSelection=="From Before First"){
+                    startIndex =  filename.indexOf(firstPositionFirstTextBox);
+                }
+                if(firstPositionSelection=="From Before Last"){
+                    startIndex =  filename.lastIndexOf(firstPositionFirstTextBox);
+                }
+                else if(firstPositionSelection=="From After First"){
+                    startIndex = filename.indexOf(firstPositionFirstTextBox) + firstPositionFirstTextBox.length;
+                }
+                else if(firstPositionSelection=="From After Last"){
+                    startIndex = filename.lastIndexOf(firstPositionFirstTextBox) + firstPositionFirstTextBox.length;
+                }
+               
+
+
+                let endIndex = 0;
+                if (lastPositionSelection=="To Position"){
+                    endIndex = lastTextBox;
+                }
+                else if(lastPositionSelection=="To End"){
+                     endIndex = filelength;
+                }
+                else if(lastPositionSelection=="To Position From End"){
+                    endIndex = lastTextBox;
+                }
+                else if(lastPositionSelection=="To Before First"){
+                    endIndex = filename.indexOf(lastTextBox);
+                }
+                else if(lastPositionSelection=="To Before Last"){
+                    endIndex = filename.lastIndexOf(lastTextBox);
+                }
+                else if(lastPositionSelection=="To After First"){
+                    endIndex = filename.indexOf(lastTextBox) + filelength;
+                }
+                else if(lastPositionSelection=="To After Last"){
+                    endIndex = filename.lastIndexOf(lastTextBox) + filelength;
+                }
+                    
+
+                if(startIndex > endIndex){
+                    let temp = endIndex;
+                    endIndex = startIndex;
+                    startIndex = temp;
+                }
+                fileList[key] = filepath.concat(renameFunction.fileRemove(filename, startIndex, endIndex));
+
             }
             else if(ruleSelection=="reverse"){
-                
+                let filepath = value;
+                let filename = path.basename(filepath);
+                filepath = filepath.replace(filename, "");
+                let filelength = path.parse(filename).name.length
+
+                let startIndex = 0;
+
+
+                if(firstPositionSelection=="From Position"){
+                    startIndex = firstPositionFirstTextBox;
+                }
+                if(firstPositionSelection=="From End"){
+                    startIndex = filelength;
+                }
+                if(firstPositionSelection=="From Before First"){
+                    startIndex =  filename.indexOf(firstPositionFirstTextBox);
+                }
+                if(firstPositionSelection=="From Before Last"){
+                    startIndex =  filename.lastIndexOf(firstPositionFirstTextBox);
+                }
+                else if(firstPositionSelection=="From After First"){
+                    startIndex = filename.indexOf(firstPositionFirstTextBox) + firstPositionFirstTextBox.length;
+                }
+                else if(firstPositionSelection=="From After Last"){
+                    startIndex = filename.lastIndexOf(firstPositionFirstTextBox) + firstPositionFirstTextBox.length;
+                }
+               
+
+
+                let endIndex = 0;
+                if (lastPositionSelection=="To Position"){
+                    endIndex = lastTextBox;
+                }
+                else if(lastPositionSelection=="To End"){
+                     endIndex = filelength;
+                }
+                else if(lastPositionSelection=="To Position From End"){
+                    endIndex = lastTextBox;
+                }
+                else if(lastPositionSelection=="To Before First"){
+                    endIndex = filename.indexOf(lastTextBox);
+                }
+                else if(lastPositionSelection=="To Before Last"){
+                    endIndex = filename.lastIndexOf(lastTextBox);
+                }
+                else if(lastPositionSelection=="To After First"){
+                    endIndex = filename.indexOf(lastTextBox) + filelength;
+                }
+                else if(lastPositionSelection=="To After Last"){
+                    endIndex = filename.lastIndexOf(lastTextBox) + filelength;
+                }
+                    
+
+                if(startIndex > endIndex){
+                    let temp = endIndex;
+                    endIndex = startIndex;
+                    startIndex = temp;
+                }
+                fileList[key] = filepath.concat(renameFunction.fileReverse(filename, startIndex, endIndex));
             }
            
             else if(ruleSelection=="randomize"){
-                
+                let filepath = value;
+                let filename = path.basename(filepath);
+                filepath = filepath.replace(filename, "");
+                let filelength = path.parse(filename).name.length
+
+                let startIndex = 0;
+
+
+                if(firstPositionSelection=="From Position"){
+                    startIndex = firstPositionFirstTextBox;
+                }
+                if(firstPositionSelection=="From End"){
+                    startIndex = filelength;
+                }
+                if(firstPositionSelection=="From Before First"){
+                    startIndex =  filename.indexOf(firstPositionFirstTextBox);
+                }
+                if(firstPositionSelection=="From Before Last"){
+                    startIndex =  filename.lastIndexOf(firstPositionFirstTextBox);
+                }
+                else if(firstPositionSelection=="From After First"){
+                    startIndex = filename.indexOf(firstPositionFirstTextBox) + firstPositionFirstTextBox.length;
+                }
+                else if(firstPositionSelection=="From After Last"){
+                    startIndex = filename.lastIndexOf(firstPositionFirstTextBox) + firstPositionFirstTextBox.length;
+                }
+               
+
+
+                let endIndex = 0;
+                if (lastPositionSelection=="To Position"){
+                    endIndex = lastTextBox;
+                }
+                else if(lastPositionSelection=="To End"){
+                     endIndex = filelength;
+                }
+                else if(lastPositionSelection=="To Position From End"){
+                    endIndex = lastTextBox;
+                }
+                else if(lastPositionSelection=="To Before First"){
+                    endIndex = filename.indexOf(lastTextBox);
+                }
+                else if(lastPositionSelection=="To Before Last"){
+                    endIndex = filename.lastIndexOf(lastTextBox);
+                }
+                else if(lastPositionSelection=="To After First"){
+                    endIndex = filename.indexOf(lastTextBox) + filelength;
+                }
+                else if(lastPositionSelection=="To After Last"){
+                    endIndex = filename.lastIndexOf(lastTextBox) + filelength;
+                }
+                    
+
+                if(startIndex > endIndex){
+                    let temp = endIndex;
+                    endIndex = startIndex;
+                    startIndex = temp;
+                }
+                fileList[key] = filepath.concat(renameFunction.fileRandomize(filename, startIndex, endIndex));
             }
             else if(ruleSelection=="setcase"){
                 
