@@ -90,7 +90,6 @@ filelist.addEventListener('drop', (event) => {
         console.log('file path: ', file.path);
 
         if(document.getElementById(file.path) == null){
-            fileList.push(file.path);    //add path to the list that keeps tracks of the files
             addRow(file.path);          //add element to UI
         }  
     }
