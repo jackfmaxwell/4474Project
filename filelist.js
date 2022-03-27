@@ -6,7 +6,6 @@ const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
 
-const renameFunction = require("./fileRenameFunctions");
 
 const browseButton = document.getElementById('browseButton')
 
@@ -288,7 +287,10 @@ function parseRuleList(){
                 fileList[key] = filepath.concat(renameFunction.fileAdd(filename, lastTextBox, firstPositionFirstTextBox));
             }
             else if(ruleSelection=="remove"){
-                
+                let filepath = key;
+                let filename = path.basename(filepath);
+                filepath = filepath.replace(filename, "");
+                fileList[key] = filepath.concat(renameFunction.fileAdd(filename, firstPositionFirstTextBox, lastTextBox));
             }
             else if(ruleSelection=="reverse"){
                 
@@ -296,48 +298,22 @@ function parseRuleList(){
             else if(ruleSelection=="randomize"){
                 
             }
-            else if(ruleSelection=="setTileCase"){
+            else if(ruleSelection=="setcase"){
                 
             }
-            else if(ruleSelection=="setInvertedCase"){
+            else if(ruleSelection=="replace"){
                 
             }
-            else if(ruleSelection=="setUpperCase"){
+            else if(ruleSelection=="regex"){
                 
             }
-            else if(ruleSelection=="setLowerCase"){
+            else if(ruleSelection=="setlength"){
                 
             }
-            else if(ruleSelection=="add"){
+            else if(ruleSelection=="move"){
                 
             }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
+            
         }
         let skippedfirst = false;
         let fileRows = document.querySelectorAll('.col-image');
