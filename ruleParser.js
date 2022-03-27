@@ -1,4 +1,4 @@
-const fileRenaming = require("./fileRenameFunctions");
+//const fileRenaming = require("./fileRenameFunctions"); ERRORING FILE
 
 const ruleSelectionOption = document.getElementById("ruleSelection");
 const firstPositionSelection = document.getElementById("firstPositionSelection");
