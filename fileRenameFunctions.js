@@ -1,19 +1,19 @@
 var v = require('voca')
 
-function fileAdd(text, startIndex, withText){
+exports.fileAdd = (text, startIndex, withText) => {
     return v.insert(text, withText, startIndex);
 }
 
-function fileRemove(text, startIndex, endIndex){
+exports.fileRemove = (text, startIndex, endIndex) => {
     return v.splice(text, startIndex, endIndex - startIndex);
 }
 
-function fileReverse(text, startAt, endAt){
+exports.fileReverse = (text, startAt, endAt) => {
     subString = v.slice(text, startAt, endAt);
     return v.replace(text, subString, v.reverse(subString));
 }
 
-function fileRandomize(text, startAt, endAt){
+exports.fileRandomize = (text, startAt, endAt) => {
     let result           = '';
     let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let charactersLength = characters.length;
@@ -24,38 +24,38 @@ function fileRandomize(text, startAt, endAt){
     return v.replace(text, subString, result);
 }
 
-function fileSetTileCase(){
+exports.fileSetTileCase = () => {
     subString = v.slice(text, startAt, endAt);
     return v.replace(text, subString, v.titleCase(subString));
 }
 
-function fileSetInvertedCase(){
+exports.fileSetInvertedCase = () => {
     subString = v.slice(text, startAt, endAt);
     return v.replace(text, subString, v.swapCase(subString));
 }
 
-function fileSetUpperCase(text, startAt, endAt){
+exports.fileSetUpperCase = (text, startAt, endAt) => {
     subString = v.slice(text, startAt, endAt);
     return v.replace(text, subString, v.upperCase(subString));
 }
 
-function fileSetLowerCase(text, startAt, endAt){
+exports.fileSetLowerCase = (text, startAt, endAt) => {
     subString = v.slice(text, startAt, endAt);
     return v.replace(text, subString, v.lowerCase(subString));
 }
 
-function fileReplace(text, startAt, endAt, withText){
+exports.fileReplace = (text, startAt, endAt, withText) => {
     subString = v.slice(text, startAt, endAt);
     v.replace(text, substring, withText);
 }
 
-function fileRegex(find, replace, string){
+exports.fileRegex = (find, replace, string) => {
     const re = new RegExp(find, "g");
     const newString = string.replace(find, replace);
     return newString;
 }
 
-function fileSetLength(text, to, padLeft, padLeftRighText, minOrMax){
+exports.fileSetLength = (text, to, padLeft, padLeftRighText, minOrMax) => {
     if(minOrMax){
         // Min
         if(text.length > to + 1){
@@ -86,7 +86,7 @@ function fileSetLength(text, to, padLeft, padLeftRighText, minOrMax){
     return text;
 }
 
-function fileMove(text, startAt, endAt, to){
+exports.fileMove = (text, startAt, endAt, to) => {
     let substring = v.slice(text, startAt, endAt);
     v.replace(text, substring, "");
     return v.insert(text, substring, to);
@@ -95,7 +95,7 @@ function fileMove(text, startAt, endAt, to){
 // STRING POSITION FINDERS
 // OUTPUT SHOULD BE THE INDEX OF THE STRING
 
-function BeforeFirst(text, toFind, matchCase){
+exports.BeforeFirst = (text, toFind, matchCase) => {
     if(!matchCase){
         text = v.lowerCase(text);
         toFind = v.lowerCase(toFind);
@@ -105,7 +105,7 @@ function BeforeFirst(text, toFind, matchCase){
     return v.search(text, toFind) - 1;
 }
 
-function beforeLast(text, toFind, matchCase){
+exports.beforeLast = (text, toFind, matchCase) => {
     if(!matchCase){
         text = v.lowerCase(text);
         toFind = v.lowerCase(toFind);
@@ -118,7 +118,7 @@ function beforeLast(text, toFind, matchCase){
     return index - 1;
 }
 
-function AfterFirst(text, toFind, matchCase){
+exports.AfterFirst = (text, toFind, matchCase) => {
     if(!matchCase){
         text = v.lowerCase(text);
         toFind = v.lowerCase(toFind);
@@ -128,7 +128,7 @@ function AfterFirst(text, toFind, matchCase){
     return index + toFind.length;
 }
 
-function AfterLast(text, toFind, matchCase){
+exports.AfterLast = (text, toFind, matchCase) => {
     if(!matchCase){
         text = v.lowerCase(text);
         toFind = v.lowerCase(toFind);
@@ -142,7 +142,7 @@ function AfterLast(text, toFind, matchCase){
 }
 
 // EACH Finders Output should be array of indexes to start or end at
-function BeforeEach(text, toFind, matchCase){
+exports.BeforeEach = (text, toFind, matchCase) => {
     if(!matchCase){
         text = v.lowerCase(text);
         toFind = v.lowerCase(toFind);
@@ -158,7 +158,7 @@ function BeforeEach(text, toFind, matchCase){
     return result_array;
 }
 
-function AfterEach(text, toFind, matchCase){
+exports.AfterEach = (text, toFind, matchCase) => {
     if(!matchCase){
         text = v.lowerCase(text);
         toFind = v.lowerCase(toFind);
@@ -173,6 +173,3 @@ function AfterEach(text, toFind, matchCase){
     }
     return result_array;
 }
-
-export {fileRemove, fileReverse, fileRandomize, fileSetTileCase, fileSetInvertedCase, fileSetUpperCase, fileSetLowerCase, fileReplace, fileRegex, fileSetLength, fileMove,
-BeforeFirst, beforeLast, AfterFirst, AfterLast, BeforeEach, AfterEach};
