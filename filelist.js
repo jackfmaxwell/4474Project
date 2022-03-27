@@ -6,6 +6,7 @@ const ipc = require('electron').ipcRenderer
 const browseButton = document.getElementById('browseButton')
 const removeAllButton  = document.getElementById('removeAllButton')
 const filelist = document.getElementById("filelist");   //might be bad naming
+const checkAll = document.querySelectorAll('.col-image')[0];
 var fileList = [];
 
 var selected = 0;
@@ -139,37 +140,20 @@ function addRow(filepath){
 
 }
 
-function removeRow(id) {
-    document.getElementById(id).remove()
-    //adds empty row if file table is sufficently empty
-    if(document.getElementById("divTable").childElementCount < 23){
-        const div = document.createElement('div');
-        div.className = 'div-table-row';
-        div.innerHTML += '&nbsp;';
-        document.getElementById('last-row').before(div);
-    }
-}
-
 //adds event listener to check boxes in file list
 function checkboxEventAdder(){
     const check_boxes = document.querySelectorAll('.col-image');
-
-    if(!check_boxes[0].firstChild.src.includes('Un') && !check_boxes[0].firstChild.src.includes('Partial')){
-        check_boxes.forEach(function(check_box){
-            check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-        })
-    }
-
     check_boxes.forEach(function(check_box){
         check_box.addEventListener('click', function (event) {
-            if (!check_box.firstChild.src.includes('Un')){
+            if (!check_box.firstChild.src.includes('Un') && check_box != check_boxes[0]){
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
                 selected -= 1;
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
             } else {
-                console.log(check_box.firstChild.src)
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                selected += 1;
+                if(check_box != check_boxes[0]){
+                    selected += 1;
+                }
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
             }
         });
