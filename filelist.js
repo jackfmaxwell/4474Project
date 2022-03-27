@@ -126,7 +126,7 @@ function addRow(filepath){
     var filename = path.basename(filepath);
 
     div.innerHTML = `
-    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">` + filename + `</div>
+    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">` + filename + `</div>
     <div class="div-table-col">` + filename + `</div>
     <div class="div-table-col">` + filepath + `</div>
     `;
