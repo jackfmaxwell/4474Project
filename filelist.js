@@ -91,6 +91,11 @@ removeAllButton.addEventListener('click', function (event) {
 
 //Sends open file explorer request to main process
 undoButton.addEventListener('click', function (event) {
+    undoChanges();
+})
+
+
+function undoChanges(){
     for (const [key,value] of Object.entries(fileList)){
         fileList[key] = key
     }
@@ -104,8 +109,7 @@ undoButton.addEventListener('click', function (event) {
         filename.nextElementSibling.textContent = path.basename(filename.id)
         filename.nextElementSibling.nextElementSibling.textContent = filename.id;
     })
-})
-
+}
 
 
 
@@ -257,6 +261,7 @@ function renameFiles(oldFilepath, newFilePath){
 }
 
 function parseRuleList(){
+    undoChanges();
     let rulesList = document.getElementsByClassName("rule-value");
     for(let i = 0; i < rulesList.length; i++){
         // For each rule get all their values
