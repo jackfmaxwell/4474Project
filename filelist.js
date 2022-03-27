@@ -28,7 +28,7 @@ renameBtn.onclick = () =>{
         }
         if(!fileRow.firstChild.src.includes('Un')){
             console.log()
-            fileRow.textContent =  fileRow.nextElementSibling.textContent;
+            fileRow.textContent = fileRow.nextElementSibling.textContent;
         }
         
         
@@ -287,101 +287,79 @@ function parseRuleList(){
         for (const [key,value] of Object.entries(fileList)){
             if(ruleSelection=="add"){
                 if(lastPositionSelection=="To Position"){
-                    let filepath = key;
+                    let filepath = value;
                     let filename = path.basename(filepath);
                     filepath = filepath.replace(filename, "");
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, lastTextBox, firstPositionFirstTextBox));
                 }
                 else if(lastPositionSelection=="To End"){
-                    let filepath = key;
+                    let filepath = value;
                     let filename = path.basename(filepath);
                     filepath = filepath.replace(filename, "");
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.length, firstPositionFirstTextBox));
                     console.log(filename.length)
                 }
                 else if(lastPositionSelection=="To Position From End"){
-                    let filepath = key;
+                    let filepath = value;
                     let filename = path.basename(filepath);
                     filepath = filepath.replace(filename, "");
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.length-lastTextBox, firstPositionFirstTextBox));
                 }
                 else if(lastPositionSelection=="To Before First"){
-                    let filepath = key;
+                    let filepath = value;
                     let filename = path.basename(filepath);
                     filepath = filepath.replace(filename, "");
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.indexOf(lastTextBox), firstPositionFirstTextBox));
                 }
                 else if(lastPositionSelection=="To Before Last"){
-                    let filepath = key;
+                    let filepath = value;
                     let filename = path.basename(filepath);
                     filepath = filepath.replace(filename, "");
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.lastIndexOf(lastTextBox), firstPositionFirstTextBox));
                 }
                 else if(lastPositionSelection=="To After First"){
-                    let filepath = key;
+                    let filepath = value;
                     let filename = path.basename(filepath);
                     filepath = filepath.replace(filename, "");
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.indexOf(lastTextBox)+lastTextBox.length, firstPositionFirstTextBox));
                 }
                 else if(lastPositionSelection=="To After Last"){
-                    let filepath = key;
+                    let filepath = value;
                     let filename = path.basename(filepath);
                     filepath = filepath.replace(filename, "");
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.lastIndexOf(lastTextBox)+lastTextBox.length, firstPositionFirstTextBox));
                 }
             }
             else if(ruleSelection=="remove"){
-                let filepath = key;
+                let filepath = value;
                 let filename = path.basename(filepath);
                 filepath = filepath.replace(filename, "");
-                fileList[key] = filepath.concat(renameFunction.fileRemove(filename, path.parse(filename).name.length-1, firstPositionFirstTextBox));
+                fileList[key] = filepath.concat(renameFunction.fileAdd(filename, lastTextBox, firstPositionFirstTextBox));
+                // fileList[key] = filepath.concat(renameFunction.fileRemove(filename, path.parse(filename).name.length-1, firstPositionFirstTextBox));
+            }
+            else if(ruleSelection=="reverse"){
+                
             }
            
             else if(ruleSelection=="randomize"){
                 
             }
-            else if(ruleSelection=="setTileCase"){
+            else if(ruleSelection=="setcase"){
                 
             }
-            else if(ruleSelection=="setInvertedCase"){
+            else if(ruleSelection=="replace"){
                 
             }
-            else if(ruleSelection=="setUpperCase"){
+            else if(ruleSelection=="regex"){
                 
             }
-            else if(ruleSelection=="setLowerCase"){
+            else if(ruleSelection=="setlength"){
                 
             }
-            else if(ruleSelection=="add"){
+            else if(ruleSelection=="move"){
                 
             }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
-            else if(ruleSelection=="add"){
-                
-            }
+            
         }
         let skippedfirst = false;
         let fileRows = document.querySelectorAll('.col-image');
@@ -391,8 +369,16 @@ function parseRuleList(){
                 return;
             }
             if(!fileRow.firstChild.src.includes('Un')){
-                fileRow.nextElementSibling.textContent = path.basename(fileList[fileRow.nextElementSibling.nextElementSibling.textContent]);
-                fileRow.nextElementSibling.nextElementSibling.textContent = fileList[fileRow.nextElementSibling.nextElementSibling.textContent];
+                let filename = fileRow.textContent;
+                let filepath = fileRow.nextElementSibling.nextElementSibling.textContent;
+                let newfilename = path.basename(fileRow.nextElementSibling.nextElementSibling.textContent);
+                
+                //need to strip newfilename off the file path and append the origianl filename, (thats our key)
+                filepath = filepath.replace(newfilename, "");
+                filepath = filepath.concat(filename);
+                
+                fileRow.nextElementSibling.textContent = path.basename(fileList[filepath]);
+                fileRow.nextElementSibling.nextElementSibling.textContent = fileList[filepath];
             }
             
          });
