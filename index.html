@@ -26,20 +26,17 @@
                 
                 <div style="text-align: center; font-size:24px; padding-top:12px;">
                     <div style="text-align: center;">
-                        <img style="width:20px; left: 0; position:fixed; padding-left: 5px; padding-right: 4px;" src="SVG/Left   Checkbox   Partiallychecked   Default.svg">
-                        <img style="width:20px; left: 0; position:fixed; padding-left: 30px; padding-right: 8px;" src="SVG/Left   Header   Run   TopToBottom   Default.svg">
+                        <img style="width:25px; left: 0; position:fixed; padding-left: 4px; padding-right: 8px;" src="SVG/Left   Checkbox   Partiallychecked   Default.svg">
+                        <img style="width:25px; left: 0; position:fixed; padding-left: 35px; padding-right: 8px;" src="SVG/Left   Header   Run   TopToBottom   Default.svg">
                         Rules
-                        <img style="width:20px; position:fixed; margin-left: 22%;" src="SVG/Left   Header   Remove   Default.svg"></div>
+                        <img style="width:25px; position:fixed; margin-left: 22%;" src="SVG/Left   Header   Remove   Default.svg"></div>
                 </div>
                 
-                <div style = "margin-left: 40px;" class="rf-div-table">
-                    <img style="width:25px; position:fixed; left:0; padding-left:17px; padding-top:12px;" src="SVG/Left   Checkbox   Checked   Default.svg">
+                <div id="rulesTable" style = "margin-left: 40px;" class="rf-div-table">
+                    <img class="" style="width:25px; position:fixed; left:0; padding-left:17px; padding-top:12px;" src="SVG/Left   Checkbox   Checked   Default.svg">
                     <img style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
                     <div class="rf-div-table-row">
-
-
                         <select class="rules rf-div-table-col"  style="max-width: 120px; padding: top 2px; padding-left:4px;">
-
                             <option>Remove</option>
                             <option>Reverse</option>
                             <option>Randomize</option>
@@ -56,7 +53,7 @@
                             <option>from after last</option>
                             <option>from before each</option>
                         </select>
-                        <div class="debug rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
+                        <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
                             <input style="max-width:140px;" type="text"></input>
                             <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
@@ -70,7 +67,7 @@
                             <option>to after last</option>
                         </select>
 
-                        <div class="debug rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
+                        <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
                             <input style="max-width:120px;" type="text"></input>
                             <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
@@ -94,7 +91,7 @@
                             <option>modified</option>
                             <option>current</option>
                         </select>
-                        <div class="debug rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
+                        <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
                             <input style="max-width:140px;" type="text"></input>
                             <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
@@ -109,13 +106,29 @@
                             <option>after last</option>
                             <option>after each</option>
                         </select>
-                        <div class="debug rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
+                        <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
                             <input style="max-width:120px;" type="text"></input>
                             <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
                     </div>
-                    <div class="rf-div-table-row" style="background-color: #202028;">
-                        <div class="rf-div-table-col" ><img id="addRuleBtn" style="width: 800px;" src="SVG/Left   Button   NewRule.svg"></div>
+
+                    <div id="addRuleContainer" class="rf-div-table-row" style="background-color: #202028;">
+                        <div id="addRuleBtn" style="display:inherit;" class="rf-div-table-col"><img  style="width: 800px;" src="SVG/Left   Button   NewRule.svg"></div>
+                        <select id="rulesBtnDropdown" onchange="selectRuleToAdd();" class="rules rf-div-table-col" style="width:100%; display:none">
+                            <option value="Add">Add</option>
+                            <option value="Remove">Remove</option>
+                            <option value="Reverse">Reverse</option>
+                            <option value="Randomize">Randomize</option>
+                            <option value="Set Title Case">Set Title Case</option>
+                            <option value="Set iNVERTED case">Set iNVERTED case</option>
+                            <option value="Set UPPER case">Set UPPER case</option>
+                            <option value="Set lower case">Set lower case</option>
+                            <option value="Replace">Replace</option>
+                            <option value="Regex">Regex</option>
+                            <option value="Set Length">Set Length</option>
+                            <option value="Move">Move</option>
+
+                        </select>
                     </div>
                 </div>
 
@@ -128,7 +141,7 @@
     </div>
 
     
-    <div class="debug" style="right: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; overflow-y: hidden; padding-top: 8px;">
+    <div style="right: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; overflow-y: hidden; padding-top: 8px;">
             <div style="display:fixed; justify-content: space-between; width:100%;">
                 <img id="browseButton" style="width:250px;" src="SVG/Button   Browse   Default.svg">
                 <img style="width:250px;" src="SVG/Button   ShowHideColumns   Default.svg">
@@ -136,7 +149,7 @@
             </div>
 
             <div id="filelist" style="width:100%; height:86%; position:relative; z-index: 1; overflow-x: hidden; padding-top: 10px;">
-                <img style="position:fixed; padding-right:6px; width:14px; right:0;" src="SVG/File   Header   Remove   Default.svg">
+                <img style="position:fixed; padding-right:30px; width:14px; right:0;" src="SVG/File   Header   Remove   Default.svg">
                 <div id="divTable" class="div-table">
                         <div class="div-table-row">
                             <div style="padding: top 2px;" class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   Header   Checkbox   Partialchecked   Default.svg">Current Name<img style="width:14px; padding-left: 36px;" src="SVG/File   Header   ColumnSortDescending.svg"></div>
