@@ -42,7 +42,7 @@
                     <div class="rf-div-table-row">
 
 
-                        <select id="ruleSelection" class=" rules rf-div-table-col"  style="max-width: 120px; padding: top 2px; padding-left:4px;">
+                        <select id="ruleSelection" class="rules rf-div-table-col"  style="min-width:55px; padding: top 2px; padding-left:4px;">
                             <option value="add">Add</option>
                             <option value="remove">Remove</option>
                             <option value="reverse">Reverse</option>
@@ -52,7 +52,7 @@
                             <option value="regex">Regex</option>
 
                         </select>
-                        <select id="firstPositionSelection" class="rules rf-div-table-col" style="max-width: 120px;">
+                        <select id="firstPositionSelection" class="debug rules rf-div-table-col" style="max-width: 120px;">
                             <option value="fromPosition">from position</option>
                             <option value="fromEnd">from end</option>
                             <option value="fromBeforeFirst">from before first</option>
@@ -62,11 +62,11 @@
                             <option value="fromBeforeEach">from before each</option>
                         </select>
 
-                        <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
+                        <div class="debug rf-div-table-col" style="border-color:lime; max-width:210; min-width:180px;">
                             <input id="firstPositionFirstTextBox" style="max-width:140px;" type="text"></input>
                             <img class="leftmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
-                        <select id="firstPositionIdentifierSelection" class="rules rf-div-table-col" style="max-width: 120px;">
+                        <select id="firstPositionIdentifierSelection" class="debug rules rf-div-table-col" style="max-width: 120px;">
                             <option value="fromPosition">from position</option>
                             <option value="fromEnd">from end</option>
                             <option value="fromBeforeFirst">from before first</option>
@@ -75,18 +75,18 @@
                             <option value="fromAfterLast">from after last</option>
                             <option value="fromBeforeEach">from before each</option>
                         </select>
-                        <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
+                        <div class="debug rf-div-table-col" style="max-width:210; min-width:180px;">
                             <input id="firstPositionSecondTextBox" style="max-width:140px;" type="text"></input>
                             <img class="leftmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
-                        <select id="lastPositionSelection" class=" rules rf-div-table-col">
-                            <option value="toPosition">to position</option>
-                            <option value="toEnd">to end</option>
-                            <option value="toPositionFromEnd">to position from end</option>
-                            <option value="toBeforeFirst">to before first</option>
-                            <option value="toBeforeLast">to before last</option>
-                            <option value="toAfterFirst">to after first</option>
-                            <option value="toAfterLast">to after last</option>
+                        <select id="lastPositionSelection" class="debug rules rf-div-table-col">
+                            <option value="To Position">To Position</option>
+                            <option value="To End">To End</option>
+                            <option value="To Position From End">To Position From End</option>
+                            <option value="To Before First">To Before First</option>
+                            <option value="To Before Last">To Before Last</option>
+                            <option value="To After First">To After First</option>
+                            <option value="To After Last">To After Last</option>
                         </select>
 
                         <div class="debug rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
@@ -154,74 +154,13 @@
                     </div>
                 </div>
 
-                <h5 style="text-align: center;"> Filters</h5>
-                <div class="rf-div-table">
-                    
-                    <img style="width:25px; position:fixed; left:0; padding-left:17px; padding-top:12px;" src="SVG/Left   Checkbox   Checked   Default.svg">
-                    <img style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
-                    <div class="rf-div-table-row">
-                        <select class="rules rf-div-table-col"  style="padding: top 2px; padding-left:4px;">
-                            <option>Add</option>
-                        </select>
-                        <select class="rules rf-div-table-col">
-                            <option>text</option>
-                            <option>date</option>
-                            <option>folder name</option>
-                            <option>number</option>
-                        </select>
-                        <select style="display:none;" class="rules rf-div-table-col">
-                            <option>accessed</option>
-                            <option>created</option>
-                            <option>modified</option>
-                            <option>current</option>
-                        </select>
-                        <div class="rules rf-div-table-col">
-                            <input type="text"></input>
-                            <img style=" width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
-                        <select class="rules rf-div-table-col">
-                            <option>at position</option>
-                            <option>at end</option>
-                            <option>at position from end</option>
-                            <option>before first</option>
-                            <option>before last</option>
-                            <option>before each</option>
-                            <option>after first</option>
-                            <option>after last</option>
-                            <option>after each</option>
-                        </select>
-                        <div class="rf-div-table-col">
-                            <input type="text"></input>
-                            <img style=" width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
+                    <div style="text-align: center; font-size:24px; padding-top:12px;"> 
+                        <img style="width:25px; left: 0; position:fixed; padding-left: 5px; padding-right: 4px;" src="SVG/Left   Checkbox   Partiallychecked   Default.svg">
+                        <img style="width:25px; left: 0; position:fixed; padding-left: 35px; padding-right: 8px;" src="SVG/Left   Header   Run   TopToBottom   Default.svg">
+                        Filters
+                        <img style="height:25px; position:fixed; margin-left: 18%;" src="SVG/Left   Header   Remove   Hover.svg">
                     </div>
-                    <div class="rf-div-table-row" style="background-color: #202028;">
-                        <img style="width: 800px;" src="SVG/Left   Button   NewRule.svg">
-                        <select class="rules rf-div-table-col" style="display:none; width:100%; font-size:18px; padding-left: 2%;">
-                            <option>Add</option>
-                            <option>Remove</option>
-                            <option>Reverse</option>
-                            <option>Set Title Case</option>
-                            <option>Set iNVERTED Case</option>
-                            <option>Set UPPER case</option>
-                            <option>Set lower case</option>
-                            <option>Replace</option>
-                            <option>Regex</option>
-                            <option>Set Length</option>
-                            <option>Move</option>
-                        </select>
-                    </div>
-                </div>
-
-                    <div style="text-align: center;">
-                        <h5 style="text-align: center;"> 
-                            <img style="width:20px; left: 0; position:fixed; padding-left: 5px; padding-right: 4px;" src="SVG/Left   Checkbox   Partiallychecked   Default.svg">
-                            <img style="width:20px; left: 0; position:fixed; padding-left: 30px; padding-right: 8px;" src="SVG/Left   Header   Run   TopToBottom   Default.svg">
-                            Filters
-                            <img style="height:20px; position:fixed; margin-left: 16%;" src="SVG/Left   Header   Remove   Hover.svg">
-                        </h5>
-                    </div>
-    
+        
                     <div style = "margin-left: 40px;" class="rf-div-table">
                         <img style="width:20px; position:fixed; left:0; padding-left:20px; padding-top:12px;" src="SVG/Left   Checkbox   Checked   Default.svg">
                         <img style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
@@ -336,22 +275,33 @@
                             <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 1.txt</div>
                             <div class="div-table-col">PlanetsEARTH Info 1 (2).txt</div>
                             <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
+                            <div class="div-table-col">
+                                <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
+                            </div>
                         </div>
                         <div class="div-table-row">
                             <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 2.txt</div>
                             <div class="div-table-col">PlanetsEARTH Info 2 (2).txt</div>
                             <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
+                            <div class="div-table-col">
+                                <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
+                            </div>
                         </div>
                         <div class="div-table-row">
-
                             <div class="div-table-col col-image"><img id="test" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 4.txt</div>
                             <div class="div-table-col">PlanetsEARTH Info 4 (2).txt</div>
                             <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
+                            <div class="div-table-col">
+                                <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
+                            </div>
                         </div>
                         <div class="div-table-row">
                             <div class="div-table-col col-image"><img id="test" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 4.txt</div>
                             <div class="div-table-col">PlanetsEARTH Info 3 (5).txt</div>
                             <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
+                            <div class="div-table-col">
+                                <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
+                            </div>
                         </div>
 
                         <div id="last-row" class="div-table-row">&nbsp;</div>
