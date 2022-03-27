@@ -32,8 +32,13 @@ select.filters{
   color:white;
   border:none;
 }
-option{
+option.filters{
   background-color: #eb763b;
+  color:white;
+  border:none;
+}
+option.filters{
+  background-color: #b33beb;
   color:white;
   border:none;
 }

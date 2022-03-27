@@ -36,219 +36,26 @@
                         <img style="width:25px; position:fixed; margin-left: 401px;" src="SVG/Left   Header   Remove   Default.svg"></div>
                 </div>
                 
-                <div id="rulesTable" style = "margin-left: 28px;" class="rf-div-table">
-                    <img class="" style="width:25px; position:fixed; left:0; padding-left:4px; padding-top:9px;" src="SVG/Left   Checkbox   Checked   Default.svg">
-                    <img style="width:20px; position:fixed; left:0; margin-left:885px; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
-                    <div class="rf-div-table-row">
 
-                        <select id="ruleSelection" class="rules rf-div-table-col" style="width:94px; padding: top 2px; padding-left:4px;">
-
-                            <option value="add">Add</option>
-                            <option value="remove">Remove</option>
-                            <option value="reverse">Reverse</option>
-                            <option value="randomize">Randomize</option>
-                            <option value="setcase">Set Case</option>
-                            <option value="replace">Replace</option>
-                            <option value="regex">Regex</option>
-                            <option value="setlength">Set Length</option>
-                            <option value="move">Move</option>
-                        </select>
-                        <select id="firstPositionSelection" class="debug rules rf-div-table-col" style="max-width: 120px;">
-                            <option value="Text">Text</option>
-                            <option value="Date">Date</option>
-                            <option value="Folder Name">Folder Name</option>
-                            <option value="Number">Number</option>
-                        </select>
-
-                        <div class="rf-div-table-col" style="max-width:210;">
-                            <input id="firstPositionFirstTextBox" style="max-width:95px;" type="text"></input>
-                            <img class="leftmatchcase" style="width:75px; overflow-x:visible; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
-                        <select id="firstPositionIdentifierSelection" class="debug rules rf-div-table-col" style="max-width: 125px;">
-
-                            <option value="fromPosition">from position</option>
-                            <option value="fromEnd">from end</option>
-                            <option value="fromBeforeFirst">from before first</option>
-                            <option value="fromBeforeLast">from before last</option>
-                            <option value="fromAfterFirst">from after first</option>
-                            <option value="fromAfterLast">from after last</option>
-                            <option value="fromBeforeEach">from before each</option>
-                        </select>
-                        <div class="rf-div-table-col" style="max-width:210;">
-                            <input id="firstPositionSecondTextBox" style="max-width:87px;" type="text"></input>
-                            <img class="leftmatchcase" style="width:75px; overflow-x:visible; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
-
-                        <select id="lastPositionSelection" class="rules rf-div-table-col">
-                            <option value="To Position">To Position</option>
-                            <option value="To End">To End</option>
-                            <option value="To Position From End">To Position From End</option>
-                            <option value="To Before First">To Before First</option>
-                            <option value="To Before Last">To Before Last</option>
-                            <option value="To After First">To After First</option>
-                            <option value="To After Last">To After Last</option>
-                        </select>
-
-                        <div class="rf-div-table-col" style="max-width:280px;">
-                            <input id="lasttextbox" style="max-width:87px;" type="text"></input>
-                            <img class=" ightmatchcase" style="overflow-x:visible; width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
-                    </div>
-                    
-                    <img style="width:25px; position:fixed; left:0; padding-left:4px; padding-top:9px;" src="SVG/Left   Checkbox   Checked   Default.svg">
-                    <img style="width:20px; position:fixed; left:0; margin-left:885px; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
-                    <div class="rf-div-table-row">
-                        <select class="rules rf-div-table-col"  style="padding: top 2px; padding-left:4px;">
-                            <option>Add</option>
-                        </select>
-                        <select class="rules rf-div-table-col">
-                            <option>text</option>
-                            <option>date</option>
-                            <option>folder name</option>
-                            <option>number</option>
-                        </select>
-                        <select class="rules rf-div-table-col">
-                            <option>accessed</option>
-                            <option>created</option>
-                            <option>modified</option>
-                            <option>current</option>
-                        </select>
-                        <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
-                            <input style="max-width:140px;" type="text"></input>
-                            <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
-                        <select class="rules rf-div-table-col">
-                            <option>at position</option>
-                            <option>at end</option>
-                            <option>at position from end</option>
-                            <option>before first</option>
-                            <option>before last</option>
-                            <option>before each</option>
-                            <option>after first</option>
-                            <option>after last</option>
-                            <option>after each</option>
-                        </select>
-                        <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
-                            <input style="max-width:120px;" type="text"></input>
-                            <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
-                        </div>
-                    </div>
-
+                <div id="rulesTable" style = "margin-left: 40px;" class="rf-div-table">
+        
                     <div id="addRuleContainer" class="rf-div-table-row" style="background-color: #202028;">
-                        <div id="addRuleBtn" style="display:inherit;" class="rf-div-table-col"><img  style="width: 840px;" src="SVG/Left   Button   NewRule.svg"></div>
-                        <select id="rulesBtnDropdown" onchange="selectRuleToAdd();" class="rules rf-div-table-col" style="width:100%; display:none">
-                            <option value="Add">Add</option>
-                            <option value="Remove">Remove</option>
-                            <option value="Reverse">Reverse</option>
-                            <option value="Randomize">Randomize</option>
-                            <option value="Set Title Case">Set Title Case</option>
-                            <option value="Set iNVERTED case">Set iNVERTED case</option>
-                            <option value="Set UPPER case">Set UPPER case</option>
-                            <option value="Set lower case">Set lower case</option>
-                            <option value="Replace">Replace</option>
-                            <option value="Regex">Regex</option>
-                            <option value="Set Length">Set Length</option>
-                            <option value="Move">Move</option>
-
-                        </select>
+                        <div id="addRuleBtn" style="display:inherit;" class="rf-div-table-col"><img  style="width: 800px;" src="SVG/Left   Button   NewRule.svg"></div>
                     </div>
                 </div>
 
-                    <div style="text-align: center;">
-                        <h5 style="text-align: center;"> 
-                            <img style="width:25px; left: 0; position:fixed; padding-left: 4px; padding-right: 4px;" src="SVG/Left   Checkbox   Partiallychecked   Default.svg">
-                            <img style="width:25px; left: 0; position:fixed; padding-left: 35px; padding-right: 8px;" src="SVG/Left   Header   Run   TopToBottom   Default.svg">
-                            Filters
-                            <img style="height:20px; position:fixed; margin-left: 16%;" src="SVG/Left   Header   Remove   Hover.svg">
-                        </h5>
+                    <div style="text-align: center; font-size:24px; padding-top:12px;"> 
+                        <img style="width:25px; left: 0; position:fixed; padding-left: 4px; padding-right: 8px;" src="SVG/Left   Checkbox   Partiallychecked   Default.svg">
+                        <img style="width:25px; left: 0; position:fixed; padding-left: 35px; padding-right: 8px;" src="SVG/Left   Header   Run   TopToBottom   Default.svg">
+                        Filters
+                        <img style="height:25px; position:fixed; margin-left: 22%;" src="SVG/Left   Header   Remove   Default.svg">
                     </div>
-    
-                    <div style = "margin-left: 28px;" class="rf-div-table">
-                        <img style="width:25px; position:fixed; left:0; padding-left:4px; padding-top:9px;" src="SVG/Left   Checkbox   Checked   Default.svg">
-                        <img style="width:20px; position:fixed; left:0; margin-left:885px; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
-    
-                            <div class="rf-div-table-row">
-                                <select class="filters rf-div-table-col"  style="height: 100%; padding: top 2px; padding-left:4px;">
-                                    <option value="include">Include</option>
-                                    <option value="exclude">Exclude</option>
-                                </select>
+        
+                    <div id="filtersTable" style = "margin-left: 40px;" class="rf-div-table">
 
-                                <select class="filters rf-div-table-col" style="height: 100%; padding: top 2px; padding-left:4px;">
-                                    <!-- width:20%; height: 100%; -->
-                                    <option>files</option>
-                                    <option>files with names</option>
-                                    <option>files with extensions</option>
-                                    <option>images</option>
-                                    <option>music</option>
-                                    <option>videos</option>
-                                    <option>folders</option>
-                                    <option>subfolders</option>
-                                </select>
-    
-                                <select class="filters rf-div-table-col" onchange="showDiv(this)" style="height: 100%; padding: top 2px; padding-left:4px;">
-                                    <option>all</option>
-                                    <option>hidden</option>
-                                    <option value="1">matching</option>
-                                    <option value="1">containing</option>
-                                    <option value="1">starting with</option>
-                                    <option value="1">ending with</option>
-                                    <option value="2">matching Regex</option>
-                                    <option value="3">in folder</option>
-                                    <option value="4">length</option>
-                                    <option value="4">longer than</option>
-                                    <option value="4">shorter than</option>
-                                    <option value="5">accessed</option>
-                                    <option value="5">created</option>
-                                    <option value="5">modified</option>
-                                    <option value="5">taken</option>
-                                </select>
-                                <!-- if all or hidden is selected do nothing -->
+                            <div id="addFilterContainer" class="rf-div-table-row" style="background-color: #202028;">
+                                <div id="addFilterBtn" style="display: inherit;" class="rf-div-table-col"><img style="width: 800px;" src="SVG/Left   Button   NewFilter.svg"></div>
 
-                                <!-- if matching, containing, starting with or ending is selected -->
-                                <div id="matching" class="rf-div-table-col" style="display:none;">
-                                    <input style="min-width:40px; min-height: 15px;" type="text" value="type here"></input>
-                                    <img style="height:20px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
-                                </div>
-
-                                <!-- if matching regex is selected -->
-                                <div id="regex" class="rf-div-table-col" style="display:none;">
-                                    regex
-                                </div>
-
-                                 <!-- if in folder is selected -->
-                                 <div id="infolder" class="rf-div-table-col" style="display:none;">
-                                    full folder path
-                                 </div>
-
-                                <!-- if length, longer than or shorter then is selected -->
-                                <div id="length" class="rf-div-table-col" style="display:none;">
-                                    <input style="min-width:40px; min-height: 15px;" type="number" min="0" max="100" value="0"></input>
-                                </div>
-
-                                <!-- if accessed, created, modified or taken is selected -->
-                                <div id="accessed" class="rf-div-table-col" style="display: none;">
-                                    <select class="filters rf-div-table-col"  style="height: 100%; padding-left:12px;">
-                                        <option>at</option>
-                                        <option>before</option>
-                                        <option>after</option>
-                                    </select>
-                                    <input style="min-width:40px; min-height: 15px;" type="date" value="12:00am"></input>
-                                    <input style="min-width:40px; min-height: 15px;" type="time" value=" "></input>
-                                </div>
-
-                            </div>
-
-                            <img style="width:25px; position:fixed; left:0; padding-left:4px; padding-top:9px;" src="SVG/Left   Checkbox   Checked   Default.svg">
-                            <img style="width:20px; position:fixed; left:0; margin-left:885px; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
-                            <div class="rf-div-table-row">
-                                <select class="filters rf-div-table-col"  style="height: 100%; padding: top 2px; padding-left:4px;">
-                                    <option>Don't change names</option>
-                                    <option>Don't chane extensions</option>
-                                </select>
-                            </div>
-
-                            <div class="rf-div-table-row" style="background-color: #202028;">
-                                <div class="rf-div-table-col"><img style="width: 840px;" src="SVG/Left   Button   NewFilter.svg"></div>
                             </div>  
                     </div>
             </div>
@@ -273,41 +80,12 @@
                             <div class="div-table-col">New Name</div>
                             <div class="div-table-col">Path</div>
                         </div>
-                        <div class="div-table-row" >
-                            <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">Earth info 1.txt</div>
-                            <div class="div-table-col">PlanetsEARTH Info 1 (2).txt</div>
-                            <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
-                            <div class="div-table-col">
-                                <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
-                            </div>
-                        </div>
-                        <div class="div-table-row">
-                            <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">Earth info 2.txt</div>
-                            <div class="div-table-col">PlanetsEARTH Info 2 (2).txt</div>
-                            <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
-                            <div class="div-table-col">
-                                <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
-                            </div>
-                        </div>
-                        <div class="div-table-row">
-
-                            <div class="div-table-col col-image"><img id="test" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">Earth info 4.txt</div>
-                            <div class="div-table-col">PlanetsEARTH Info 4 (2).txt</div>
-                            <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
-                            <div class="div-table-col">
-                                <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
-                            </div>
-                        </div>
-                        <div class="div-table-row">
-                            <div class="div-table-col col-image"><img id="test" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">Earth info 4.txt</div>
-                            <div class="div-table-col">PlanetsEARTH Info 3 (5).txt</div>
-                            <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
-                            <div class="div-table-col">
-                                <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
-                            </div>
-                        </div>
 
                         <div id="last-row" class="div-table-row">&nbsp;</div>
+                        <div class="div-table-row">&nbsp;</div>
+                        <div class="div-table-row">&nbsp;</div>
+                        <div class="div-table-row">&nbsp;</div>
+                        <div class="div-table-row">&nbsp;</div>
                         <div class="div-table-row">&nbsp;</div>
                         <div class="div-table-row">&nbsp;</div>
                         <div class="div-table-row">&nbsp;</div>
