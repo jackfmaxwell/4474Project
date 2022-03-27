@@ -90,7 +90,6 @@ filelist.addEventListener('drop', (event) => {
         console.log('file path: ', file.path);
 
         if(document.getElementById(file.path) == null){
-            fileList.push(file.path);    //add path to the list that keeps tracks of the files
             addRow(file.path);          //add element to UI
         }  
     }
@@ -130,7 +129,7 @@ function addRow(filepath){
     var filename = path.basename(filepath);
 
     div.innerHTML = `
-    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">` + filename + `</div>
+    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">` + filename + `</div>
     <div class="div-table-col">` + filename + `</div>
     <div class="div-table-col">` + filepath + `</div>
     `;
