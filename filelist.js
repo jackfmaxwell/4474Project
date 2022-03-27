@@ -1,13 +1,41 @@
+const { Console } = require('console');
 var fs = require('fs');
+const { forEach } = require('lodash');
 const path = require("path");
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
+const renameFunction = require("./fileRenameFunctions");
+
 const renameFunction = require("./fileRenameFunctions");
 
 const browseButton = document.getElementById('browseButton')
 
 const refreshButton = document.getElementById("refreshButton");
 refreshButton.addEventListener("click", parseRuleList)
+
+const renameBtn = document.getElementById("renameFiles");
+renameBtn.onclick = () =>{
+    for (const [key,value] of Object.entries(fileList)){
+        console.log("Renaming " + key + " -> " + value);
+        renameFiles(key, value);
+        fileList[value] = fileList[key];
+        delete fileList[key];
+    }
+    let skippedfirst = false;
+    let fileRows = document.querySelectorAll('.col-image');
+    fileRows.forEach(function(fileRow){
+        if (!skippedfirst){
+            skippedfirst=true;
+            return;
+        }
+        if(!fileRow.firstChild.src.includes('Un')){
+            console.log()
+            fileRow.textContent =  fileRow.nextElementSibling.textContent;
+        }
+        
+        
+     });
+}
 
 const removeAllButton  = document.getElementById('removeAllButton')
 const filelist = document.getElementById("filelist");   //might be bad naming
@@ -16,10 +44,6 @@ var fileList = {};
 
 var selected = 0;
 
-
-
-
-const rows = Array.from(document.getElementsByClassName('div-table-row'));
 
 document.getElementById("selectedCheckBoxes").textContent = "0 of " + Object.keys(fileList).length + " Selected";
 
@@ -239,19 +263,95 @@ function parseRuleList(){
         // For each rule get all their values
         let ruleSelection = rulesList[i].getElementsByClassName("ruleSelection")[0].value;
         let firstPositionSelection = rulesList[i].getElementsByClassName("firstPositionSelection")[0].value; 
-        let firstPositionFirstTextBox = rulesList[i].getElementsByClassName("firstPositionFirstTextBox")[0]; 
-        let firstPositionIdentifierSelection  = rulesList[i].getElementsByClassName("firstPositionIdentifierSelection")[0].value;
-        let firstPositionSecondTextBox  = rulesList[i].getElementsByClassName("firstPositionSecondTextBox")[0].value;
-        let lastPositionSelection   = rulesList[i].getElementsByClassName("lastPositionSelection ")[0].value; 
-        console.log(ruleSelection);
-        console.log(firstPositionSelection);
-        console.log(firstPositionFirstTextBox);
-        console.log(firstPositionIdentifierSelection);
-        console.log(firstPositionSecondTextBox);
-        console.log(lastPositionSelection);
 
+        let firstPositionFirstTextBox = rulesList[i].getElementsByClassName("firstPositionFirstTextBox")[0].value; 
+        //let matchCaseLeft = rulesList[i].getElementsByClassName("leftmatchcase")[0].value;
+        let firstPositionIdentifierSelection = rulesList[i].getElementsByClassName("firstPositionIdentifierSelection")[0].value;
+        let firstPositionSecondTextBox = rulesList[i].getElementsByClassName("firstPositionSecondTextBox")[0].value;
+        //let matchCaseLeft2 = rulesList[i].getElementsByClassName("leftmatchcase")[0].value;
+        let lastPositionSelection  = rulesList[i].getElementsByClassName("lastPositionSelection ")[0].value; 
+        let lastTextBox  = rulesList[i].getElementsByClassName("lasttextbox")[0].value; 
+        //let matchCaseRight = rulesList[i].getElementsByClassName("rightmatchcase")[0].value;
+        console.log("ruleselection: " + ruleSelection);
+        console.log("first pos selection: " + firstPositionSelection);
+        console.log("first pos first text box: " + firstPositionFirstTextBox);
+        console.log("first pos identif sect: " + firstPositionIdentifierSelection);
+        console.log("first pos secon text box: " + firstPositionSecondTextBox);
+        console.log("last pos selection: " + lastPositionSelection);
+        console.log("last text box: " + lastTextBox);
 
-        
+        for (const [key,value] of Object.entries(fileList)){
+            if(ruleSelection=="add"){
+                let filepath = key;
+                let filename = path.basename(filepath);
+                filepath = filepath.replace(filename, "");
+                fileList[key] = filepath.concat(renameFunction.fileAdd(filename, lastTextBox, firstPositionFirstTextBox));
+            }
+            else if(ruleSelection=="remove"){
+                
+            }
+            else if(ruleSelection=="reverse"){
+                
+            }
+            else if(ruleSelection=="randomize"){
+                
+            }
+            else if(ruleSelection=="setTileCase"){
+                
+            }
+            else if(ruleSelection=="setInvertedCase"){
+                
+            }
+            else if(ruleSelection=="setUpperCase"){
+                
+            }
+            else if(ruleSelection=="setLowerCase"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+            else if(ruleSelection=="add"){
+                
+            }
+        }
+        let skippedfirst = false;
+        let fileRows = document.querySelectorAll('.col-image');
+        fileRows.forEach(function(fileRow){
+            if (!skippedfirst){
+                skippedfirst=true;
+                return;
+            }
+            if(!fileRow.firstChild.src.includes('Un')){
+                fileRow.nextElementSibling.textContent = path.basename(fileList[fileRow.nextElementSibling.nextElementSibling.textContent]);
+                fileRow.nextElementSibling.nextElementSibling.textContent = fileList[fileRow.nextElementSibling.nextElementSibling.textContent];
+            }
+            
+         });
 
     }
 }
