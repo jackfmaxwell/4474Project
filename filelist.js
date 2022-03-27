@@ -147,8 +147,6 @@ function addRow(filepath){
     check_box.nextElementSibling.style.color = "grey"
     check_box.nextElementSibling.nextElementSibling.style.color = "grey"
 
-    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
-
     const check_boxes = document.querySelectorAll('.col-image');
 
     check_boxes.forEach(function(check_box){
@@ -177,6 +175,7 @@ function addRow(filepath){
         }
     })
     fileList.push(filepath);
+    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
 }
 
 function removeRow(id) {
