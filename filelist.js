@@ -132,6 +132,9 @@ function addRow(filepath){
     <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">` + filename + `</div>
     <div class="div-table-col">` + filename + `</div>
     <div class="div-table-col">` + filepath + `</div>
+    <div class="div-table-col">
+    <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
+    </div>
     `;
 
     div.firstElementChild.id = filepath;

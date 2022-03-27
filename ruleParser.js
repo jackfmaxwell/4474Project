@@ -12,7 +12,10 @@ const lastTextBox = document.getElementById("lasttextbox");
 
 function ruleSelectionEvent(){
     let ruleSelectionValue = ruleSelectionOption.value;
-    let items;
+
+    let items = [];
+
+
     if(ruleSelectionValue === "remove" || ruleSelectionValue === "reverse" || ruleSelectionValue === "randomize"){
         items = ["From Position", "From End", "From Before First", "From Before Last", "From After First", "From After Last", "From Before Each"];
     }else if(ruleSelectionValue === "add"){
@@ -185,10 +188,16 @@ function firstPosSelectionEvent(){
     if(matchCase){
         for (let i = 0; i < leftMatchCaseBoxes.length; i++){
             leftMatchCaseBoxes[i].style.display = "block";
+
+            leftMatchCaseBoxes[i].parentElement.style.display = "block";
+
         }
     }else{
         for (let i = 0; i < leftMatchCaseBoxes.length; i++){
             leftMatchCaseBoxes[i].style.display = "none";
+
+            leftMatchCaseBoxes[i].parentElement.style.display = "none";
+
         }
     }
 
