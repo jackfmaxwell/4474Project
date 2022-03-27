@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="rulesfilters.css">
     <script src="filelist.js" defer></script>
     <script src="rulesfilters.js" defer></script>
+    <script src="ruleParser.js" defer></script>
 
     <title>Bulk File Rename Utility</title>
 </head>
@@ -37,9 +38,13 @@
                     <img style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
                     <div class="rf-div-table-row">
                         <select id="ruleSelection" class=" rules rf-div-table-col"  style="padding: top 2px; padding-left:4px;">
+                            <option value="add">Add</option>
                             <option value="remove">Remove</option>
                             <option value="reverse">Reverse</option>
                             <option value="randomize">Randomize</option>
+                            <option value="setcase">Set Case</option>
+                            <option value="replace">Replace</option>
+                            <option value="regex">Regex</option>
                         </select>
                         <select id="firstPositionSelection" class="rules rf-div-table-col">
                             <option value="fromPosition">from position</option>
@@ -50,9 +55,22 @@
                             <option value="fromAfterLast">from after last</option>
                             <option value="fromBeforeEach">from before each</option>
                         </select>
+                        <div class="rf-div-table-col" style="min-width:180px; display: inline;;">
+                            <input id="firstPositionFirstTextBox" style="min-width:90px;" type="text"></input>
+                            <img class="leftmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+                        </div>
+                        <select id="firstPositionIdentifierSelection" class="rules rf-div-table-col">
+                            <option value="fromPosition">from position</option>
+                            <option value="fromEnd">from end</option>
+                            <option value="fromBeforeFirst">from before first</option>
+                            <option value="fromBeforeLast">from before last</option>
+                            <option value="fromAfterFirst">from after first</option>
+                            <option value="fromAfterLast">from after last</option>
+                            <option value="fromBeforeEach">from before each</option>
+                        </select>
                         <div class="rf-div-table-col" style="min-width:180px; display: inline;">
-                            <input style="min-width:90px;" type="text"></input>
-                            <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+                            <input id="firstPositionSecondTextBox" style="min-width:90px;" type="text"></input>
+                            <img class="leftmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
                         <select id="lastPositionSelection" class=" rules rf-div-table-col">
                             <option value="toPosition">to position</option>
@@ -64,8 +82,8 @@
                             <option value="toAfterLast">to after last</option>
                         </select>
                         <div class="rf-div-table-col" style="min-width:180px; display: inline;">
-                            <input style="min-width:90px;" type="text"></input>
-                            <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+                            <input id="lasttextbox" style="min-width:90px;" type="text"></input>
+                            <img class="rightmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
                     </div>
                     
