@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="rulesfilters.css">
     <script src="filelist.js" defer></script>
     <script src="rulesfilters.js" defer></script>
+    <script src="ruleParser.js" defer></script>
 
     <title>Bulk File Rename Utility</title>
 </head>
@@ -36,43 +37,53 @@
                     <img style="width:25px; position:fixed; left:0; padding-left:17px; padding-top:12px;" src="SVG/Left   Checkbox   Checked   Default.svg">
                     <img style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
                     <div class="rf-div-table-row">
-
-
-                        <select class="rules rf-div-table-col"  style="max-width: 120px; padding: top 2px; padding-left:4px;">
-
-                            <option>Remove</option>
-                            <option>Reverse</option>
-                            <option>Randomize</option>
+                        <select id="ruleSelection" class=" rules rf-div-table-col"  style="max-width: 120px; padding: top 2px; padding-left:4px;">
+                            <option value="add">Add</option>
+                            <option value="remove">Remove</option>
+                            <option value="reverse">Reverse</option>
+                            <option value="randomize">Randomize</option>
+                            <option value="setcase">Set Case</option>
+                            <option value="replace">Replace</option>
+                            <option value="regex">Regex</option>
                         </select>
-
-
-                        <select class="rules rf-div-table-col" style="max-width: 120px;">
-
-                            <option>from position</option>
-                            <option>from end</option>
-                            <option>from before first</option>
-                            <option>from before last</option>
-                            <option>from after first</option>
-                            <option>from after last</option>
-                            <option>from before each</option>
+                        <select id="firstPositionSelection" class="rules rf-div-table-col" style="max-width: 120px;">
+                            <option value="fromPosition">from position</option>
+                            <option value="fromEnd">from end</option>
+                            <option value="fromBeforeFirst">from before first</option>
+                            <option value="fromBeforeLast">from before last</option>
+                            <option value="fromAfterFirst">from after first</option>
+                            <option value="fromAfterLast">from after last</option>
+                            <option value="fromBeforeEach">from before each</option>
                         </select>
-                        <div class="debug rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
-                            <input style="max-width:140px;" type="text"></input>
-                            <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+                        <div class="rf-div-table-col" style="min-width:180px; display: inline;;">
+                            <input id="firstPositionFirstTextBox" style="min-width:90px;" type="text"></input>
+                            <img class="leftmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
-                        <select class="rules rf-div-table-col">
-                            <option>to position</option>
-                            <option>to end</option>
-                            <option>to position from end</option>
-                            <option>to before first</option>
-                            <option>to before last</option>
-                            <option>to after first</option>
-                            <option>to after last</option>
+                        <select id="firstPositionIdentifierSelection" class="rules rf-div-table-col" style="max-width: 120px;">
+                            <option value="fromPosition">from position</option>
+                            <option value="fromEnd">from end</option>
+                            <option value="fromBeforeFirst">from before first</option>
+                            <option value="fromBeforeLast">from before last</option>
+                            <option value="fromAfterFirst">from after first</option>
+                            <option value="fromAfterLast">from after last</option>
+                            <option value="fromBeforeEach">from before each</option>
                         </select>
-
+                        <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
+                            <input id="firstPositionSecondTextBox" style="max-width:140px;" type="text"></input>
+                            <img class="leftmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+                        </div>
+                        <select id="lastPositionSelection" class=" rules rf-div-table-col">
+                            <option value="toPosition">to position</option>
+                            <option value="toEnd">to end</option>
+                            <option value="toPositionFromEnd">to position from end</option>
+                            <option value="toBeforeFirst">to before first</option>
+                            <option value="toBeforeLast">to before last</option>
+                            <option value="toAfterFirst">to after first</option>
+                            <option value="toAfterLast">to after last</option>
+                        </select>
                         <div class="debug rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
-                            <input style="max-width:120px;" type="text"></input>
-                            <img style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+                            <input id="lasttextbox" style="min-width:120px;" type="text"></input>
+                            <img class="rightmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
                     </div>
                     
