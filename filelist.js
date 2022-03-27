@@ -6,7 +6,6 @@ const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
 
-
 const browseButton = document.getElementById('browseButton')
 
 const refreshButton = document.getElementById("refreshButton");
@@ -95,13 +94,14 @@ undoButton.addEventListener('click', function (event) {
     for (const [key,value] of Object.entries(fileList)){
         fileList[key] = key
     }
+    let skippedfirst = false;
     const filenames = document.querySelectorAll('.col-image');
     filenames.forEach(function(filename){
-        filename.nextElementSibling.remove()
-        const div = document.createElement('div');
-        div.className = "div-table-col";
-        div.textContent = key
-        filename.after(div);
+        if(!skippedfirst){
+            skippedfirst=true;
+            return;
+        }
+        filename.nextElementSibling.textContent = path.basename(filename.id)
         filename.nextElementSibling.nextElementSibling.textContent = filename.id;
     })
 })
@@ -281,6 +281,51 @@ function parseRuleList(){
 
         for (const [key,value] of Object.entries(fileList)){
             if(ruleSelection=="add"){
+                if(lastPositionSelection=="To Position"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, lastTextBox, firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To End"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.length, firstPositionFirstTextBox));
+                    console.log(filename.length)
+                }
+                else if(lastPositionSelection=="To Position From End"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.length-lastTextBox, firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To Before First"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.indexOf(lastTextBox), firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To Before Last"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.lastIndexOf(lastTextBox), firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To After First"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.indexOf(lastTextBox)+lastTextBox.length, firstPositionFirstTextBox));
+                }
+                else if(lastPositionSelection=="To After Last"){
+                    let filepath = key;
+                    let filename = path.basename(filepath);
+                    filepath = filepath.replace(filename, "");
+                    fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.lastIndexOf(lastTextBox)+lastTextBox.length, firstPositionFirstTextBox));
+                }
+            }
+            else if(ruleSelection=="remove"){
                 let filepath = key;
                 let filename = path.basename(filepath);
                 filepath = filepath.replace(filename, "");
@@ -291,10 +336,12 @@ function parseRuleList(){
                 let filename = path.basename(filepath);
                 filepath = filepath.replace(filename, "");
                 fileList[key] = filepath.concat(renameFunction.fileAdd(filename, firstPositionFirstTextBox, lastTextBox));
+                fileList[key] = filepath.concat(renameFunction.fileRemove(filename, path.parse(filename).name.length-1, firstPositionFirstTextBox));
             }
             else if(ruleSelection=="reverse"){
                 
             }
+           
             else if(ruleSelection=="randomize"){
                 
             }
