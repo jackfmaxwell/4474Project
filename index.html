@@ -50,7 +50,8 @@
                             <option value="setcase">Set Case</option>
                             <option value="replace">Replace</option>
                             <option value="regex">Regex</option>
-
+                            <option value="setlength">Set Length</option>
+                            <option value="move">Move</option>
                         </select>
                         <select id="firstPositionSelection" class="debug rules rf-div-table-col" style="max-width: 120px;">
                             <option value="fromPosition">from position</option>
@@ -79,7 +80,8 @@
                             <input id="firstPositionSecondTextBox" style="max-width:140px;" type="text"></input>
                             <img class="leftmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
-                        <select id="lastPositionSelection" class="debug rules rf-div-table-col">
+
+                        <select id="lastPositionSelection" class=" rules rf-div-table-col">
                             <option value="To Position">To Position</option>
                             <option value="To End">To End</option>
                             <option value="To Position From End">To Position From End</option>
@@ -263,7 +265,7 @@
 
             <div id="filelist" style="width:100%; height:86%; position:relative; z-index: 1; overflow-x: hidden; padding-top: 10px;">
 
-                <img id="removeAllButton" style="position:fixed; padding-right:30px; width:14px; right:0;" src="SVG/File   Header   Remove   Default.svg">
+                <img id="removeAllButton" style="position:fixed; padding-top:8px; padding-right:30px; width:14px; right:0;" src="SVG/File   Header   Remove   Default.svg">
 
                 <div id="divTable" class="div-table">
                         <div class="div-table-row">
@@ -272,7 +274,7 @@
                             <div class="div-table-col">Path</div>
                         </div>
                         <div class="div-table-row" >
-                            <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 1.txt</div>
+                            <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">Earth info 1.txt</div>
                             <div class="div-table-col">PlanetsEARTH Info 1 (2).txt</div>
                             <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
                             <div class="div-table-col">
@@ -280,7 +282,7 @@
                             </div>
                         </div>
                         <div class="div-table-row">
-                            <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 2.txt</div>
+                            <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">Earth info 2.txt</div>
                             <div class="div-table-col">PlanetsEARTH Info 2 (2).txt</div>
                             <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
                             <div class="div-table-col">
@@ -288,7 +290,8 @@
                             </div>
                         </div>
                         <div class="div-table-row">
-                            <div class="div-table-col col-image"><img id="test" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 4.txt</div>
+
+                            <div class="div-table-col col-image"><img id="test" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">Earth info 4.txt</div>
                             <div class="div-table-col">PlanetsEARTH Info 4 (2).txt</div>
                             <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
                             <div class="div-table-col">
@@ -296,7 +299,7 @@
                             </div>
                         </div>
                         <div class="div-table-row">
-                            <div class="div-table-col col-image"><img id="test" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">Earth info 4.txt</div>
+                            <div class="div-table-col col-image"><img id="test" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">Earth info 4.txt</div>
                             <div class="div-table-col">PlanetsEARTH Info 3 (5).txt</div>
                             <div class="div-table-col">C:\Users/Jackm/Documents/Planets</div>
                             <div class="div-table-col">

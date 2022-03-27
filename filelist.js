@@ -18,6 +18,9 @@ rows.forEach(row => {
      console.log(row.textContent.length)
      if(row.textContent.length != 1 && row.textContent.length != 136){
         fileList.push(row.lastChild.textContent);
+        row.style.color = "grey"
+        row.nextElementSibling.style.color = "grey"
+        row.nextElementSibling.nextElementSibling.style.color = "grey"
      }
 })
 
@@ -29,7 +32,6 @@ browseButton.addEventListener('click', function (event) {
         ipc.send('open-file-dialog');
         ipc.on('browse-reply', (event, result) => {
             if(document.getElementById(result[0]) == null){
-                fileList.push(result[0]);
                 addRow(result[0]);
             }
             resolve(result);
@@ -88,7 +90,6 @@ filelist.addEventListener('drop', (event) => {
         console.log('file path: ', file.path);
 
         if(document.getElementById(file.path) == null){
-            fileList.push(file.path);    //add path to the list that keeps tracks of the files
             addRow(file.path);          //add element to UI
         }  
     }
@@ -124,12 +125,11 @@ checkboxEventAdder();
 function addRow(filepath){
     const div = document.createElement('div');
     div.className = 'div-table-row';
-    div.id = filepath;
 
     var filename = path.basename(filepath);
 
     div.innerHTML = `
-    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg">` + filename + `</div>
+    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false">` + filename + `</div>
     <div class="div-table-col">` + filename + `</div>
     <div class="div-table-col">` + filepath + `</div>
     <div class="div-table-col">
@@ -137,27 +137,47 @@ function addRow(filepath){
     </div>
     `;
 
+    div.firstElementChild.id = filepath;
+
     var lastRow = document.getElementById('last-row')
     lastRow.before(div);
     lastRow.nextElementSibling.remove()
 
     check_box = div.firstElementChild
 
-    check_box.addEventListener('click', function (event) {
-        if (!check_box.firstChild.src.includes('Un')){
-            check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
-            selected -= 1;
-            document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
-        } else {
-            console.log(check_box.firstChild.src)
-            check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-            selected += 1;
-            document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
+    check_box.style.color = "grey"
+    check_box.nextElementSibling.style.color = "grey"
+    check_box.nextElementSibling.nextElementSibling.style.color = "grey"
+
+    const check_boxes = document.querySelectorAll('.col-image');
+
+    check_boxes.forEach(function(check_box){
+        console.log(check_box.id);
+        console.log(fileList.includes(check_box.id))
+        if(!fileList.includes(check_box.id)){
+            check_box.addEventListener('click', function (event) {
+                if (!check_box.firstChild.src.includes('Un')){
+                    check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
+                    check_box.style.color = "grey"
+                    check_box.nextElementSibling.style.color = "grey"
+                    check_box.nextElementSibling.nextElementSibling.style.color = "grey"
+                    selected -= 1;
+                    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
+                } else {
+                    console.log(check_box.firstChild.src)
+                    check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
+                    check_box.style.color = "white"
+                    check_box.nextElementSibling.style.color = "white"
+                    check_box.nextElementSibling.nextElementSibling.style.color = "white"
+                    selected += 1;
+                    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
+                    
+                }
+            });
         }
-    });
-
+    })
+    fileList.push(filepath);
     document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
-
 }
 
 function removeRow(id) {
@@ -176,18 +196,21 @@ function removeRow(id) {
 function checkboxEventAdder(){
     const check_boxes = document.querySelectorAll('.col-image');
 
-    console.log(check_boxes);
-
     check_boxes.forEach(function(check_box){
         check_box.addEventListener('click', function (event) {
             if (!check_box.firstChild.src.includes('Un')){
-
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
+                check_box.style.color = "grey"
+                check_box.nextElementSibling.style.color = "grey"
+                check_box.nextElementSibling.nextElementSibling.style.color = "grey"
                 selected -= 1;
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
             } else {
                 console.log(check_box.firstChild.src)
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
+                check_box.style.color = "white"
+                check_box.nextElementSibling.style.color = "white"
+                check_box.nextElementSibling.nextElementSibling.style.color = "white"
                 selected += 1;
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
             }
