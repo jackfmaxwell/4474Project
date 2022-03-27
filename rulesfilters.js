@@ -77,7 +77,6 @@ function addRule(rule){
     rulesTable.appendChild(addRuleContainer);
 }
 
-}
 
 function showDiv(select){
     if(select.value==1){
