@@ -40,8 +40,6 @@
                     <img class="" style="width:25px; position:fixed; left:0; padding-left:17px; padding-top:12px;" src="SVG/Left   Checkbox   Checked   Default.svg">
                     <img style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;" src="SVG/Left   Remove   Default.svg">
                     <div class="rf-div-table-row">
-
-
                         <select id="ruleSelection" class=" rules rf-div-table-col"  style="max-width: 120px; padding: top 2px; padding-left:4px;">
                             <option value="add">Add</option>
                             <option value="remove">Remove</option>
@@ -54,20 +52,17 @@
                             <option value="move">Move</option>
                         </select>
                         <select id="firstPositionSelection" class="rules rf-div-table-col" style="max-width: 120px;">
-                            <option value="fromPosition">from position</option>
-                            <option value="fromEnd">from end</option>
-                            <option value="fromBeforeFirst">from before first</option>
-                            <option value="fromBeforeLast">from before last</option>
-                            <option value="fromAfterFirst">from after first</option>
-                            <option value="fromAfterLast">from after last</option>
-                            <option value="fromBeforeEach">from before each</option>
+                            <option value="Text">Text</option>
+                            <option value="Date">Date</option>
+                            <option value="Folder Name">Folder Name</option>
+                            <option value="Number">Number</option>
                         </select>
 
                         <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
-                            <input id="firstPositionFirstTextBox" style="max-width:140px;" type="text"></input>
-                            <img class="leftmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+                            <input id="firstPositionFirstTextBox" style="max-width:140px; display: none;" type="text"></input>
+                            <img class="leftmatchcase" style="width:75px; padding-right:4px; display: none;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
-                        <select id="firstPositionIdentifierSelection" class="rules rf-div-table-col" style="max-width: 120px;">
+                        <select id="firstPositionIdentifierSelection" class="rules rf-div-table-col" style="max-width: 120px; display: none;">
                             <option value="fromPosition">from position</option>
                             <option value="fromEnd">from end</option>
                             <option value="fromBeforeFirst">from before first</option>
@@ -77,8 +72,8 @@
                             <option value="fromBeforeEach">from before each</option>
                         </select>
                         <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
-                            <input id="firstPositionSecondTextBox" style="max-width:140px;" type="text"></input>
-                            <img class="leftmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+                            <input id="firstPositionSecondTextBox" style="max-width:140px; display: none;" type="text"></input>
+                            <img class="leftmatchcase" style="width:75px; padding-right:4px; display: none;" src="SVG/Left   Input   MatchCase   Checked.svg">
                         </div>
                         <select id="lastPositionSelection" class=" rules rf-div-table-col">
                             <option value="To Position">To Position</option>
