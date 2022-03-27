@@ -148,7 +148,7 @@ function addRule(){
     </select>
 
     <div class="rf-div-table-col" style="max-width:280;">
-        <input style="lasttextbox max-width:87px;" type="text"></input>
+        <input class="lasttextbox" style="display: unset; max-width:87px;" type="text"></input>
         <img class="rightmatchcase" style="width:75px; overflow-x:visible; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
     </div>
 </div>
@@ -159,38 +159,62 @@ function addRule(){
     console.log(childrenList);
     //bind event handlers
     childrenList[1].addEventListener("change", (event) => {
-        let nodeList = event.currentTarget.parentElement.childNodes;
-        let ruleSelectionValue = childrenList[1].value;
-        let firstPositionSelection = childrenList[3];
-        let items;
-        if(ruleSelectionValue === "remove" || ruleSelectionValue === "reverse" || ruleSelectionValue === "randomize"){
-            items = ["From Position", "From End", "From Before First", "From Before Last", "From After First", "From After Last", "From Before Each"];
-        }else if(ruleSelectionValue === "add"){
-            items = ['Text', "Date", "Folder Name", "Number"];
-        }else if(ruleSelectionValue === "setcase"){
-            items = ["UPPER", "lower", "Title", "iNVERTED"];
-        }else if(ruleSelectionValue === "replace"){
-            items = ["First", "Last", "Each"];
-        }else if(ruleSelectionValue === "regex"){
-            items = null;
-        }else if(ruleSelectionValue === "setlength"){
-            items = ['To', "Minimum To", "Maximum To"];
-        }else if(ruleSelectionValue === "move"){
-            items = ["First", "Last", "Each", "Text Before", "Text After", "Text In Range", "From Position To End"];
-        }
-        if(items == null){
-            firstPositionSelection.style.display = "none";
-        }else{
-            let str = ""
-        for (let item of items){
-            str += "<option value=\"" + item + "\">" + item + "</option>"
-        }
-        firstPositionSelection.innerHTML = str;
-        firstPositionSelection.style.display = "unset";
-        }
+        childList1(event, childrenList);
     });
     childrenList[3].addEventListener("change", (event) => {
-        let nodeList = event.currentTarget.parentElement.childNodes;
+        childList3(event, childrenList);
+    });
+    childrenList[11].addEventListener("change", (event) => {
+        childList11(event, childrenList);
+    });
+
+    const img1 = document.createElement('img');
+    img1.style="width:25px; position:fixed; left:0; padding-left:17px; padding-top:12px;";
+    img1.src="SVG/Left   Checkbox   Checked   Default.svg";
+    const img2 = document.createElement('img');
+    img2.style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;";
+    img2.src="SVG/Left   Remove   Default.svg";
+
+    addRuleContainer.remove();
+    rulesTable.appendChild(img1);
+    rulesTable.appendChild(img2);
+    rulesTable.appendChild(div);
+    rulesTable.appendChild(addRuleContainer);
+}
+
+function childList1(event, childrenList){
+    let nodeList = event.currentTarget.parentElement.childNodes;
+    let ruleSelectionValue = childrenList[1].value;
+    let firstPositionSelection = childrenList[3];
+    let items;
+    if(ruleSelectionValue === "remove" || ruleSelectionValue === "reverse" || ruleSelectionValue === "randomize"){
+        items = ["From Position", "From End", "From Before First", "From Before Last", "From After First", "From After Last", "From Before Each"];
+    }else if(ruleSelectionValue === "add"){
+        items = ['Text', "Date", "Folder Name", "Number"];
+    }else if(ruleSelectionValue === "setcase"){
+        items = ["UPPER", "lower", "Title", "iNVERTED"];
+    }else if(ruleSelectionValue === "replace"){
+        items = ["First", "Last", "Each"];
+    }else if(ruleSelectionValue === "regex"){
+        items = null;
+    }else if(ruleSelectionValue === "setlength"){
+        items = ['To', "Minimum To", "Maximum To"];
+    }else if(ruleSelectionValue === "move"){
+        items = ["First", "Last", "Each", "Text Before", "Text After", "Text In Range", "From Position To End"];
+    }
+    if(items == null){
+        firstPositionSelection.style.display = "none";
+    }else{
+        let str = ""
+    for (let item of items){
+        str += "<option value=\"" + item + "\">" + item + "</option>"
+    }
+    firstPositionSelection.innerHTML = str;
+    firstPositionSelection.style.display = "unset";
+    }
+}
+function childList3(event){
+    let nodeList = event.currentTarget.parentElement.childNodes;
         let firstPositionSelectionValue = nodeList[3].value;
         let firstPositionFirstTextBox = event.currentTarget.parentElement.getElementsByClassName("firstPositionFirstTextBox");
         let firstPositionIdentifierSelection = event.currentTarget.parentElement.getElementsByClassName("firstPositionIdentifierSelection");
@@ -391,9 +415,9 @@ function addRule(){
             str += "<option value=\"" + item + "\">" + item + "</option>"
         }
         firstPositionIdentifierSelection[0].innerHTML = str;
-    });
-    childrenList[11].addEventListener("change", (event) => {
-        let nodeList = event.currentTarget.parentElement.childNodes;
+}
+function childList11(event){
+    let nodeList = event.currentTarget.parentElement.childNodes;
         let lastPositionSelectionValue = nodeList[11].value;
         let ruleSelectionOption = event.currentTarget.parentElement.getElementsByClassName("ruleSelection");
         let firstPositionSelection = event.currentTarget.parentElement.getElementsByClassName("firstPositionSelection");
@@ -452,27 +476,16 @@ function addRule(){
         }
     
         if(textBoxOn){
-            lastTextBox.style.display = "unset";
-            lastTextBox.parentElement.style.display = "unset";
+            for (let i = 0; i < lastTextBox.length; i++){
+                lastTextBox[i].style.display = "unset";
+                lastTextBox[i].parentElement.style.display = "unset";
+            }
         }else{
-            lastTextBox.style.display = "none";
-            lastTextBox.parentElement.style.display = "none";
+            for (let i = 0; i < lastTextBox.length; i++){
+                lastTextBox[i].style.display = "none";
+                lastTextBox[i].parentElement.style.display = "none";
+            }
         }
-    
-    });
-
-    const img1 = document.createElement('img');
-    img1.style="width:25px; position:fixed; left:0; padding-left:17px; padding-top:12px;";
-    img1.src="SVG/Left   Checkbox   Checked   Default.svg";
-    const img2 = document.createElement('img');
-    img2.style="width:20px; position:fixed; left:0; margin-left:47%; padding-top:12px;";
-    img2.src="SVG/Left   Remove   Default.svg";
-
-    addRuleContainer.remove();
-    rulesTable.appendChild(img1);
-    rulesTable.appendChild(img2);
-    rulesTable.appendChild(div);
-    rulesTable.appendChild(addRuleContainer);
 }
 
 
