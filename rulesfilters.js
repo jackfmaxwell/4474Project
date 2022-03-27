@@ -20,7 +20,7 @@ function addRule(rule){
     div.className = 'rf-div-table-row';
 
     div.innerHTML = ` 
-    <select class="ruleSelection rules rf-div-table-col"  style="max-width: 120px; padding: top 2px; padding-left:4px;">
+    <select class="ruleSelection rules rf-div-table-col"  style="width:94px; padding: top 2px; padding-left:4px;">
         <option value="add">Add</option>
         <option value="remove">Remove</option>
         <option value="reverse">Reverse</option>
@@ -38,11 +38,11 @@ function addRule(rule){
         <option value="Number">Number</option>
     </select>
 
-    <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
-        <input class="firstPositionFirstTextBox" style="max-width:140px; display: none;" type="text"></input>
-        <img class="leftmatchcase" style="width:75px; padding-right:4px; display: none;" src="SVG/Left   Input   MatchCase   Checked.svg">
+    <div class="rf-div-table-col" style="max-width:210;">
+        <input class="firstPositionFirstTextBox" style="max-width:95px; display: none;" type="text"></input>
+        <img class="leftmatchcase" style="width:75px; overflow-x:visible; padding-right:4px; display: none;" src="SVG/Left   Input   MatchCase   Checked.svg">
     </div>
-    <select class="firstPositionIdentifierSelection rules rf-div-table-col" style="max-width: 120px; display: none;">
+    <select class="firstPositionIdentifierSelection rules rf-div-table-col" style="max-width: 125px; display: none;">
         <option value="fromPosition">from position</option>
         <option value="fromEnd">from end</option>
         <option value="fromBeforeFirst">from before first</option>
@@ -51,9 +51,9 @@ function addRule(rule){
         <option value="fromAfterLast">from after last</option>
         <option value="fromBeforeEach">from before each</option>
     </select>
-    <div class="rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
-        <input class="firstPositionSecondTextBox" style="max-width:140px; display: none;" type="text"></input>
-        <img class="leftmatchcase" style="width:75px; padding-right:4px; display: none;" src="SVG/Left   Input   MatchCase   Checked.svg">
+    <div class="rf-div-table-col" style="max-width:210;">
+        <input class="firstPositionSecondTextBox" style="max-width:87px; display: none;" type="text"></input>
+        <img class="leftmatchcase" style="width:75px; overflow-x:visible; padding-right:4px; display: none;" src="SVG/Left   Input   MatchCase   Checked.svg">
     </div>
     <select class="lastPositionSelection rules rf-div-table-col">
         <option value="To Position">To Position</option>
@@ -65,9 +65,9 @@ function addRule(rule){
         <option value="To After Last">To After Last</option>
     </select>
 
-    <div class="debug rf-div-table-col" style="max-width:210; min-width:180px; display: inline;">
-        <input style="lasttextbox max-width:120px;" type="text"></input>
-        <img class="rightmatchcase" style="width:75px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+    <div class="debug rf-div-table-col" style="max-width:280;">
+        <input style="lasttextbox max-width:87px;" type="text"></input>
+        <img class="rightmatchcase" style="width:75px; overflow-x:visible; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
     </div>
 </div>
     `;
