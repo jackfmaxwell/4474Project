@@ -4,6 +4,7 @@ const { forEach } = require('lodash');
 const path = require("path");
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
+const renameFunction = require("./fileRenameFunctions");
 
 const renameFunction = require("./fileRenameFunctions");
 
@@ -38,6 +39,7 @@ renameBtn.onclick = () =>{
 
 const removeAllButton  = document.getElementById('removeAllButton')
 const filelist = document.getElementById("filelist");   //might be bad naming
+const undoButton = document.getElementById("undoButton");
 var fileList = {};
 
 var selected = 0;
@@ -89,6 +91,24 @@ removeAllButton.addEventListener('click', function (event) {
     }); 
 })
 
+//Sends open file explorer request to main process
+undoButton.addEventListener('click', function (event) {
+    for (const [key,value] of Object.entries(fileList)){
+        fileList[key] = key
+    }
+    const filenames = document.querySelectorAll('.col-image');
+    filenames.forEach(function(filename){
+        filename.nextElementSibling.remove()
+        const div = document.createElement('div');
+        div.className = "div-table-col";
+        div.textContent = key
+        filename.after(div);
+        filename.nextElementSibling.nextElementSibling.textContent = filename.id;
+    })
+})
+
+
+
 
 // Drag and Drop file features --------------------------------------
 filelist.addEventListener('dragover', (event) => {
@@ -136,10 +156,6 @@ filelist.addEventListener('dragend', (event) => {
 });
 // -------------------------------------------------------------
 
-
-function getRow(){
-    const check_boxes = document.querySelectorAll('.col-image');
-}
 
 //adds checkbox event listener to starting files in list
 checkboxEventAdder();
@@ -247,6 +263,7 @@ function parseRuleList(){
         // For each rule get all their values
         let ruleSelection = rulesList[i].getElementsByClassName("ruleSelection")[0].value;
         let firstPositionSelection = rulesList[i].getElementsByClassName("firstPositionSelection")[0].value; 
+
         let firstPositionFirstTextBox = rulesList[i].getElementsByClassName("firstPositionFirstTextBox")[0].value; 
         //let matchCaseLeft = rulesList[i].getElementsByClassName("leftmatchcase")[0].value;
         let firstPositionIdentifierSelection = rulesList[i].getElementsByClassName("firstPositionIdentifierSelection")[0].value;
