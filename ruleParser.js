@@ -46,7 +46,7 @@ function ruleSelectionEvent(){
 
 function firstPosSelectionEvent(){
     let firstPositionSelectionValue = firstPositionSelection.value;
-    let items;
+    let items = [];
     let textBoxIsOn = true;
     let firstPositionIdentifierSelectionOn = false;
     let firstPositionSecondTextBoxOn = false;
@@ -203,8 +203,10 @@ function firstPosSelectionEvent(){
 
     if(textBoxIsOn){
         firstPositionFirstTextBox.style.display = "block";
+        firstPositionFirstTextBox.parentElement.style.display = "block";
     }else{
         firstPositionFirstTextBox.style.display = "none";
+        firstPositionFirstTextBox.parentElement.style.display = "none";
     }
 
     if(firstPositionIdentifierSelectionOn){
@@ -289,10 +291,12 @@ function lastPosEvent(){
     if(matchCase){
         for (let i = 0; i < rightMatchCaseBoxes.length; i++){
             rightMatchCaseBoxes[i].style.display = "block";
+            rightMatchCaseBoxes[i].parentElement.style.display = "block";
         }
     }else{
         for (let i = 0; i < rightMatchCaseBoxes.length; i++){
             rightMatchCaseBoxes[i].style.display = "none";
+            rightMatchCaseBoxes[i].parentElement.style.display = "none";
         }
     }
 
@@ -307,3 +311,7 @@ function lastPosEvent(){
 ruleSelectionOption.addEventListener('change', ruleSelectionEvent);
 firstPositionSelection.addEventListener('change', firstPosSelectionEvent);
 lastPositionSelection.addEventListener('change', lastPosEvent);
+
+module.exports = ruleSelectionEvent;
+module.exports = firstPosSelectionEvent;
+module.exports = lastPosEvent;
