@@ -133,8 +133,22 @@ function addRow(filepath){
     var lastRow = document.getElementById('last-row')
     lastRow.before(div);
     lastRow.nextElementSibling.remove()
-    
-    checkboxEventAdder();
+
+    check_box = div.firstElementChild
+
+    check_box.addEventListener('click', function (event) {
+        if (!check_box.firstChild.src.includes('Un')){
+            check_box.firstChild.src = "SVG/File   List   Checkbox   Unchecked.svg";
+            selected -= 1;
+            document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
+        } else {
+            console.log(check_box.firstChild.src)
+            check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
+            selected += 1;
+            document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
+        }
+    });
+
     document.getElementById("selectedCheckBoxes").textContent = selected + " of " + fileList.length + " Selected";
 
 }
@@ -153,12 +167,6 @@ function removeRow(id) {
 //adds event listener to check boxes in file list
 function checkboxEventAdder(){
     const check_boxes = document.querySelectorAll('.col-image');
-
-    if(!check_boxes[0].firstChild.src.includes('Un') && !check_boxes[0].firstChild.src.includes('Partial')){
-        check_boxes.forEach(function(check_box){
-            check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-        })
-    }
 
     check_boxes.forEach(function(check_box){
         check_box.addEventListener('click', function (event) {
