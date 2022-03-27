@@ -27,6 +27,12 @@
     color:white;
     border:none;
   }
+
+  option{
+    color:white;
+    border:none;
+  }
+  
   input{
     background-color: #404050;
     border:none;
