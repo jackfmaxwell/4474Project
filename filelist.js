@@ -215,11 +215,15 @@ function addRow(filepath){
             });
             check_box.parentElement.lastElementChild.addEventListener('click', function (event) {
                 delete fileList[check_box.id]
+                if(!check_box.firstChild.src.includes('Un')){
+                    selected -= 1;
+                }
                 check_box.parentElement.remove();
                 const div = document.createElement('div');
                 div.className = 'div-table-row';
                 div.innerHTML += '&nbsp;';
                 document.getElementById('last-row').after(div);
+                document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
             })
         }
     });
