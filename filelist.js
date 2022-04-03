@@ -235,6 +235,7 @@ function addRow(filepath){
 function checkboxEventAdder(){
     const check_boxes = document.querySelectorAll('.col-image');
 
+    let skippedfirst = false;
     check_boxes.forEach(function(check_box){
         check_box.addEventListener('click', function (event) {
             if (!check_box.firstChild.src.includes('Un')){
@@ -242,7 +243,6 @@ function checkboxEventAdder(){
                 check_box.style.color = "grey"
                 check_box.nextElementSibling.style.color = "grey"
                 check_box.nextElementSibling.nextElementSibling.style.color = "grey"
-                selected -= 1;
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
             } else {
                 console.log(check_box.firstChild.src)
@@ -250,7 +250,6 @@ function checkboxEventAdder(){
                 check_box.style.color = "white"
                 check_box.nextElementSibling.style.color = "white"
                 check_box.nextElementSibling.nextElementSibling.style.color = "white"
-                selected += 1;
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
             }
         });
@@ -336,7 +335,7 @@ function parseRuleList(){
             }
             else if(ruleSelection=="remove"){
                 let filepath = value;
-                let filename = path.basename(filepath);
+                let filename = path.basename(filepath).name;
                 filepath = filepath.replace(filename, "");
                 let filelength = path.parse(filename).name.length
 
@@ -386,7 +385,9 @@ function parseRuleList(){
                 else if(lastPositionSelection=="To After Last"){
                     endIndex = filename.lastIndexOf(lastTextBox) + filelength;
                 }
-                    
+                
+                console.log(startIndex);
+                console.log(endIndex)
 
                 if(startIndex > endIndex){
                     let temp = endIndex;
