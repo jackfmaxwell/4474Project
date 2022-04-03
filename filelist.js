@@ -8,8 +8,8 @@ const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
 
-const browseButton = document.getElementById('browseButton')
-
+const browseButton = document.getElementById('browseButton');
+const saveButton = document.getElementById("saveRulesButton");
 const refreshButton = document.getElementById("refreshButton");
 refreshButton.addEventListener("click", parseRuleList)
 
@@ -69,6 +69,9 @@ openButton.addEventListener('click', function (event) {
     });
 })
 
+saveButton.addEventListener('click', (event) => {
+    const rows = Array.from(document.getElementsByClassName('div-table-row'));
+});
 
 //Event listener for X on filelist. Removes all files from list
 removeAllButton.addEventListener('click', function (event) {
