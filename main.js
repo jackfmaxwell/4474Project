@@ -40,7 +40,6 @@ const loadMainWindow = () => {
             enableRemoteModule: true
         }
     });
-    mainWindow.removeMenu();
     mainWindow.loadFile(path.join(__dirname, "index.html"));
 }
 

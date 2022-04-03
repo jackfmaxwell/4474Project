@@ -335,7 +335,7 @@ function parseRuleList(){
             }
             else if(ruleSelection=="remove"){
                 let filepath = value;
-                let filename = path.basename(filepath).name;
+                let filename = path.basename(filepath);
                 filepath = filepath.replace(filename, "");
                 let filelength = path.parse(filename).name.length
 
