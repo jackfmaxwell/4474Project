@@ -8,7 +8,7 @@ const { start } = require('repl');
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
-const {addRule, rchildList1, rchildList3, rchildList11, addFilter} = require('./rulesfilters');
+const {addRule, rchildList1, rchildList3, rchildList11, addFilter, fchildList3, fchildList5} = require('./rulesfilters');
 
 const browseButton = document.getElementById('browseButton');
 const saveButton = document.getElementById("saveRulesButton");
@@ -18,7 +18,6 @@ refreshButton.addEventListener("click", parseRuleList)
 const renameBtn = document.getElementById("renameFiles");
 renameBtn.onclick = () =>{
     for (const [key,value] of Object.entries(fileList)){
-        console.log("Renaming " + key + " -> " + value);
         renameFiles(key, value);
         fileList[value] = fileList[key];
         delete fileList[key];
@@ -71,24 +70,36 @@ openButton.addEventListener('click', function (event) {
                 let isFilter = false;
                 for(let line of arr) {
                     let lineArray = line.split(',');
-                    if(line.length == 0) isFilter = true;
+                    if(lineArray.length == 8) isFilter = true;
                     if(!isFilter){
                         let currentRuleContainerDiv = addRule();
-                    let currentRuleContainer = currentRuleContainerDiv.childNodes;
-                    eventObject = {currentTarget: currentRuleContainer[1]};
-                    currentRuleContainer[1].value = lineArray[0];
-                    rchildList1(eventObject,  currentRuleContainer);
-                    currentRuleContainer[3].value = lineArray[1];
-                    rchildList3(eventObject);
-                    currentRuleContainer[5].childNodes[1].value = lineArray[2];
-                    currentRuleContainer[7].value = lineArray[3];
-                    currentRuleContainer[9].childNodes[1].value = lineArray[4];
-                    currentRuleContainer[11].value = lineArray[5];
-                    rchildList11(eventObject);
-                    currentRuleContainer[13].childNodes[1].value = lineArray[6];
+                        let currentRuleContainer = currentRuleContainerDiv.childNodes;
+                        eventObject = {currentTarget: currentRuleContainer[1]};
+                        currentRuleContainer[1].value = lineArray[0];
+                        rchildList1(eventObject,  currentRuleContainer);
+                        currentRuleContainer[3].value = lineArray[1];
+                        rchildList3(eventObject);
+                        currentRuleContainer[5].childNodes[1].value = lineArray[2];
+                        currentRuleContainer[7].value = lineArray[3];
+                        currentRuleContainer[9].childNodes[1].value = lineArray[4];
+                        currentRuleContainer[11].value = lineArray[5];
+                        rchildList11(eventObject);
+                        currentRuleContainer[13].childNodes[1].value = lineArray[6];
                     }else{
                         if(line.length == 0) break;
-                        addFilter();
+                        let currentFilterContainerDiv = addFilter();
+                        let currentFilterContainer = currentFilterContainerDiv.childNodes;
+                        eventObject = {currentTarget: currentFilterContainer[1]};
+                        currentFilterContainer[1].value = lineArray[0];
+                        currentFilterContainer[3].value = lineArray[1];
+                        fchildList3(eventObject, currentFilterContainer);
+                        currentFilterContainer[5].value = lineArray[2];
+                        fchildList5(eventObject, currentFilterContainer);
+                        currentFilterContainer[9].value = lineArray[3];
+                        currentFilterContainer[13].value = lineArray[4];
+                        currentFilterContainer[17].value = lineArray[5];
+                        currentFilterContainer[21].value = lineArray[6];
+                        currentFilterContainer[25].value = lineArray[7];
                     }
                 }
             });
@@ -118,10 +129,20 @@ saveButton.addEventListener('click', (event) => {
         }
         let filterList = document.getElementsByClassName("filter-value");
         
-        console.log(fileData);
+        for(let i = 0; i < filterList.length; i++){
+            let filterInEx = filterList[i].getElementsByClassName("filterInEx")[0].value;
+            let filterSelection = filterList[i].getElementsByClassName("filterSelection")[0].value;
+            let firstPositionSelection = filterList[i].getElementsByClassName("firstPositionSelection")[0].value;
+            let matching = filterList[i].getElementsByClassName("matching")[0].value;
+            let regex = filterList[i].getElementsByClassName("regex")[0].value;
+            let infolder = filterList[i].getElementsByClassName("infolder")[0].value;
+            let length = filterList[i].getElementsByClassName("length")[0].value;
+            let accessed = filterList[i].getElementsByClassName("accessed")[0].value;
+
+            fileData = fileData + filterInEx + "," + filterSelection + "," + firstPositionSelection + "," + matching + "," + regex + "," + infolder + "," + length + "," + accessed + "\n"
+        }
         ipc.send('save-rulefilter-csv', fileData);
         ipc.on('save-rulefilter-csv-reply', (event, result) => {
-            console.log(result)
             resolve(result);
         });
     });
@@ -183,11 +204,8 @@ filelist.addEventListener('drop', (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log("File(s) have been dropped");
-
     // print to console
     for (const file of event.dataTransfer.files) {
-        console.log('file path: ', file.path);
 
         if(document.getElementById(file.path) == null){
             addRow(file.path);          //add element to UI
@@ -199,21 +217,18 @@ filelist.addEventListener('drop', (event) => {
 filelist.addEventListener('dragenter', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log("File entered the drop zone");
 });
 
 filelist.addEventListener('dragleave', (event) => {
     //The box that receives the file(s) should unhighlight when drag cursor leaves (idk how to do this)
     event.preventDefault();
     event.stopPropagation();
-    console.log("File has left the drop zone");
 });
 
 filelist.addEventListener('dragend', (event) => {
     //The box that receives the file(s) should unhighlight when drag operation ends(idk how to do this)
     event.preventDefault();
     event.stopPropagation();
-    console.log("Drag operation has ended");
 });
 // -------------------------------------------------------------
 
@@ -303,7 +318,6 @@ function checkboxEventAdder(){
                 check_box.nextElementSibling.nextElementSibling.style.color = "grey"
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
             } else {
-                console.log(check_box.firstChild.src)
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
                 check_box.style.color = "white"
                 check_box.nextElementSibling.style.color = "white"
@@ -337,13 +351,6 @@ function parseRuleList(){
         let lastPositionSelection  = rulesList[i].getElementsByClassName("lastPositionSelection ")[0].value; 
         let lastTextBox  = rulesList[i].getElementsByClassName("lasttextbox")[0].value; 
         //let matchCaseRight = rulesList[i].getElementsByClassName("rightmatchcase")[0].value;
-        console.log("ruleselection: " + ruleSelection);
-        console.log("first pos selection: " + firstPositionSelection);
-        console.log("first pos first text box: " + firstPositionFirstTextBox);
-        console.log("first pos identif sect: " + firstPositionIdentifierSelection);
-        console.log("first pos secon text box: " + firstPositionSecondTextBox);
-        console.log("last pos selection: " + lastPositionSelection);
-        console.log("last text box: " + lastTextBox);
 
         for (const [key,value] of Object.entries(fileList)){
             if(ruleSelection=="add"){
@@ -358,7 +365,6 @@ function parseRuleList(){
                     let filename = path.basename(filepath);
                     filepath = filepath.replace(filename, "");
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.length, firstPositionFirstTextBox));
-                    console.log(filename.length)
                 }
                 else if(lastPositionSelection=="To Position From End"){
                     let filepath = value;
@@ -443,9 +449,6 @@ function parseRuleList(){
                 else if(lastPositionSelection=="To After Last"){
                     endIndex = filename.lastIndexOf(lastTextBox) + filelength;
                 }
-                
-                console.log(startIndex);
-                console.log(endIndex)
 
                 if(startIndex > endIndex){
                     let temp = endIndex;
