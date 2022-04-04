@@ -1,3 +1,12 @@
+const { unset } = require("lodash");
+
+const newBtn = document.getElementById("newButton");
+newBtn.onclick = () => {
+    removeAllRules();
+    removeAllFilters();
+}
+
+
 const filtersTable = document.getElementById("filtersTable");
 
 const addFilterBtn = document.getElementById("addFilterBtn");
@@ -6,74 +15,83 @@ const addFilterContainer = document.getElementById("addFilterContainer");
 
 function addFilter(){
     const div = document.createElement('div');
-    div.className = 'rf-div-table-row';
+    div.className = 'filter-value rf-div-table-row';
+
     div.innerHTML = ` 
-    <select class="filters rf-div-table-col"  style="height: 100%; padding: top 2px; padding-left:4px;">
-        <option value="include">Include</option>
-        <option value="exclude">Exclude</option>
+    <select class="filterInEx filters rf-div-table-col"  style="width:145px; padding: top 2px; padding-left:4px;">
+        <option value="Include">Include</option>
+        <option value="Exclude">Exclude</option>
     </select>
-    <select class="filters rf-div-table-col" style="height: 100%; padding: top 2px; padding-left:4px;">
-        <!-- width:20%; height: 100%; -->
-        <option>files</option>
-        <option>files with names</option>
-        <option>files with extensions</option>
-        <option>images</option>
-        <option>music</option>
-        <option>videos</option>
-        <option>folders</option>
-        <option>subfolders</option>
+    <select class="filterSelection filters rf-div-table-col"  style="display: unset; width:145px; padding: top 2px; padding-left:4px;">
+        <option value="files">files</option>
+        <option value="files with names">files with names</option>
+        <option value="files with extensions">files with extensions</option>
+        <option value="images">images</option>
+        <option value="music">music</option>
+        <option value="videos">videos</option>
+        <option value="folders">folders</option>
+        <option value="subfolders">subfolders</option>
     </select>
-     <select class="filters rf-div-table-col" onchange="showDiv(this)" style="height: 100%; padding: top 2px; padding-left:4px;">
-        <option>all</option>
-        <option>hidden</option>
-        <option value="1">matching</option>
-        <option value="1">containing</option>
-        <option value="1">starting with</option>
-        <option value="1">ending with</option>
-        <option value="2">matching Regex</option>
-        <option value="3">in folder</option>
-        <option value="4">length</option>
-        <option value="4">longer than</option>
-        <option value="4">shorter than</option>
-        <option value="5">accessed</option>
-        <option value="5">created</option>
-        <option value="5">modified</option>
-        <option value="5">taken</option>
+    <select class="firstPositionSelection filters rf-div-table-col" style="max-width: 120px; display:unset;">
+        <option value="all">all</option>
+        <option value="matching">matching</option>
+        <option value="containing">containing</option>
+        <option value="starting with">starting with</option>
+        <option value="ending with">ending with</option>
+        <option value="matching regex">matching Regex</option>
+        <option value="in folder">in folder</option>
+        <option value="length">length</option>
+        <option value="longer">longer than</option>
+        <option value="shorter">shorter than</option>
+        <option value="accessed">accessed</option>
+        <option value="created">created</option>
+        <option value="modified">modified</option>
+        <option value="taken">taken</option>
     </select>
-    <!-- if all or hidden is selected do nothing -->
 
     <!-- if matching, containing, starting with or ending is selected -->
-    <div id="matching" class="rf-div-table-col" style="display:none;">
+    <div class="matching rf-div-table-col" style="display:none;">
         <input style="min-width:40px; min-height: 15px;" type="text" value="type here"></input>
-        <img style="height:20px; padding-right:4px;" src="SVG/Left   Input   MatchCase   Checked.svg">
+        <img style="width:75px; overflow-x:visible; padding-right:4px; display: none;" src="SVG/Left   Input   MatchCase   Checked.svg">
     </div>
 
     <!-- if matching regex is selected -->
-    <div id="regex" class="rf-div-table-col" style="display:none;">
+    <div class="regex rf-div-table-col" style="display:none;">
         regex
     </div>
 
     <!-- if in folder is selected -->
-    <div id="infolder" class="rf-div-table-col" style="display:none;">
+    <div class="infolder rf-div-table-col" style="display:none;">
         full folder path
     </div>
 
     <!-- if length, longer than or shorter then is selected -->
-    <div id="length" class="rf-div-table-col" style="display:none;">
+    <div class="length rf-div-table-col" style="display:none;">
         <input style="min-width:40px; min-height: 15px;" type="number" min="0" max="100" value="0"></input>
     </div>
 
     <!-- if accessed, created, modified or taken is selected -->
-    <div id="accessed" class="rf-div-table-col" style="display: none;">
+    <div class="accessed rf-div-table-col" style="display: none;">
         <select class="filters rf-div-table-col"  style="height: 100%; padding-left:12px;">
-            <option>at</option>
-            <option>before</option>
-            <option>after</option>
+            <option value="at">at</option>
+            <option value="before">before</option>
+            <option value="after">after</option>
         </select>
         <input style="min-width:40px; min-height: 15px;" type="date" value="12:00am"></input>
         <input style="min-width:40px; min-height: 15px;" type="time" value=" "></input>
     </div>
     `;
+    let childrenList = div.childNodes;
+    console.log(childrenList);
+    //bind event handlers
+    childrenList[3].addEventListener("change", (event) => {
+        fchildList3(event, childrenList);
+    });
+
+    childrenList[5].addEventListener("change", (event) => {
+        fchildList5(event, childrenList);
+    });
+
 
     const img1 = document.createElement('img');
     img1.style="width:25px; position:fixed; left:0; padding-left:4px; padding-top:9px;";
@@ -96,6 +114,7 @@ function addFilter(){
     filtersTable.appendChild(div);
     filtersTable.appendChild(addFilterContainer);
 
+    filtersList.push(new Rule(div,img1,img2));
 }
 function enableDisableFilter(img, event, div){
     if(img.classList.contains("enabled")){
@@ -113,11 +132,7 @@ function enableDisableFilter(img, event, div){
         div.style.opacity = "1.0";
     }
 }
-function removeFilter(event, div, img1, img2){
-    div.remove();
-    img1.remove();
-    img2.remove();
-}
+
 
 
 const rulesTable = document.getElementById("rulesTable");
@@ -188,13 +203,13 @@ function addRule(){
     console.log(childrenList);
     //bind event handlers
     childrenList[1].addEventListener("change", (event) => {
-        childList1(event, childrenList);
+        rchildList1(event, childrenList);
     });
     childrenList[3].addEventListener("change", (event) => {
-        childList3(event, childrenList);
+        rchildList3(event, childrenList);
     });
     childrenList[11].addEventListener("change", (event) => {
-        childList11(event, childrenList);
+        rchildList11(event, childrenList);
     });
 
     const img1 = document.createElement('img');
@@ -209,6 +224,7 @@ function addRule(){
     img2.src="SVG/Left   Remove   Default.svg";
     img2.addEventListener("click", (event) =>{
         removeRule(event, div, img1, img2);
+        
     });
 
     addRuleContainer.remove();
@@ -216,6 +232,8 @@ function addRule(){
     rulesTable.appendChild(img2);
     rulesTable.appendChild(div);
     rulesTable.appendChild(addRuleContainer);
+
+    rulesList.push(new Rule(div,img1,img2));
 }
 
 function enableDisableRule(img, event, div){
@@ -234,17 +252,55 @@ function enableDisableRule(img, event, div){
         div.style.opacity = "1.0";
     }
 }
+var rulesList = [];
+class Rule{
+    constructor(div, img1, img2){
+        this.div = div;
+        this.img1 = img1;
+        this.img2 = img2;
+    }
+}
 function removeRule(event, div, img1, img2){
     div.remove();
     img1.remove();
     img2.remove();
 }
 const removeAllRulesBtn = document.getElementById("rulesRemoveAllBtn");
+function removeAllRules(){
+    rulesList.forEach(rule =>{
+        removeRule(null, rule.div, rule.img1, rule.img2);
+    });
+    rulesList = [];
+}
 removeAllRulesBtn.onclick = () =>{
-
+   removeAllRules();
 }
 
-function childList1(event, childrenList){
+var filtersList = [];
+class Filter{
+    constructor(div, img1, img2){
+        this.div = div;
+        this.img1 = img1;
+        this.img2 = img2;
+    }
+}
+function removeFilter(event, div, img1, img2){
+    div.remove();
+    img1.remove();
+    img2.remove();
+}
+function removeAllFilters(){
+    filtersList.forEach(filter =>{
+        removeRule(null, filter.div, filter.img1, filter.img2);
+    });
+    filtersList = [];
+}
+const removeAllFiltersBtn = document.getElementById("filtersRemoveAllBtn");
+removeAllFiltersBtn.onclick = () =>{
+    removeAllFilters();
+}
+
+function rchildList1(event, childrenList){
     let nodeList = event.currentTarget.parentElement.childNodes;
     let ruleSelectionValue = childrenList[1].value;
     let firstPositionSelection = childrenList[3];
@@ -274,8 +330,10 @@ function childList1(event, childrenList){
     firstPositionSelection.innerHTML = str;
     firstPositionSelection.style.display = "unset";
     }
+    rchildList3(event);
+    rchildList11(event);
 }
-function childList3(event){
+function rchildList3(event){
     let nodeList = event.currentTarget.parentElement.childNodes;
         let firstPositionSelectionValue = nodeList[3].value;
         let firstPositionFirstTextBox = event.currentTarget.parentElement.getElementsByClassName("firstPositionFirstTextBox");
@@ -477,8 +535,9 @@ function childList3(event){
             str += "<option value=\"" + item + "\">" + item + "</option>"
         }
         firstPositionIdentifierSelection[0].innerHTML = str;
+    rchildList11(event);
 }
-function childList11(event){
+function rchildList11(event){
     let nodeList = event.currentTarget.parentElement.childNodes;
         let lastPositionSelectionValue = nodeList[11].value;
         let ruleSelectionOption = event.currentTarget.parentElement.getElementsByClassName("ruleSelection");
@@ -550,50 +609,69 @@ function childList11(event){
         }
 }
 
-
-function showDiv(select){
-    if(select.value==1){
-        document.getElementById('matching').style.display = "table-row";
-        document.getElementById('regex').style.display="none";
-        document.getElementById('infolder').style.display = "none";
-        document.getElementById('length').style.display = "none";
-        document.getElementById('accessed').style.display = "none";
-        
-    } 
-    else if(select.value==2){
-        document.getElementById('regex').style.display="table-row";
-        document.getElementById('matching').style.display = "none";
-        document.getElementById('infolder').style.display = "none";
-        document.getElementById('length').style.display = "none";
-        document.getElementById('accessed').style.display = "none";
-    }
-    else if(select.value==3){
-        document.getElementById('infolder').style.display = "table-row";
-        document.getElementById('matching').style.display = "none";
-        document.getElementById('regex').style.display="none";
-        document.getElementById('length').style.display = "none";
-        document.getElementById('accessed').style.display = "none";
-       }  
-    else if(select.value==4){
-        document.getElementById('length').style.display = "table-row";
-        document.getElementById('accessed').style.display = "none";
-        document.getElementById('matching').style.display = "none";
-        document.getElementById('regex').style.display="none";
-        document.getElementById('infolder').style.display = "none";
-    }
-    else if(select.value==5){
-        document.getElementById('accessed').style.display = "table-row";
-        document.getElementById('length').style.display = "none";
-        document.getElementById('matching').style.display = "none";
-        document.getElementById('regex').style.display="none";
-        document.getElementById('infolder').style.display = "none";
+function fchildList3(event, childrenList){
+    let filterSelection = childrenList[3].value;
+    if(filterSelection==="files" || filterSelection==="files with names" || filterSelection==="files with extensions"){
+        event.currentTarget.parentElement.getElementsByClassName("firstPositionSelection")[0].style.display = "unset";
+        event.currentTarget.parentElement.getElementsByClassName("matching")[0].style.display = "unset";
+        event.currentTarget.parentElement.getElementsByClassName("regex")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("infolder")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("length")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("accessed")[0].style.display = "none";
     }
     else{
-        document.getElementById('matching').style.display = "none";
-        document.getElementById('regex').style.display="none";
-        document.getElementById('infolder').style.display = "none";
-        document.getElementById('length').style.display = "none";
-        document.getElementById('accessed').style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("firstPositionSelection")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("matching")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("regex")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("infolder")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("length")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("accessed")[0].style.display = "none";
     }
- } 
+}
+function fchildList5(event, childrenList){
+    let nodeList = event.currentTarget.parentElement.childNodes;
+    let filterSelectionValue = childrenList[5].value;
+    if(filterSelectionValue === "matching" || filterSelectionValue === "containing" || filterSelectionValue === "starting with" || filterSelectionValue==="ending with"){
+        event.currentTarget.parentElement.getElementsByClassName("matching")[0].style.display = "unset";
+        event.currentTarget.parentElement.getElementsByClassName("regex")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("infolder")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("length")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("accessed")[0].style.display = "none";
+        
+    }else if(filterSelectionValue === "matching regex"){
+        event.currentTarget.parentElement.getElementsByClassName("regex")[0].style.display = "unset";
+        event.currentTarget.parentElement.getElementsByClassName("matching")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("infolder")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("length")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("accessed")[0].style.display = "none";
+    }else if(filterSelectionValue === "in folder"){
+        event.currentTarget.parentElement.getElementsByClassName("infolder")[0].style.display = "unset";
+        event.currentTarget.parentElement.getElementsByClassName("regex")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("matching")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("length")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("accessed")[0].style.display = "none";
+    }else if(filterSelectionValue === "length" || filterSelectionValue === "longer" || filterSelectionValue === "shorter"){
+        event.currentTarget.parentElement.getElementsByClassName("length")[0].style.display = "unset";
+        event.currentTarget.parentElement.getElementsByClassName("infolder")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("regex")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("matching")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("accessed")[0].style.display = "none";
+    }else if(filterSelectionValue === "accessed" || filterSelectionValue === "created" || filterSelectionValue === "modified" || filterSelectionValue === "taken"){
+        event.currentTarget.parentElement.getElementsByClassName("accessed")[0].style.display = "unset";
+        event.currentTarget.parentElement.getElementsByClassName("length")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("infolder")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("regex")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("matching")[0].style.display = "none";
+    }
+    else{
+        event.currentTarget.parentElement.getElementsByClassName("accessed")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("length")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("infolder")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("regex")[0].style.display = "none";
+        event.currentTarget.parentElement.getElementsByClassName("matching")[0].style.display = "none";
+    
+    }
+    
+}
+
 
