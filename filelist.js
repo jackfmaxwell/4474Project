@@ -9,7 +9,7 @@ const ipc = require('electron').ipcRenderer
 
 
 const renameFunction = require("./fileRenameFunctions");
-const browseButton = document.getElementById('browseButton')
+const browseButton = document.getElementById('browseButton');
 const refreshButton = document.getElementById("refreshButton");
 refreshButton.onclick = () =>{
     parseRuleList();
@@ -17,10 +17,10 @@ refreshButton.onclick = () =>{
     
 }
 
-const renameBtn = document.getElementById("renameFiles");
-const removeAllButton  = document.getElementById('removeAllButton')
-const filelist = document.getElementById("filelist");   //might be bad naming
+const removeAllButton  = document.getElementById('removeAllButton');
+const filelist = document.getElementById("filelist");   //might be bad naming yes it is
 const undoButton = document.getElementById("undoButton");
+const renameBtn = document.getElementById("renameFiles");
 const redoButton = document.getElementById("redoButton");
 var fileList = {};
 var modified_filenames = {};
@@ -48,13 +48,7 @@ renameBtn.onclick = () =>{
      });
 }
 
-const removeAllButton  = document.getElementById('removeAllButton')
-const filelist = document.getElementById("filelist");   //might be bad naming
-const undoButton = document.getElementById("undoButton");
-var fileList = {};
 
-var selected = 0;
-var totalFiles = 0;
 
 
 
