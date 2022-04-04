@@ -32,16 +32,17 @@ select.filters{
   color:white;
   border:none;
 }
-option.filters{
-  background-color: #eb763b;
+option.rules{
+  background-color: #BF4060;
   color:white;
   border:none;
 }
 option.filters{
-  background-color: #b33beb;
+  background-color: #BF48BF;
   color:white;
   border:none;
 }
+
 input{
   background-color: #404050;
   border:none;
