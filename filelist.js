@@ -8,7 +8,7 @@ const { start } = require('repl');
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
-const {addRule, childList1, childList3, childList11} = require('./rulesfilters');
+const {addRule, childList1, childList3, childList11, addFilter} = require('./rulesfilters');
 
 const browseButton = document.getElementById('browseButton');
 const saveButton = document.getElementById("saveRulesButton");
@@ -65,19 +65,17 @@ openButton.addEventListener('click', function (event) {
     return new Promise(resolve => {
         ipc.send('open-rulefilter-txt');
         ipc.on('rulefilter-open-reply', (event, result) => {
-            //add functionality here
-            console.log(result);
             fs.readFile(result, (err, f) =>{
                 if(err) throw err;
                 const arr = f.toString().replace(/\r\n/g,'\n').split('\n');
+                let isFilter = false;
                 for(let line of arr) {
                     let lineArray = line.split(',');
-                    if(line.length == 0) break;
-                    let currentRuleContainerDiv = addRule();
+                    if(line.length == 0) isFilter = true;
+                    if(!isFilter){
+                        let currentRuleContainerDiv = addRule();
                     let currentRuleContainer = currentRuleContainerDiv.childNodes;
                     eventObject = {currentTarget: currentRuleContainer[1]};
-                    console.log(lineArray);
-                    console.log(currentRuleContainer);
                     currentRuleContainer[1].value = lineArray[0];
                     childList1(eventObject,  currentRuleContainer);
                     currentRuleContainer[3].value = lineArray[1];
@@ -88,6 +86,10 @@ openButton.addEventListener('click', function (event) {
                     currentRuleContainer[11].value = lineArray[5];
                     childList11(eventObject);
                     currentRuleContainer[13].childNodes[1].value = lineArray[6];
+                    }else{
+                        if(line.length == 0) break;
+                        addFilter();
+                    }
                 }
             });
             resolve(result);
@@ -114,6 +116,7 @@ saveButton.addEventListener('click', (event) => {
     
             fileData = fileData + ruleSelection + "," + firstPositionSelection + "," + firstPositionFirstTextBox + "," + firstPositionIdentifierSelection + "," + firstPositionSecondTextBox + "," + lastPositionSelection + "," + lastTextBox + "\n";
         }
+        let formattLIst = document.getElementsByClassName("filter-value");
         console.log(fileData);
         ipc.send('save-rulefilter-csv', fileData);
         ipc.on('save-rulefilter-csv-reply', (event, result) => {

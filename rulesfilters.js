@@ -6,7 +6,7 @@ const addFilterContainer = document.getElementById("addFilterContainer");
 
 function addFilter(){
     const div = document.createElement('div');
-    div.className = 'rf-div-table-row';
+    div.className = 'filter-value rf-div-table-row';
     div.innerHTML = ` 
     <select class="filters rf-div-table-col"  style="height: 100%; padding: top 2px; padding-left:4px;">
         <option value="include">Include</option>
@@ -97,6 +97,7 @@ function addFilter(){
     filtersTable.appendChild(addFilterContainer);
 
 }
+
 function enableDisableFilter(img, event, div){
     if(img.classList.contains("enabled")){
         //disable it
@@ -599,4 +600,4 @@ function showDiv(select){
     }
  } 
 
-module.exports = {addRule, childList1, childList3, childList11};
+module.exports = {addRule, childList1, childList3, childList11, addFilter};
