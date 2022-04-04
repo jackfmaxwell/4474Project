@@ -8,14 +8,26 @@ const { start } = require('repl');
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
+
 const {addRule, rchildList1, rchildList3, rchildList11, addFilter, fchildList3, fchildList5} = require('./rulesfilters');
 
 const browseButton = document.getElementById('browseButton');
 const saveAsButton = document.getElementById("saveAsRulesButton");
+
 const refreshButton = document.getElementById("refreshButton");
 refreshButton.addEventListener("click", parseRuleList)
 
+const removeAllButton  = document.getElementById('removeAllButton');
+const filelist = document.getElementById("filelist");   //might be bad naming yes it is
+const undoButton = document.getElementById("undoButton");
+const redoButton = document.getElementById("redoButton");
+var fileList = {};
+var modified_filenames = {};
+var selected = 0;
+
+
 const renameBtn = document.getElementById("renameFiles");
+
 renameBtn.onclick = () =>{
     for (const [key,value] of Object.entries(fileList)){
         renameFiles(key, value);
@@ -36,12 +48,6 @@ renameBtn.onclick = () =>{
      });
 }
 
-const removeAllButton  = document.getElementById('removeAllButton')
-const filelist = document.getElementById("filelist");   //might be bad naming
-const undoButton = document.getElementById("undoButton");
-var fileList = {};
-
-var selected = 0;
 
 
 document.getElementById("selectedCheckBoxes").textContent = "0 of " + Object.keys(fileList).length + " Selected";
