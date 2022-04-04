@@ -16,7 +16,6 @@ const addFilterContainer = document.getElementById("addFilterContainer");
 function addFilter(){
     const div = document.createElement('div');
     div.className = 'filter-value rf-div-table-row';
-
     div.innerHTML = ` 
     <select class="filterInEx filters rf-div-table-col"  style="width:145px; padding: top 2px; padding-left:4px;">
         <option value="Include">Include</option>
@@ -82,7 +81,6 @@ function addFilter(){
     </div>
     `;
     let childrenList = div.childNodes;
-    console.log(childrenList);
     //bind event handlers
     childrenList[3].addEventListener("change", (event) => {
         fchildList3(event, childrenList);
@@ -115,7 +113,9 @@ function addFilter(){
     filtersTable.appendChild(addFilterContainer);
 
     filtersList.push(new Rule(div,img1,img2));
+    return div;
 }
+
 function enableDisableFilter(img, event, div){
     if(img.classList.contains("enabled")){
         //disable it
@@ -200,7 +200,6 @@ function addRule(){
 
 
     let childrenList = div.childNodes;
-    console.log(childrenList);
     //bind event handlers
     childrenList[1].addEventListener("change", (event) => {
         rchildList1(event, childrenList);
@@ -234,6 +233,7 @@ function addRule(){
     rulesTable.appendChild(addRuleContainer);
 
     rulesList.push(new Rule(div,img1,img2));
+    return div;
 }
 
 function enableDisableRule(img, event, div){
@@ -493,7 +493,6 @@ function rchildList3(event){
         }
     
         if(textBoxIsOn){
-            console.log(firstPositionFirstTextBox);
             firstPositionFirstTextBox[0].style.display = "unset";
             firstPositionFirstTextBox[0].parentElement.style.display = "unset";
         }else{
@@ -675,3 +674,4 @@ function fchildList5(event, childrenList){
 }
 
 
+module.exports = {addRule, rchildList1, rchildList3, rchildList11, addFilter, fchildList3, fchildList5};
