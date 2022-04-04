@@ -11,7 +11,7 @@ const renameFunction = require("./fileRenameFunctions");
 const {addRule, rchildList1, rchildList3, rchildList11, addFilter, fchildList3, fchildList5} = require('./rulesfilters');
 
 const browseButton = document.getElementById('browseButton');
-const saveButton = document.getElementById("saveRulesButton");
+const saveAsButton = document.getElementById("saveAsRulesButton");
 const refreshButton = document.getElementById("refreshButton");
 refreshButton.addEventListener("click", parseRuleList)
 
@@ -108,7 +108,7 @@ openButton.addEventListener('click', function (event) {
     });
 });
 
-saveButton.addEventListener('click', (event) => {
+saveAsButton.addEventListener('click', (event) => {
     return new Promise(resolve => {
         let fileData = "";
         let rulesList = document.getElementsByClassName("rule-value");
