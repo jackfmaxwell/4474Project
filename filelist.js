@@ -3,10 +3,12 @@ var fs = require('fs');
 const { end } = require('global-tunnel-ng');
 const { forEach } = require('lodash');
 const path = require("path");
+const { dialog } = require('electron');
 const { start } = require('repl');
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
+const {addRule, childList1, childList3, childList11} = require('./rulesfilters');
 
 const browseButton = document.getElementById('browseButton');
 const saveButton = document.getElementById("saveRulesButton");
@@ -64,13 +66,62 @@ openButton.addEventListener('click', function (event) {
         ipc.send('open-rulefilter-txt');
         ipc.on('rulefilter-open-reply', (event, result) => {
             //add functionality here
+            console.log(result);
+            fs.readFile(result, (err, f) =>{
+                if(err) throw err;
+                const arr = f.toString().replace(/\r\n/g,'\n').split('\n');
+                for(let line of arr) {
+                    let lineArray = line.split(',');
+                    if(line.length == 0) break;
+                    let currentRuleContainerDiv = addRule();
+                    let currentRuleContainer = currentRuleContainerDiv.childNodes;
+                    eventObject = {currentTarget: currentRuleContainer[1]};
+                    console.log(lineArray);
+                    console.log(currentRuleContainer);
+                    currentRuleContainer[1].value = lineArray[0];
+                    childList1(eventObject,  currentRuleContainer);
+                    currentRuleContainer[3].value = lineArray[1];
+                    childList3(eventObject);
+                    currentRuleContainer[5].childNodes[1].value = lineArray[2];
+                    currentRuleContainer[7].value = lineArray[3];
+                    currentRuleContainer[9].childNodes[1].value = lineArray[4];
+                    currentRuleContainer[11].value = lineArray[5];
+                    childList11(eventObject);
+                    currentRuleContainer[13].childNodes[1].value = lineArray[6];
+                }
+            });
             resolve(result);
         })
     });
-})
+});
 
 saveButton.addEventListener('click', (event) => {
-    const rows = Array.from(document.getElementsByClassName('div-table-row'));
+    return new Promise(resolve => {
+        let fileData = "";
+        let rulesList = document.getElementsByClassName("rule-value");
+        for(let i = 0; i < rulesList.length; i++){
+            // For each rule get all their values
+            let ruleSelection = rulesList[i].getElementsByClassName("ruleSelection")[0].value;
+            let firstPositionSelection = rulesList[i].getElementsByClassName("firstPositionSelection")[0].value; 
+    
+            let firstPositionFirstTextBox = rulesList[i].getElementsByClassName("firstPositionFirstTextBox")[0].value; 
+            //let matchCaseLeft = rulesList[i].getElementsByClassName("leftmatchcase")[0].value;
+            let firstPositionIdentifierSelection = rulesList[i].getElementsByClassName("firstPositionIdentifierSelection")[0].value;
+            let firstPositionSecondTextBox = rulesList[i].getElementsByClassName("firstPositionSecondTextBox")[0].value;
+            //let matchCaseLeft2 = rulesList[i].getElementsByClassName("leftmatchcase")[0].value;
+            let lastPositionSelection  = rulesList[i].getElementsByClassName("lastPositionSelection ")[0].value; 
+            let lastTextBox  = rulesList[i].getElementsByClassName("lasttextbox")[0].value; 
+    
+            fileData = fileData + ruleSelection + "," + firstPositionSelection + "," + firstPositionFirstTextBox + "," + firstPositionIdentifierSelection + "," + firstPositionSecondTextBox + "," + lastPositionSelection + "," + lastTextBox + "\n";
+        }
+        console.log(fileData);
+        ipc.send('save-rulefilter-csv', fileData);
+        ipc.on('save-rulefilter-csv-reply', (event, result) => {
+            console.log(result)
+            resolve(result);
+        });
+    });
+
 });
 
 //Event listener for X on filelist. Removes all files from list
@@ -90,7 +141,7 @@ removeAllButton.addEventListener('click', function (event) {
     document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
 
     }); 
-})
+});
 
 //Sends open file explorer request to main process
 undoButton.addEventListener('click', function (event) {

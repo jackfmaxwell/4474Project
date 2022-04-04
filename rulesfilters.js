@@ -216,6 +216,7 @@ function addRule(){
     rulesTable.appendChild(img2);
     rulesTable.appendChild(div);
     rulesTable.appendChild(addRuleContainer);
+    return div;
 }
 
 function enableDisableRule(img, event, div){
@@ -245,7 +246,7 @@ removeAllRulesBtn.onclick = () =>{
 }
 
 function childList1(event, childrenList){
-    let nodeList = event.currentTarget.parentElement.childNodes;
+    //let nodeList = event.currentTarget.parentElement.childNodes;
     let ruleSelectionValue = childrenList[1].value;
     let firstPositionSelection = childrenList[3];
     let items;
@@ -276,6 +277,7 @@ function childList1(event, childrenList){
     }
 }
 function childList3(event){
+    print(event);
     let nodeList = event.currentTarget.parentElement.childNodes;
         let firstPositionSelectionValue = nodeList[3].value;
         let firstPositionFirstTextBox = event.currentTarget.parentElement.getElementsByClassName("firstPositionFirstTextBox");
@@ -597,3 +599,4 @@ function showDiv(select){
     }
  } 
 
+module.exports = {addRule, childList1, childList3, childList11};
