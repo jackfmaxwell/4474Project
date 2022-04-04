@@ -19,7 +19,7 @@
     <div style="left: 0; height:100%; width:50%; position:fixed; z-index: 1; top:0; overflow-x: hidden; padding-top: 8px;">
            <div id="topbar" style="display:flex; justify-content: space-between; width:98%; padding:top-16px;">
 
-            <img style="width:260px; padding-left: 5px;" src="SVG/Button   New   Default.svg">
+            <img id="newButton" style="width:260px; padding-left: 5px;" src="SVG/Button   New   Default.svg">
             <img id="openButton" style="width:260px;" src="SVG/Button   Open   Default.svg">
             <img id="saveRulesButton" style="width:110px;" src="SVG/Button   Save   Default.svg">
             <img id="saveAsRulesButton" style="width:130px;" src="SVG/Button   SaveAs   Default.svg">
@@ -49,7 +49,7 @@
                         <img style="width:25px; left: 0; position:fixed; padding-left: 4px; padding-right: 4px;" src="SVG/Left   Checkbox   Partiallychecked   Default.svg">
                         <img style="width:25px; left: 0; position:fixed; padding-left: 35px; padding-right: 8px;" src="SVG/Left   Header   Run   TopToBottom   Default.svg">
                         Filters
-                        <img style="width:25px; position:fixed; margin-left: 398px;" src="SVG/Left   Header   Remove   Default.svg">
+                        <img id="filtersRemoveAllBtn" style="width:25px; position:fixed; margin-left: 398px;" src="SVG/Left   Header   Remove   Default.svg">
                     </div>
         
                     <div id="filtersTable" style = "margin-left: 40px;" class="rf-div-table">
@@ -66,7 +66,7 @@
     <div style="right: 0; height:100%; width:48%; position:fixed; z-index: 1; top:0; overflow-x: hidden; overflow-y: hidden; padding-top: 8px;">
             <div style="display:fixed; justify-content: space-between; width:100%;">
                 <img id="browseButton" style="width:250px;" src="SVG/Button   Browse   Default.svg">
-                <img style="width:250px;" src="SVG/Button   ShowHideColumns   Default.svg">
+                
                 <img id="refreshButton" style="width:250px;" src="SVG/Button   Refresh   Default.svg">
             </div>
 
@@ -77,7 +77,7 @@
 
                 <div id="divTable" class="div-table">
                         <div class="div-table-row">
-                            <div style="padding: top 2px;" class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   Header   Checkbox   Partialchecked   Default.svg">Current Name<img style="width:14px; padding-left: 36px;" src="SVG/File   Header   ColumnSortDescending.svg"></div>
+                            <div style="padding: top 2px;" class="div-table-col col-image"><img id="selectAllFilesBtn" style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   Header   Checkbox   Partialchecked   Default.svg">Current Name<img style="width:14px; padding-left: 36px;" src="SVG/File   Header   ColumnSortDescending.svg"></div>
                             <div class="div-table-col">New Name</div>
                             <div class="div-table-col">Path</div>
                         </div>
@@ -131,10 +131,12 @@
 
             <div style="bottom: 0; position:fixed; z-index:2; display:flex; justify-content: space-between; width:47%; padding-bottom: 12px;">
 
-                <img id="renameFiles" style="width:370px;" src="SVG/Button   Rename   Default.svg">
+
+                <img id="renameFiles" style="width:370px;" src="SVG/Button   Rename   Disabled.svg">
                 <img id="undoButton" style="width:180px;" src="SVG/Button   Undo   Default.svg">
 
-                <img style="width:180px;" src="SVG/Button   Redo   Disabled.svg">
+
+                <img id="redoButton" style="width:180px;" src="SVG/Button   Redo   Disabled.svg">
             </div>
 
     </div>

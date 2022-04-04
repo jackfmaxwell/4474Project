@@ -8,7 +8,7 @@ const { start } = require('repl');
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
-const {addRule, childList1, childList3, childList11, addFilter} = require('./rulesfilters');
+const {addRule, rchildList1, rchildList3, rchildList11, addFilter} = require('./rulesfilters');
 
 const browseButton = document.getElementById('browseButton');
 const saveButton = document.getElementById("saveRulesButton");
@@ -77,14 +77,14 @@ openButton.addEventListener('click', function (event) {
                     let currentRuleContainer = currentRuleContainerDiv.childNodes;
                     eventObject = {currentTarget: currentRuleContainer[1]};
                     currentRuleContainer[1].value = lineArray[0];
-                    childList1(eventObject,  currentRuleContainer);
+                    rchildList1(eventObject,  currentRuleContainer);
                     currentRuleContainer[3].value = lineArray[1];
-                    childList3(eventObject);
+                    rchildList3(eventObject);
                     currentRuleContainer[5].childNodes[1].value = lineArray[2];
                     currentRuleContainer[7].value = lineArray[3];
                     currentRuleContainer[9].childNodes[1].value = lineArray[4];
                     currentRuleContainer[11].value = lineArray[5];
-                    childList11(eventObject);
+                    rchildList11(eventObject);
                     currentRuleContainer[13].childNodes[1].value = lineArray[6];
                     }else{
                         if(line.length == 0) break;
@@ -116,7 +116,8 @@ saveButton.addEventListener('click', (event) => {
     
             fileData = fileData + ruleSelection + "," + firstPositionSelection + "," + firstPositionFirstTextBox + "," + firstPositionIdentifierSelection + "," + firstPositionSecondTextBox + "," + lastPositionSelection + "," + lastTextBox + "\n";
         }
-        let formattLIst = document.getElementsByClassName("filter-value");
+        let filterList = document.getElementsByClassName("filter-value");
+        
         console.log(fileData);
         ipc.send('save-rulefilter-csv', fileData);
         ipc.on('save-rulefilter-csv-reply', (event, result) => {
