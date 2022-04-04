@@ -9,7 +9,7 @@ const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
 const renameFunction = require("./fileRenameFunctions");
 
-const {addRule, rchildList1, rchildList3, rchildList11, addFilter, fchildList3, fchildList5} = require('./rulesfilters');
+var {addRule, rchildList1, rchildList3, rchildList11, addFilter, fchildList3, fchildList5} = require('./rulesfilters');
 
 const browseButton = document.getElementById('browseButton');
 const saveAsButton = document.getElementById("saveAsRulesButton");
