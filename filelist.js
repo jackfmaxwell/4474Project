@@ -18,9 +18,6 @@ refreshButton.onclick = () =>{
 }
 
 const renameBtn = document.getElementById("renameFiles");
-const removeAllButton  = document.getElementById('removeAllButton')
-const filelist = document.getElementById("filelist");   //might be bad naming
-const undoButton = document.getElementById("undoButton");
 const redoButton = document.getElementById("redoButton");
 var fileList = {};
 var modified_filenames = {};
