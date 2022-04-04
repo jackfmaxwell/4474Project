@@ -1,35 +1,35 @@
 const { Console } = require('console');
 var fs = require('fs');
 const { end } = require('global-tunnel-ng');
-const { forEach, add } = require('lodash');
+const { forEach } = require('lodash');
 const path = require("path");
+const { dialog } = require('electron');
 const { start } = require('repl');
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
-
-
 const renameFunction = require("./fileRenameFunctions");
+
+const {addRule, rchildList1, rchildList3, rchildList11, addFilter, fchildList3, fchildList5} = require('./rulesfilters');
+
 const browseButton = document.getElementById('browseButton');
+const saveAsButton = document.getElementById("saveAsRulesButton");
+
 const refreshButton = document.getElementById("refreshButton");
-refreshButton.onclick = () =>{
-    parseRuleList();
-    applyFilters();
-    
-}
+refreshButton.addEventListener("click", parseRuleList)
 
 const removeAllButton  = document.getElementById('removeAllButton');
 const filelist = document.getElementById("filelist");   //might be bad naming yes it is
 const undoButton = document.getElementById("undoButton");
-const renameBtn = document.getElementById("renameFiles");
 const redoButton = document.getElementById("redoButton");
 var fileList = {};
 var modified_filenames = {};
 var selected = 0;
 
 
+const renameBtn = document.getElementById("renameFiles");
+
 renameBtn.onclick = () =>{
     for (const [key,value] of Object.entries(fileList)){
-        console.log("Renaming " + key + " -> " + value);
         renameFiles(key, value);
         fileList[value] = fileList[key];
         delete fileList[key];
@@ -47,8 +47,6 @@ renameBtn.onclick = () =>{
         
      });
 }
-
-
 
 
 
@@ -72,12 +70,90 @@ openButton.addEventListener('click', function (event) {
     return new Promise(resolve => {
         ipc.send('open-rulefilter-txt');
         ipc.on('rulefilter-open-reply', (event, result) => {
-            //add functionality here
+            fs.readFile(result, (err, f) =>{
+                if(err) throw err;
+                const arr = f.toString().replace(/\r\n/g,'\n').split('\n');
+                let isFilter = false;
+                for(let line of arr) {
+                    let lineArray = line.split(',');
+                    if(lineArray.length == 8) isFilter = true;
+                    if(!isFilter){
+                        let currentRuleContainerDiv = addRule();
+                        let currentRuleContainer = currentRuleContainerDiv.childNodes;
+                        eventObject = {currentTarget: currentRuleContainer[1]};
+                        currentRuleContainer[1].value = lineArray[0];
+                        rchildList1(eventObject,  currentRuleContainer);
+                        currentRuleContainer[3].value = lineArray[1];
+                        rchildList3(eventObject);
+                        currentRuleContainer[5].childNodes[1].value = lineArray[2];
+                        currentRuleContainer[7].value = lineArray[3];
+                        currentRuleContainer[9].childNodes[1].value = lineArray[4];
+                        currentRuleContainer[11].value = lineArray[5];
+                        rchildList11(eventObject);
+                        currentRuleContainer[13].childNodes[1].value = lineArray[6];
+                    }else{
+                        if(line.length == 0) break;
+                        let currentFilterContainerDiv = addFilter();
+                        let currentFilterContainer = currentFilterContainerDiv.childNodes;
+                        eventObject = {currentTarget: currentFilterContainer[1]};
+                        currentFilterContainer[1].value = lineArray[0];
+                        currentFilterContainer[3].value = lineArray[1];
+                        fchildList3(eventObject, currentFilterContainer);
+                        currentFilterContainer[5].value = lineArray[2];
+                        fchildList5(eventObject, currentFilterContainer);
+                        currentFilterContainer[9].value = lineArray[3];
+                        currentFilterContainer[13].value = lineArray[4];
+                        currentFilterContainer[17].value = lineArray[5];
+                        currentFilterContainer[21].value = lineArray[6];
+                        currentFilterContainer[25].value = lineArray[7];
+                    }
+                }
+            });
             resolve(result);
         })
     });
-})
+});
 
+saveAsButton.addEventListener('click', (event) => {
+    return new Promise(resolve => {
+        let fileData = "";
+        let rulesList = document.getElementsByClassName("rule-value");
+        for(let i = 0; i < rulesList.length; i++){
+            // For each rule get all their values
+            let ruleSelection = rulesList[i].getElementsByClassName("ruleSelection")[0].value;
+            let firstPositionSelection = rulesList[i].getElementsByClassName("firstPositionSelection")[0].value; 
+    
+            let firstPositionFirstTextBox = rulesList[i].getElementsByClassName("firstPositionFirstTextBox")[0].value; 
+            //let matchCaseLeft = rulesList[i].getElementsByClassName("leftmatchcase")[0].value;
+            let firstPositionIdentifierSelection = rulesList[i].getElementsByClassName("firstPositionIdentifierSelection")[0].value;
+            let firstPositionSecondTextBox = rulesList[i].getElementsByClassName("firstPositionSecondTextBox")[0].value;
+            //let matchCaseLeft2 = rulesList[i].getElementsByClassName("leftmatchcase")[0].value;
+            let lastPositionSelection  = rulesList[i].getElementsByClassName("lastPositionSelection ")[0].value; 
+            let lastTextBox  = rulesList[i].getElementsByClassName("lasttextbox")[0].value; 
+    
+            fileData = fileData + ruleSelection + "," + firstPositionSelection + "," + firstPositionFirstTextBox + "," + firstPositionIdentifierSelection + "," + firstPositionSecondTextBox + "," + lastPositionSelection + "," + lastTextBox + "\n";
+        }
+        let filterList = document.getElementsByClassName("filter-value");
+        
+        for(let i = 0; i < filterList.length; i++){
+            let filterInEx = filterList[i].getElementsByClassName("filterInEx")[0].value;
+            let filterSelection = filterList[i].getElementsByClassName("filterSelection")[0].value;
+            let firstPositionSelection = filterList[i].getElementsByClassName("firstPositionSelection")[0].value;
+            let matching = filterList[i].getElementsByClassName("matching")[0].value;
+            let regex = filterList[i].getElementsByClassName("regex")[0].value;
+            let infolder = filterList[i].getElementsByClassName("infolder")[0].value;
+            let length = filterList[i].getElementsByClassName("length")[0].value;
+            let accessed = filterList[i].getElementsByClassName("accessed")[0].value;
+
+            fileData = fileData + filterInEx + "," + filterSelection + "," + firstPositionSelection + "," + matching + "," + regex + "," + infolder + "," + length + "," + accessed + "\n"
+        }
+        ipc.send('save-rulefilter-csv', fileData);
+        ipc.on('save-rulefilter-csv-reply', (event, result) => {
+            resolve(result);
+        });
+    });
+
+});
 
 //Event listener for X on filelist. Removes all files from list
 removeAllButton.addEventListener('click', function (event) {
@@ -91,52 +167,16 @@ removeAllButton.addEventListener('click', function (event) {
             div.innerHTML += '&nbsp;';
             document.getElementById('last-row').after(div);
         }
-    fileList = {};
-    selected = 0;
-    totalFiles = 0;
-    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
-    }); 
-})
-
-
-function removeAll(){
-    const rows = Array.from(document.getElementsByClassName('div-table-row'));
-
-    rows.forEach(row => {
-        if(row.textContent.length != 1 && row.textContent.length != 136){
-            row.remove();
-            const div = document.createElement('div');
-            div.className = 'div-table-row';
-            div.innerHTML += '&nbsp;';
-            document.getElementById('last-row').after(div);
-        }
     fileList = {}
     selected = 0
     document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
+
     }); 
-}
+});
 
 //Sends open file explorer request to main process
 undoButton.addEventListener('click', function (event) {
-    modified_filenames = {};
-    for (const [key,value] of Object.entries(fileList)){
-        modified_filenames[key] = value;
-    }
-    console.log(modified_filenames);
     undoChanges();
-    console.log(modified_filenames);
-    undoButton.src = "SVG/Button   Undo   Disabled.svg"
-    redoButton.src = "SVG/Button   Redo   Default.svg"
-})
-
-redoButton.addEventListener('click', function (event) {
-    removeAll();
-    console.log(modified_filenames);
-    for (const [key,value] of Object.entries(modified_filenames)){
-        addRow(modified_filenames[key])
-    }
-    undoButton.src = "SVG/Button   Undo   Disabled.svg"
-    redoButton.src = "SVG/Button   Redo   Disabled.svg"
 })
 
 
@@ -170,11 +210,8 @@ filelist.addEventListener('drop', (event) => {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log("File(s) have been dropped");
-
     // print to console
     for (const file of event.dataTransfer.files) {
-        console.log('file path: ', file.path);
 
         if(document.getElementById(file.path) == null){
             addRow(file.path);          //add element to UI
@@ -186,28 +223,22 @@ filelist.addEventListener('drop', (event) => {
 filelist.addEventListener('dragenter', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log("File entered the drop zone");
 });
 
 filelist.addEventListener('dragleave', (event) => {
     //The box that receives the file(s) should unhighlight when drag cursor leaves (idk how to do this)
     event.preventDefault();
     event.stopPropagation();
-    console.log("File has left the drop zone");
 });
 
 filelist.addEventListener('dragend', (event) => {
     //The box that receives the file(s) should unhighlight when drag operation ends(idk how to do this)
     event.preventDefault();
     event.stopPropagation();
-    console.log("Drag operation has ended");
 });
 // -------------------------------------------------------------
 
-const selectAllFilesBtn = document.getElementById("selectAllFilesBtn");
-selectAllFilesBtn.onclick = () => {
 
-}
 //adds checkbox event listener to starting files in list
 checkboxEventAdder();
 
@@ -219,17 +250,13 @@ function addRow(filepath){
     var filename = path.basename(filepath);
 
     div.innerHTML = `
-    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Checked.svg" draggable="false"><div style="display:inline;">` + filename + `</div></div>
+    <div class="div-table-col col-image"><img style="width:14px; padding-left: 4px; padding-right: 8px;" src="SVG/File   List   Checkbox   Unchecked.svg" draggable="false"><div style="display:inline;">` + filename + `</div></div>
     <div class="div-table-col">` + filename + `</div>
-    <div class="div-table-col" style="overflow-x: truncate;">` + filepath + `</div>
+    <div class="div-table-col">` + filepath + `</div>
     <div class="div-table-col">
     <img style="padding-right: 8px; width: 14px;" src="SVG/File   List   Remove   Default.svg"/>
     </div>
     `;
-    selected += 1;
-    totalFiles+=1;
-    document.getElementById("renameFiles").src = "SVG/Button   Rename   Default.svg";
-
 
     div.firstElementChild.id = filepath;
 
@@ -239,9 +266,9 @@ function addRow(filepath){
 
     check_box = div.firstElementChild
 
-    check_box.style.color = "white"
-    check_box.nextElementSibling.style.color = "white"
-    check_box.nextElementSibling.nextElementSibling.style.color = "white"
+    check_box.style.color = "grey"
+    check_box.nextElementSibling.style.color = "grey"
+    check_box.nextElementSibling.nextElementSibling.style.color = "grey"
 
     const check_boxes = document.querySelectorAll('.col-image');
 
@@ -264,17 +291,8 @@ function addRow(filepath){
                     document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
                     
                 }
-
-                if(selected>0){
-                    document.getElementById("renameFiles").src = "SVG/Button   Rename   Default.svg";
-
-                }
-                else{
-                    document.getElementById("renameFiles").src = "SVG/Button   Rename   Disabled.svg";
-                }
             });
             check_box.parentElement.lastElementChild.addEventListener('click', function (event) {
-                totalFiles -=1;
                 delete fileList[check_box.id]
                 if(!check_box.firstChild.src.includes('Un')){
                     selected -= 1;
@@ -285,14 +303,6 @@ function addRow(filepath){
                 div.innerHTML += '&nbsp;';
                 document.getElementById('last-row').after(div);
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
-               
-                if(selected>0){
-                    document.getElementById("renameFiles").src = "SVG/Button   Rename   Default.svg";
-
-                }
-                else{
-                    document.getElementById("renameFiles").src = "SVG/Button   Rename   Disabled.svg";
-                }
             })
         }
     });
@@ -314,7 +324,6 @@ function checkboxEventAdder(){
                 check_box.nextElementSibling.nextElementSibling.style.color = "grey"
                 document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
             } else {
-                console.log(check_box.firstChild.src)
                 check_box.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
                 check_box.style.color = "white"
                 check_box.nextElementSibling.style.color = "white"
@@ -331,430 +340,9 @@ function renameFiles(oldFilepath, newFilePath){
         if (err) throw err;
     });
 }
-function computeNumSelectedFiles(){
-    const check_boxes = document.querySelectorAll('.col-image');
-    selected =  0;
-    check_boxes.forEach(function(check_box){
-        console.log(check_box.firstChild.src);
-        if (check_box.firstChild.src.endsWith("UnChecked.svg")){
-            selected -= 1;
-            
-        } else if(check_box.firstChild.src.endsWith("Checked.svg")){
-            selected += 1;
-        }  
-    });
-    console.log(selected);
-    if(selected>0){
-        document.getElementById("renameFiles").src = "SVG/Button   Rename   Default.svg";
 
-    }
-    else{
-        document.getElementById("renameFiles").src = "SVG/Button   Rename   Disabled.svg";
-    }
-    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + totalFiles + " Selected";
-}
-function applyFilters(){
-    let filterList = document.getElementsByClassName("filter-value");
-    for(let i = 0; i < filterList.length; i++){
-        let filterInEx = filterList[i].getElementsByClassName("filterInEx")[0].value;
-        let filterSelection = filterList[i].getElementsByClassName("filterSelection")[0].value;
-        let firstPositionSelection = filterList[i].getElementsByClassName("firstPositionSelection")[0].value;
-        let matching = filterList[i].getElementsByClassName("matching")[0];
-        let regex = filterList[i].getElementsByClassName("regex")[0];
-        let infolder = filterList[i].getElementsByClassName("infolder")[0];
-        let length = filterList[i].getElementsByClassName("length")[0];
-        let accessed = filterList[i].getElementsByClassName("accessed")[0];
-
-        let fileRows = document.querySelectorAll('.col-image');
-        skippedfirst=false;
-        fileRows.forEach(function(fileRow){
-            if (!skippedfirst){
-                skippedfirst=true;
-                return;
-            }
-            
-            if(filterSelection=="files"){
-                let filename = fileRow.textContent;
-                if(firstPositionSelection=="all"){
-                    if(filterInEx=="Include"){
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                        fileRow.style.color = "white"
-                        fileRow.nextElementSibling.style.color = "white"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                        
-                        
-                    }
-                    else{
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                        fileRow.style.color = "grey"
-                        fileRow.nextElementSibling.style.color = "grey"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                        
-                        
-                    }
-                    
-                }
-                if(firstPositionSelection=="matching"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename == input){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                }
-                if(firstPositionSelection=="containing"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename.includes(input)){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                }
-                if(firstPositionSelection=="starting with"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename.startsWith(input)){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                    
-                }
-                if(firstPositionSelection=="ending with"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename.endsWith(input)){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                    
-                }
-                if(firstPositionSelection=="in folder"){
-                    let input = infolder.getElementsByTagName("in folder");
-                    //this wasnt implemented
-                }
-                
-            }
-            if(filterSelection=="files with names"){
-                let filename = fileRow.textContent;
-                filename = filename.split(".")[0];
-                if(firstPositionSelection=="all"){
-                    if(filterInEx=="Include"){
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                        fileRow.style.color = "white"
-                        fileRow.nextElementSibling.style.color = "white"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                        
-                        
-                    }
-                    else{
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                        fileRow.style.color = "grey"
-                        fileRow.nextElementSibling.style.color = "grey"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                        
-                        
-                    }
-                    
-                }
-                if(firstPositionSelection=="matching"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename == input){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                }
-                if(firstPositionSelection=="containing"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename.includes(input)){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                }
-                if(firstPositionSelection=="starting with"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename.startsWith(input)){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                    
-                }
-                if(firstPositionSelection=="ending with"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename.endsWith(input)){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                    
-                }
-            }
-            if(filterSelection=="files with extensions"){
-                let filename = fileRow.textContent;
-                filename = filename.split(".")[1];
-                if(firstPositionSelection=="all"){
-                    if(filterInEx=="Include"){
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                        fileRow.style.color = "white"
-                        fileRow.nextElementSibling.style.color = "white"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                        
-                        
-                    }
-                    else{
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                        fileRow.style.color = "grey"
-                        fileRow.nextElementSibling.style.color = "grey"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                        
-                        
-                    }
-                    
-                }
-                if(firstPositionSelection=="matching"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename == input){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                }
-                if(firstPositionSelection=="containing"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename.includes(input)){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                }
-                if(firstPositionSelection=="starting with"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename.startsWith(input)){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                    
-                }
-                if(firstPositionSelection=="ending with"){
-                    let input = matching.getElementsByTagName("input")[0].value;
-                    if(filename.endsWith(input)){
-                        if(filterInEx=="Include"){
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                            fileRow.style.color = "white"
-                            fileRow.nextElementSibling.style.color = "white"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                            
-                            
-                        }
-                        else{
-                            fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                            fileRow.style.color = "grey"
-                            fileRow.nextElementSibling.style.color = "grey"
-                            fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                            
-                            
-                        }
-                    }
-                    
-                }
-            }
-            if(filterSelection=="images"){
-                let filename = fileRow.textContent;
-                filename = filename.split(".")[1];
-                if(filename == "png" || filename=="jpeg"){
-                    if(filterInEx=="Include"){
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                        fileRow.style.color = "white"
-                        fileRow.nextElementSibling.style.color = "white"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                        
-                        
-                    }
-                    else{
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                        fileRow.style.color = "grey"
-                        fileRow.nextElementSibling.style.color = "grey"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                        
-                        
-                    }
-                }
-                else{
-                    if(filterInEx!="Include"){
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   Checked.svg";
-                        fileRow.style.color = "white"
-                        fileRow.nextElementSibling.style.color = "white"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "white"
-                        
-                        
-                    }
-                    else{
-                        fileRow.firstChild.src = "SVG/File   List   Checkbox   UnChecked.svg";
-                        fileRow.style.color = "grey"
-                        fileRow.nextElementSibling.style.color = "grey"
-                        fileRow.nextElementSibling.nextElementSibling.style.color = "grey"
-                        
-                        
-                    }
-                }
-            }
-           
-            
-            
-         });
-    }  
-    computeNumSelectedFiles(); 
-}
 function parseRuleList(){
     undoChanges();
-    undoButton.src = "SVG/Button   Undo   Default.svg";
-    redoButton.src = "SVG/Button   Undo   Disabled.svg";
     let rulesList = document.getElementsByClassName("rule-value");
     for(let i = 0; i < rulesList.length; i++){
         // For each rule get all their values
@@ -769,13 +357,6 @@ function parseRuleList(){
         let lastPositionSelection  = rulesList[i].getElementsByClassName("lastPositionSelection ")[0].value; 
         let lastTextBox  = rulesList[i].getElementsByClassName("lasttextbox")[0].value; 
         //let matchCaseRight = rulesList[i].getElementsByClassName("rightmatchcase")[0].value;
-        console.log("ruleselection: " + ruleSelection);
-        console.log("first pos selection: " + firstPositionSelection);
-        console.log("first pos first text box: " + firstPositionFirstTextBox);
-        console.log("first pos identif sect: " + firstPositionIdentifierSelection);
-        console.log("first pos secon text box: " + firstPositionSecondTextBox);
-        console.log("last pos selection: " + lastPositionSelection);
-        console.log("last text box: " + lastTextBox);
 
         for (const [key,value] of Object.entries(fileList)){
             if(ruleSelection=="add"){
@@ -790,7 +371,6 @@ function parseRuleList(){
                     let filename = path.basename(filepath);
                     filepath = filepath.replace(filename, "");
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.length, firstPositionFirstTextBox));
-                    console.log(filename.length)
                 }
                 else if(lastPositionSelection=="To Position From End"){
                     let filepath = value;
@@ -823,10 +403,9 @@ function parseRuleList(){
                     fileList[key] = filepath.concat(renameFunction.fileAdd(filename, path.parse(filename).name.lastIndexOf(lastTextBox)+lastTextBox.length, firstPositionFirstTextBox));
                 }
             }
-
             else if(ruleSelection=="remove"){
                 let filepath = value;
-                let filename = path.basename(filepath);
+                let filename = path.basename(filepath).name;
                 filepath = filepath.replace(filename, "");
                 let filelength = path.parse(filename).name.length
 
@@ -876,9 +455,6 @@ function parseRuleList(){
                 else if(lastPositionSelection=="To After Last"){
                     endIndex = filename.lastIndexOf(lastTextBox) + filelength;
                 }
-                
-                console.log(startIndex);
-                console.log(endIndex)
 
                 if(startIndex > endIndex){
                     let temp = endIndex;
@@ -888,7 +464,6 @@ function parseRuleList(){
                 fileList[key] = filepath.concat(renameFunction.fileRemove(filename, startIndex, endIndex));
 
             }
-
             else if(ruleSelection=="reverse"){
                 let filepath = value;
                 let filename = path.basename(filepath);
@@ -1012,19 +587,15 @@ function parseRuleList(){
                 }
                 fileList[key] = filepath.concat(renameFunction.fileRandomize(filename, startIndex, endIndex));
             }
-
             else if(ruleSelection=="setcase"){
                 
             }
-
             else if(ruleSelection=="replace"){
                 
             }
-
             else if(ruleSelection=="regex"){
                 
             }
-            
             else if(ruleSelection=="setlength"){
                 
             }

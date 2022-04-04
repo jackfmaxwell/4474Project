@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
+var fs = require("fs");
 const ipc = require('electron').ipcMain
 const dialog = require('electron').dialog
 
@@ -18,12 +19,48 @@ ipc.on('open-file-dialog', function (event) {
 ipc.on('open-rulefilter-txt', function (event) {
     dialog.showOpenDialog({
       properties: ['openFile'],
-      filters: [{ name: 'text', extensions: ['txt'] }]
+      filters: [{ name: 'text', extensions: ['csv'] }]
     }).then(result=>{
         console.log(result.filePaths)
-        var filepath = result.filePaths
+        var filepath = result.filePaths[0];
+        console.log("SENDING FILE");
+        console.log(filepath);
         event.sender.send('rulefilter-open-reply', filepath);
     })
+});
+
+ipc.on('save-rulefilter-csv', function (event, arg){
+    console.log("Inside call");
+    dialog.showSaveDialog({
+        title: 'Select the File Path to save',
+        defaultPath: path.join(__dirname, '../assets/sample.csv'),
+        // defaultPath: path.join(__dirname, '../assets/'),
+        buttonLabel: 'Save',
+        // Restricting the user to only Text Files.
+        filters: [
+            {
+                name: 'Text Files',
+                extensions: ['csv']
+            }, ],
+        properties: []
+    }).then(file => {
+        // Stating whether dialog operation was cancelled or not.
+        console.log(file.canceled);
+        if (!file.canceled) {
+            console.log(file.filePath.toString());
+              
+            // Creating and Writing to the sample.txt file
+            fs.writeFile(file.filePath.toString(), 
+                         arg, function (err) {
+                if (err) throw err;
+                console.log('Saved!');
+            });
+        }
+    }).catch(err => {
+        event.sender.send('save-rulefilter-csv-reply', 'failed');
+        console.log(err)
+    });
+    event.sender.send('save-rulefilter-csv-reply', 'saved');
 });
 
 const loadMainWindow = () => {
@@ -40,6 +77,7 @@ const loadMainWindow = () => {
             enableRemoteModule: true
         }
     });
+    mainWindow.removeMenu();
     mainWindow.loadFile(path.join(__dirname, "index.html"));
 }
 
