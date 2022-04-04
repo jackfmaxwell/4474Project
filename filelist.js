@@ -1,19 +1,27 @@
 const { Console } = require('console');
 var fs = require('fs');
 const { end } = require('global-tunnel-ng');
-const { forEach } = require('lodash');
+const { forEach, add } = require('lodash');
 const path = require("path");
 const { start } = require('repl');
 const { workerData } = require("worker_threads");
 const ipc = require('electron').ipcRenderer
+
+
 const renameFunction = require("./fileRenameFunctions");
-
 const browseButton = document.getElementById('browseButton')
-
 const refreshButton = document.getElementById("refreshButton");
 refreshButton.addEventListener("click", parseRuleList)
-
 const renameBtn = document.getElementById("renameFiles");
+const removeAllButton  = document.getElementById('removeAllButton')
+const filelist = document.getElementById("filelist");   //might be bad naming
+const undoButton = document.getElementById("undoButton");
+const redoButton = document.getElementById("redoButton");
+var fileList = {};
+var modified_filenames = {};
+var selected = 0;
+
+
 renameBtn.onclick = () =>{
     for (const [key,value] of Object.entries(fileList)){
         console.log("Renaming " + key + " -> " + value);
@@ -35,12 +43,6 @@ renameBtn.onclick = () =>{
      });
 }
 
-const removeAllButton  = document.getElementById('removeAllButton')
-const filelist = document.getElementById("filelist");   //might be bad naming
-const undoButton = document.getElementById("undoButton");
-var fileList = {};
-
-var selected = 0;
 
 
 document.getElementById("selectedCheckBoxes").textContent = "0 of " + Object.keys(fileList).length + " Selected";
@@ -85,13 +87,48 @@ removeAllButton.addEventListener('click', function (event) {
     fileList = {}
     selected = 0
     document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
-
     }); 
 })
 
+
+function removeAll(){
+    const rows = Array.from(document.getElementsByClassName('div-table-row'));
+
+    rows.forEach(row => {
+        if(row.textContent.length != 1 && row.textContent.length != 136){
+            row.remove();
+            const div = document.createElement('div');
+            div.className = 'div-table-row';
+            div.innerHTML += '&nbsp;';
+            document.getElementById('last-row').after(div);
+        }
+    fileList = {}
+    selected = 0
+    document.getElementById("selectedCheckBoxes").textContent = selected + " of " + Object.keys(fileList).length + " Selected";
+    }); 
+}
+
 //Sends open file explorer request to main process
 undoButton.addEventListener('click', function (event) {
+    modified_filenames = {};
+    for (const [key,value] of Object.entries(fileList)){
+        modified_filenames[key] = value;
+    }
+    console.log(modified_filenames);
     undoChanges();
+    console.log(modified_filenames);
+    undoButton.src = "SVG/Button   Undo   Disabled.svg"
+    redoButton.src = "SVG/Button   Redo   Default.svg"
+})
+
+redoButton.addEventListener('click', function (event) {
+    removeAll();
+    console.log(modified_filenames);
+    for (const [key,value] of Object.entries(modified_filenames)){
+        addRow(modified_filenames[key])
+    }
+    undoButton.src = "SVG/Button   Undo   Disabled.svg"
+    redoButton.src = "SVG/Button   Redo   Disabled.svg"
 })
 
 
@@ -265,6 +302,8 @@ function renameFiles(oldFilepath, newFilePath){
 
 function parseRuleList(){
     undoChanges();
+    undoButton.src = "SVG/Button   Undo   Default.svg";
+    redoButton.src = "SVG/Button   Undo   Disabled.svg";
     let rulesList = document.getElementsByClassName("rule-value");
     for(let i = 0; i < rulesList.length; i++){
         // For each rule get all their values
